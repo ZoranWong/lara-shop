@@ -64,8 +64,11 @@ class HomeController extends Controller
         $yesterdayMoneySum = $sales['yes_sales'] ? $sales['yes_sales'] : 0;
         $lastWeekSum = $sales['last_week_sales'] ? $sales['last_week_sales'] : 0;
         $this->cards($todaySumCount, $todayMoneySum, $yesterdayMoneySum, $lastWeekSum);
-        $this->taskAndWxAuth($waitPayNum, $waitSendNum, $waitReceiveNum, $completeNum);
-        $this->page->managerBox();
+        if(\Auth::user()->hasRole(['store.owner','store.manager'])){
+            $this->taskAndWxAuth($waitPayNum, $waitSendNum, $waitReceiveNum, $completeNum);
+            $this->page->managerBox();
+        }
+
         return $this->page;
     }
 

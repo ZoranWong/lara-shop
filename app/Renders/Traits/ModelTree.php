@@ -21,7 +21,7 @@ trait ModelTree
     /**
      * @var string
      */
-    protected $titleColumn = 'title';
+    protected $titleColumn = 'text';
 
     /**
      * @var string
