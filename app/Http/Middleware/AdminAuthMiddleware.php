@@ -13,7 +13,11 @@ class AdminAuthMiddleware
      */
     protected $except = [
         //
-        '/login'
+        '/login',
+        '/register',
+        'password/reset',
+        'password/email',
+        'password/reset/{token}'
     ];
     /**
      * Handle an incoming request.
