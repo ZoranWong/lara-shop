@@ -46,7 +46,7 @@ class EntrustSetupTables extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
-            $table->integer('parent_id')->unsigned()->comment('权限id');
+            $table->integer('parent_id')->unsigned()->default(null)->comment('权限id');
             $table->string('name')->unique()->comment('权限唯一名称标示');
             $table->string('display_name')->nullable()->comment('权限显示名称');
             $table->string('description')->nullable()->comment('权限描述');
