@@ -26,17 +26,17 @@ class MenusTableSeeder extends Seeder
             ['id' => 15, 'name' => 'distribution', 'display_name' => '分销管理', 'description' => '商品分销管理']
         ]);
         \App\Models\Menu::insert([
-            ['permission_id' => 5, 'text' => '首页', 'icon' => 'tachometer', 'url' => '/', 'visible' => true, 'is_active' => true],
-            ['permission_id' => 6, 'text' => '角色管理', 'icon' => 'user', 'url' => '/roles', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 7, 'text' => '权限管理', 'icon' => 'ban', 'url' => '/permissions', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 8, 'text' => '菜单管理', 'icon' => 'bars', 'url' => '/menus', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 9, 'text' => '店铺管理', 'icon' => 'bank', 'url' => '/stores', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 10, 'text' => '商品分类', 'icon' => 'th', 'url' => '/categories', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 11, 'text' => '商品管理', 'icon' => 'shopping-bag', 'url' => '/merchandises', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 12, 'text' => '订单管理', 'icon' => 'shopping-cart', 'url' => '/orders', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 13, 'text' => '团购管理', 'icon' => 'tag', 'url' => '/group/coupons', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 14, 'text' => '店铺设置', 'icon' => 'cogs', 'url' => '/setting', 'visible' => true, 'is_active' => false],
-            ['permission_id' => 15, 'text' => '分销管理', 'icon' => 'clone', 'url' => '/distribution', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 5, 'text' => '首页', 'icon' => 'fa-tachometer', 'url' => '/', 'visible' => true, 'is_active' => true],
+            ['permission_id' => 6, 'text' => '角色管理', 'icon' => 'fa-user', 'url' => '/roles', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 7, 'text' => '权限管理', 'icon' => 'fa-ban', 'url' => '/permissions', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 8, 'text' => '菜单管理', 'icon' => 'fa-bars', 'url' => '/menus', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 9, 'text' => '店铺管理', 'icon' => 'fa-bank', 'url' => '/stores', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 10, 'text' => '商品分类', 'icon' => 'fa-th', 'url' => '/categories', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 11, 'text' => '商品管理', 'icon' => 'fa-shopping-bag', 'url' => '/merchandises', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 12, 'text' => '订单管理', 'icon' => 'fa-shopping-cart', 'url' => '/orders', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 13, 'text' => '团购管理', 'icon' => 'fa-tag', 'url' => '/group/coupons', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 14, 'text' => '店铺设置', 'icon' => 'fa-cogs', 'url' => '/setting', 'visible' => true, 'is_active' => false],
+            ['permission_id' => 15, 'text' => '分销管理', 'icon' => 'fa-clone', 'url' => '/distribution', 'visible' => true, 'is_active' => false],
         ]);
     }
 }
