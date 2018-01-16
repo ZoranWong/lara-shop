@@ -20,7 +20,7 @@
                         <a href="{{ url('/setting') }}" class="btn btn-default btn-flat">{{ trans('admin.setting') }}</a>
                     </div>
                     <div class="pull-right">
-                        <a href="{{ url('auth/logout') }}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
+                        <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
                     </div>
                 </li>
             </ul>
