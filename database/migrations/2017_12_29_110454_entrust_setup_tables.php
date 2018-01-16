@@ -46,7 +46,7 @@ class EntrustSetupTables extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
-            $table->integer('parent_id')->unsigned()->default(null)->comment('权限id');
+            $table->integer('parent_id')->nullable()->unsigned()->default(null)->comment('权限id');
             $table->string('name')->unique()->comment('权限唯一名称标示');
             $table->string('display_name')->nullable()->comment('权限显示名称');
             $table->string('description')->nullable()->comment('权限描述');
@@ -95,9 +95,9 @@ class EntrustSetupTables extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
-            $table->unsignedInteger('parent_id')->default(null)->comment('父级菜单id');
+            $table->unsignedInteger('parent_id')->nullable()->default(null)->comment('父级菜单id');
             $table->integer('permission_id')->unsigned()->comment('权限id');
-            $table->integer('parent_permission_id')->unsigned()->comment('父级权限id');
+            $table->integer('parent_permission_id')->nullable()->default(null)->unsigned()->comment('父级权限id');
             $table->string('text', 64)->comment('菜单名称');
             $table->string('icon', 32)->comment('菜单图标');
             $table->string('url', 255)->comment('路由url');
@@ -118,7 +118,7 @@ class EntrustSetupTables extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
-            $table->integer('permission_id')->unsigned()->comment('权限id');
+            $table->integer('permission_id')->nullable()->default(null)->unsigned()->comment('权限id');
             $table->string('name', 64)->comment('接口名称');
             $table->string('http_method', 8)->comment('http方法');
             $table->string('route_name', 255)->comment('路由名称');
