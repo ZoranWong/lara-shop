@@ -2,6 +2,7 @@
 namespace App\Filters;
 
 use App\Models\User;
+use JeroenNoten\LaravelAdminLte\Menu\Builder;
 use JeroenNoten\LaravelAdminLte\Menu\Filters\FilterInterface;
 use Auth;
 use Zizaco\Entrust\Entrust;

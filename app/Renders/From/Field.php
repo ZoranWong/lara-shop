@@ -910,7 +910,6 @@ class Field extends \Encore\Admin\Form\Field
      */
     public function render()
     {
-        logger($this->label.'variables in field', $this->variables());
         SectionContent::script($this->script);
         return view($this->getView(), $this->variables());
     }

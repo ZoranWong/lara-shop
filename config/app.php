@@ -195,7 +195,7 @@ return [
         Toplan\PhpSms\PhpSmsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        \Encore\Admin\AdminServiceProvider::class,
+//        \Encore\Admin\AdminServiceProvider::class,
         \App\Providers\MenuServiceProvider::class,
     ],
 

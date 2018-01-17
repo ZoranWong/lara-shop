@@ -36,11 +36,11 @@ class Page extends BasePage
             $roleStr = '';
             if($roles){
                 foreach ($roles as $role){
-                    $roleStr .= "<span class='badge badge-success'>{$role['display_name']}</span>";
+                    $roleStr .= "<span class='label label-success'>{$role['display_name']}</span>";
                 }
                 return $roleStr;
             }else{
-                return "<span class='badge badge-warning'>未开放</span>";
+                return "<span class='label label-default'>未开放</span>";
             }
 
         });

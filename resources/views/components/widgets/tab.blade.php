@@ -2,8 +2,7 @@
     <ul class="nav nav-tabs">
 
         @foreach($tabs as $id => $tab)
-            {{ logger('tab', $tab)? :'' }}
-            <li class="nav-item {{ $id == $active ? 'active' : '' }}" ><a class="nav-link" href="#tab_{{ $tab['id'] }}" data-toggle="tab">{{ $tab['title'] }}</a></li>
+            <li class="{{ $id == $active ? 'active' : '' }}" ><a class="nav-link" href="#tab_{{ $tab['id'] }}" data-toggle="tab">{{ $tab['title'] }}</a></li>
         @endforeach
 
         @if (!empty($dropDown))
@@ -25,7 +24,7 @@
 </div>
 <div class="tab-content">
     @foreach($tabs as $id => $tab)
-        <div class="tab-pane {{ $id == $active ? 'active' : '' }}" id="tab_{{ $tab['id'] }}">
+        <div class="tab-pane fade in {{ $id == $active ? 'active' : '' }}" id="tab_{{ $tab['id'] }}">
             {!! $tab['content'] !!}
         </div>
     @endforeach

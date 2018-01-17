@@ -4,7 +4,7 @@ namespace App\Renders\Grid\Displayers;
 
 class Button extends AbstractDisplayer
 {
-    public function display($style)
+    public function display($style = [])
     {
         $style = collect((array) $style)->map(function ($style) {
             return 'btn-'.$style;

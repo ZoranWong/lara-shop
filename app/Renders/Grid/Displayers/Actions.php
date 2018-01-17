@@ -119,7 +119,7 @@ class Actions extends AbstractDisplayer
         if ($this->allowEdit) {
             array_push($actions, $this->editAction());
         }
-        logger(__FILE__.':'.__FUNCTION__.': allow delete '.($this->allowDelete ? 'delete' : ''));
+
         if ($this->allowDelete) {
             array_push($actions, $this->deleteAction());
         }

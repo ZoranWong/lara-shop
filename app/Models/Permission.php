@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property int|null $parent_id 父级权限id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereParentId($value)
+ * @property-read \App\Models\Menu $menu
  */
 class Permission extends Model
 {

@@ -8,7 +8,6 @@ class Task extends Widget implements Renderable
     protected $view = "shop.home.task";
     public function render()
     {
-        logger($this->view);
         // TODO: Implement render() method.
         return view($this->view, $this->attributes);
     }

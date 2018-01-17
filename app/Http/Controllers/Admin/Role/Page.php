@@ -28,11 +28,11 @@ class Page extends BasePage
             $permissionStr = '';
             if($permissions){
                 foreach ($permissions as $permission){
-                    $permissionStr .= "<span class='badge badge-success'>{$permission['display_name']}</span>";
+                    $permissionStr .= "<span class='label label-success'>{$permission['display_name']}</span>";
                 }
                 return $permissionStr;
             }else{
-                return "<span class='badge badge-warning'>未获得权限</span>";
+                return "<span class='label label-default'>未获得权限</span>";
             }
 
         });

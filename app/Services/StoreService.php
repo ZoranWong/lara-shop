@@ -15,7 +15,6 @@ class StoreService
     public static function getCurrentStore()
     {
         $store = \Auth::guest()  ? null :  (!\Auth::user()->ownStore->first() ? null : \Auth::user()->managerStore->first());
-        logger('store',[$store, \Auth::guest(),\Auth::user()]);
         return ($store ? $store->toArray() : null) ;
     }
 }

@@ -28,6 +28,14 @@ $("{$this->getElementClassSelector()}").select2({
 EOF;
         }
 
+        $css = <<<CSS
+        .select2-selection.select2-selection--single{
+           min-height: 32px;
+            padding: 4px;
+        }
+ 
+CSS;
+        SectionContent::css($css);
         if ($this->options instanceof \Closure) {
             if ($this->form) {
                 $this->options = $this->options->bindTo($this->form->model());
