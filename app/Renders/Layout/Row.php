@@ -3,7 +3,7 @@
 namespace App\Renders\Layout;
 
 use Encore\Admin\Layout\Column;
-use Illuminate\Contracts\Support\Renderable as Content;
+use Illuminate\Contracts\Support\Renderable as Contents;
 
 class Row extends \Encore\Admin\Layout\Row
 {
