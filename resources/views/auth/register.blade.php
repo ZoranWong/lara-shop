@@ -8,7 +8,7 @@
 @section('body_class', 'register-page')
 
 @section('body')
-    <div class="register-box">
+    <div class="register-box" id="pjax-container" pjax-container>
         <div class="register-logo">
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
         </div>

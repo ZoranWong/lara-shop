@@ -12,17 +12,21 @@
                     <img src="{{ \App\Renders\Facades\SectionContent::user()->head_image_url }}" class="img-circle" alt="User Image">
                     <p>
                         {{ \App\Renders\Facades\SectionContent::user()->nickname }}
-                        <small>Member since admin {{ \App\Renders\Facades\SectionContent::user()->created_at }}</small>
+                        <small>管理员注册时间 {{ \App\Renders\Facades\SectionContent::user()->created_at }}</small>
                     </p>
                 </li>
                 <li class="dropdown-item user-footer">
-                    <div class="pull-left">
+                    <div class="pull-left col-md-4">
                         <a href="{{ url('/setting') }}" class="btn btn-default btn-flat">{{ trans('admin.setting') }}</a>
                     </div>
-                    <div class="pull-right">
+                    <div class="pull-left col-md-4">
+                        <a href="{{ url('/password/reset/'.session()->token()) }}" class="btn btn-default btn-flat">{{ trans('admin.password') }}</a>
+                    </div>
+                    <div class="pull-left col-md-4">
                         <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('admin.logout') }}</a>
                     </div>
                 </li>
             </ul>
         </li>
     </ul>
+</div>
