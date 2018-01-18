@@ -26,11 +26,10 @@
         "element-ui": "^1.4.12",
         "fabric": "^1.7.22",
         "gulp": "^3.9.1",
-        "node-gyp": "^3.6.2",
         "underscore": "^1.8.3",
         "vue-resource": "^1.3.5",
         "vue-router": "^3.0.1",
-        "vuedraggable": "^2.15.0",
-        "vux": "^2.7.6"
+        "vuedraggable": "^2.16.0",
+        "vux": "^2.7.7"
     }
 }

@@ -178,6 +178,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
         //App\Providers\MenuServiceProvider::class,
+        \App\Providers\ResponseServiceProvider::class,
 
         Zizaco\Entrust\EntrustServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
@@ -195,8 +196,8 @@ return [
         Toplan\PhpSms\PhpSmsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-//        \Encore\Admin\AdminServiceProvider::class,
         \App\Providers\MenuServiceProvider::class,
+        \zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
     ],
 
     /*

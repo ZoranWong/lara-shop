@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Admin\ShopHome;
+namespace App\Http\Controllers\Admin\Home\Store;
 use App\Renders\Facades\SectionContent;
 
 class Css

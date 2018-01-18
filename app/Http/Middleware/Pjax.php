@@ -12,6 +12,20 @@ use Symfony\Component\HttpFoundation\Response;
 class Pjax
 {
     /**
+     * The URIs that should be excluded from CSRF verification.
+     *
+     * @var array
+     */
+    protected $except = [
+        //
+        '/login',
+        '/register',
+        'password/reset',
+        'password/email',
+        'password/reset/{token}',
+        '/setting'
+    ];
+    /**
      * Handle an incoming request.
      *
      * @param Request $request
@@ -23,7 +37,7 @@ class Pjax
     {
         $response = $next($request);
 
-        if (!$request->pjax() || $response->isRedirection() || Auth::guest()) {
+        if (!$request->pjax() || $response->isRedirection() || Auth::guest() || $this->inExceptArray($request)) {
             return $response;
         }
 
@@ -38,6 +52,28 @@ class Pjax
         }
 
         return $response;
+    }
+
+
+    /**
+     * Determine if the request has a URI that should pass through CSRF verification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function inExceptArray($request)
+    {
+        foreach ($this->except as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

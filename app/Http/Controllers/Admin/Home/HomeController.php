@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Home;
 
 use App\Http\Controllers\Admin\Common\BasePage;
-use App\Http\Controllers\Admin\ShopHome\Page;
+use App\Http\Controllers\Admin\Home\Store\Page;
 use App\Http\Controllers\Admin\BaseController as Controller;
 use App\Models\Order;
 use App\Models\OrderCount;

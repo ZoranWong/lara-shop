@@ -7,7 +7,6 @@ use App\Renders\From\Field;
 class Text extends Field
 {
     use PlainInput;
-
     /**
      * Render this filed.
      *

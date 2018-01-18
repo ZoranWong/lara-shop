@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Menu;
 
 use App\Http\Controllers\Admin\Common\BasePage;
 use App\Http\Controllers\Admin\Menu\Page;
@@ -48,7 +48,6 @@ CSS;
             if(app('request')['parent_id'] == 0){
                 unset(app('request')['parent_id']);
             }
-            logger('input all', Input::all());
             $result = $this->page->form()->store();
             \DB::commit();
             return $result;

@@ -11,9 +11,11 @@
 |
 */
 Route::group([],function(){
-    Route::get('/', 'HomeController@index');
-    Route::resource('roles', 'RoleController');
-    Route::resource('permissions', 'PermissionController');
-    Route::resource('menus', 'MenuController');
+    Route::get('/', 'Home\HomeController@index');
+    Route::resource('roles', 'Role\RoleController');
+    Route::resource('permissions', 'Permission\PermissionController');
+    Route::resource('menus', 'Menu\MenuController');
+    Route::get('/setting', 'Setting\SettingController@index');
+    Route::post('user/avatar', 'FileController@userAvatar');
 });
 
