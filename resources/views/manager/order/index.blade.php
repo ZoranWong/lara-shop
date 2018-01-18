@@ -10,7 +10,7 @@
                   <div class="col-md-3">
                       <div class="input-group col-md-12">
                           <div class="input-group-addon">订单号</div>
-                          <input type="text" class="form-control input" name="order_no" placeholder="订单号">
+                          <input type="text" class="form-control input" name="code" placeholder="订单号">
                       </div>
                   </div>
                   <div class="col-md-3">
@@ -158,7 +158,7 @@
             return false;
         });
         function initFunction(paramsJSON){
-            $.get('/orders/index', paramsJSON, function(json){
+            $.get('/ajax/orders/index', paramsJSON, function(json){
                 var html = '';
                 var data = json.data.rows;
                 var pageCount = json.data.pageTotal;
@@ -171,7 +171,7 @@
                         html += "<tr bgColor='#eeeeee'>";
                     }
 
-                    html += "<td colspan=6><span style='float:left; margin-left:15px;'>订单号：" + data[i].order_no + "</span> <span style='float:right;margin-right:15px;'><a href='/shop/order/detail/" + data[i].id + "'>查看详情</a></span</td>";
+                    html += "<td colspan=6><span style='float:left; margin-left:15px;'>订单号：" + data[i].code + "</span> <span style='float:right;margin-right:15px;'><a href='/orders/detail/" + data[i].id + "'>查看详情</a></span</td>";
                     html += "</tr>";
                     for(var j=0; j<data[i].orders_item.length; j++){
                         if(i%2 == 0){
@@ -179,7 +179,7 @@
                         } else {
                             html += "<tr bgColor='#eeeeee'>";
                         }
-                        html += "<td style='text-align:left;'><img src='" + data[i].orders_item[j].pic_thumb_path + "'  style='width:80px;height:80px;border-radius: 15%;margin-left:50px;' onerror=''><span style='width:200px; height:60px; line-height:30px; position:absolute; margin-top:10px; text-align:center; font-size:13px;'>" + data[i].orders_item[j].name + '<br>' + data[i].orders_item[j].sku_properties_name + "</span>  <span style='position: absolute;margin-left: 200px;margin-top: 10px;text-align: center;width: 80px;height: 60px;padding-top: 17px;'>¥ " + data[i].orders_item[j].price/100 + "  (&nbsp;*"+ data[i].orders_item[j].num + "&nbsp;)</span></td>";
+                        html += "<td style='text-align:left;'><img src='" + data[i].orders_item[j].merchandise_main_image_url + "'  style='width:80px;height:80px;border-radius: 15%;margin-left:50px;' onerror=''><span style='width:200px; height:60px; line-height:30px; position:absolute; margin-top:10px; text-align:center; font-size:13px;'>" + data[i].orders_item[j].name + '<br>' + data[i].orders_item[j].sku_properties_name + "</span>  <span style='position: absolute;margin-left: 200px;margin-top: 10px;text-align: center;width: 80px;height: 60px;padding-top: 17px;'>¥ " + data[i].orders_item[j].price/100 + "  (&nbsp;*"+ data[i].orders_item[j].num + "&nbsp;)</span></td>";
                         var refundCase = '';
                         var refundMoneyCase = '';
                         switch(data[i].orders_item[j].refundStatus)
@@ -209,12 +209,12 @@
                             html += "<td rowspan=" + data[i].orders_item.length + " style='vertical-align: middle'>" + data[i].nickname + '<br>' + data[i].receiver_name + '<br>' + data[i].receiver_mobile + "</td>";
                             html += "<td rowspan=" + data[i].orders_item.length + " style='vertical-align: middle'>" + data[i].created_at +"</td>";
                             switch(data[i].status){
-                              case 10: var orderStatus = '待付款';break;
-                              case 20: var orderStatus = '待发货';break;
-                              case 30: var orderStatus = '待收货';break;
-                              case 40: var orderStatus = '已完成';break;
-                              case 50: var orderStatus = '已取消';break;
-                              case 60: var orderStatus = '已关闭';break;
+                              case 'WAIT': var orderStatus = '待付款';break;
+                              case 'PAID': var orderStatus = '待发货';break;
+                              case 'SEND': var orderStatus = '待收货';break;
+                              case 'COMPLETED': var orderStatus = '已完成';break;
+                              case 'CANCEL': var orderStatus = '已取消';break;
+                              case 'CLOSED': var orderStatus = '已关闭';break;
                             }
                             html += "<td rowspan=" + data[i].orders_item.length + " style='vertical-align: middle'>" + orderStatus + " </td>";
                             html += "<td rowspan=" + data[i].orders_item.length + " style='vertical-align: middle'> " + data[i].paymentAmount + "<br>(含运费: " + data[i].post_feeAmount + ") </td>";
@@ -293,12 +293,12 @@
         }
         /*导出EXCEL*/
         $('#order-download').click(function(){
-            var order_no = $("#form input[name='order_no']").val();
+            var code = $("#form input[name='code']").val();
             var created_at_start = $("#form input[name='created_at_start']").val();
             var created_at_end = $("#form input[name='created_at_end']").val();
             var nickname = $("#form input[name='nickname']").val();
             var status = $('#form [name=status]').val();
-            var url = "http://"+window.location.host+"/orders/index?load=1&status="+status+"&nickname="+nickname+"&created_at_start="+created_at_start+"&created_at_end="+created_at_end+"&order_no="+order_no;
+            var url = "http://"+window.location.host+"/ajax/orders/index?load=1&status="+status+"&nickname="+nickname+"&created_at_start="+created_at_start+"&created_at_end="+created_at_end+"&code="+code;
             window.open(url);
 
             return false;

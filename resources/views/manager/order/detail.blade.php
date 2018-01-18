@@ -1,4 +1,4 @@
-@extends('my.box_base')
+@extends('layouts.box_base_body')
 @section('box-body')
 <div class="radius-b">
   <div class="radius-r"><i class="fa fa-fw fa-check radius-g" id="radius-g-1"></i><div>买家下单</div>
@@ -37,14 +37,14 @@
         <div style="padding-left: 10px;">
             <div style="height:50px; line-height: 25px;">
                 <h3>订单信息</h3>
-                订单号：<span id="order_no"></span>
+                订单号：<span id="code"></span>
                 买家：<span id="buyer"></span>
             </div>
             <hr>
             配送方式：<span id="post_type" style="height: 25px;"></span> <br>
             收货地址：<div id="targetData"><span id="receiver_address" style="height: 25px;"></span>,<span id="receiver_name"></span>, <span id="receiver_mobile"></span></div> <span id="copy_word" style="font-size:12px; color:#ab9a9a;">［复制］</span>
         </div>
-        
+
 
     </div>
     <div class="col-xs-6">
@@ -84,7 +84,7 @@
         </tr>
     </table>
 </div>
-@stop   
+@stop
 @push('js')
     <script type="text/javascript" src="{{ asset('js/zclip/jquery.zclip.js') }}"></script>
     <script type="text/javascript">
@@ -92,31 +92,31 @@
             var id =  {{ $id }};
             var inRefundflag = 0;
             //填充表单数据
-            $.getJSON('/orders/detail/'+id,function (res) {
+            $.getJSON('/ajax/orders/detail/'+id,function (res) {
                 var data = new Object();
                 data.total = res.data.orders_item.length;
                 data.rows = res.data.orders_item;
                 var tableRows = 0;
                 for(var i = 0; i< data.total; i++) {
                     tableRows += '<tr style=" font-size:12px;">';
-                    tableRows += '<td colspan="2" style="text-align:left;"><img src="' + data.rows[i].pic_thumb_path + '" style="width:80px;height:80px;border-radius: 15%;margin-left:50px;" onerror=""><span style="width:215px; height:80px;  position:absolute;  padding-top:5px; text-align:center; font-size:13px;overflow: hidden;"><span style="width:200px;height: 35px;line-height: 17px;overflow: hidden;position: absolute;left: 15px;cursor:pointer;" title=' + data.rows[i].name + '>' + data.rows[i].name + '</span><span style="height:30px;overflow:hidden;position:absolute;top: 40px;line-height:  15px;left: 20px;right: 7px; cursor:pointer;" title='+ data.rows[i].sku_properties_name +'>' + data.rows[i].sku_properties_name +'</span></span>  <span style="position: absolute;margin-left: 206px;margin-top: 10px;text-align: center;width: 80px;height: 60px;padding-top: 17px;">' + data.rows[i].priceAmount +'</span></td>';
+                    tableRows += '<td colspan="2" style="text-align:left;"><img src="' + data.rows[i].merchandise_main_image_url + '" style="width:80px;height:80px;border-radius: 15%;margin-left:50px;" onerror=""><span style="width:215px; height:80px;  position:absolute;  padding-top:5px; text-align:center; font-size:13px;overflow: hidden;"><span style="width:200px;height: 35px;line-height: 17px;overflow: hidden;position: absolute;left: 15px;cursor:pointer;" title=' + data.rows[i].name + '>' + data.rows[i].name + '</span><span style="height:30px;overflow:hidden;position:absolute;top: 40px;line-height:  15px;left: 20px;right: 7px; cursor:pointer;" title='+ data.rows[i].sku_properties_name +'>' + data.rows[i].sku_properties_name +'</span></span>  <span style="position: absolute;margin-left: 206px;margin-top: 10px;text-align: center;width: 80px;height: 60px;padding-top: 17px;">' + data.rows[i].priceAmount +'</span></td>';
                     tableRows += '<td style="text-align:center;padding-top:35px;">' + data.rows[i].num + '</td>';
                     tableRows += '<td style="text-align:center;padding-top:35px;">' + data.rows[i].totalFeeAmount + '</td>';
                     switch(res.data.status)
                     {
-                        case 10: var html = '待付款';break;
-                        case 20: var html = '待发货';break;
-                        case 30: var html = '待收货';break;
-                        case 40: var html = '已完成';break;
-                        case 50: var html = '已取消';break;
-                        case 60: var html = '已关闭';break;
+                        case 'WAIT': var html = '待付款';break;
+                        case 'PAID': var html = '待发货';break;
+                        case 'SEND': var html = '待收货';break;
+                        case 'COMPLETED': var html = '已完成';break;
+                        case 'CANCEL': var html = '已取消';break;
+                        case 'CLOSED': var html = '已关闭';break;
                     }
                     var readyChange = 1;
-                    if(data.rows[i].refund_apply.length) {
+                    if(typeof(data.rows[i].refund_apply) != 'undefined' && data.rows[i].refund_apply.length) {
                         if(data.rows[i].refund_apply[0].status == 60) {
-                            html = "<a href='/shop/order/refund/"+data.rows[i].id+"'>退款成功</a>";
+                            html = "<a href='/orders/refund/"+data.rows[i].id+"'>退款成功</a>";
                         }else if(data.rows[i].refund_apply[0].status != 70) {
-                            html = "<a href='/shop/order/refund/"+data.rows[i].id+"'>退款中</a>";
+                            html = "<a href='/orders/refund/"+data.rows[i].id+"'>退款中</a>";
                             inRefundflag = 1;
                         }
                         readyChange = 0;
@@ -132,18 +132,18 @@
                     } else {
                         var coupon_desc = res.data.coupon_name + '(下单立减' + res.data.value + '元)';
                     }
-                    
+
                     tableRows += '<tr><td></td><td style="padding-left:90px;">' + coupon_desc + '</td><td></td><td></td><td>' + res.data.discountFeeAmount + '</td></tr>';
                 }
                 tableRows += '<tr><td></td><td></td><td></td><td style="padding-right:15px;text-align: right;" colspan="2">订单共' + data.total + '件商品，总计：' + res.data.paymentAmount + '( 含运费 ' + res.data.postFeeAmount + ')</td></tr>';
                 $('#table').append(tableRows);
-                $('#order_no').text(res.data.order_no);
+                $('#code').text(res.data.code);
                 id = res.data.id;
-                order_no = res.data.order_no;
+                code = res.data.code;
                 detail_address = res.data.receiver_detail_address;
                 receiver_name = res.data.receiver_name;
                 receiver_mobile = res.data.receiver_mobile;
-                cancellation = res.data.cancellation;
+                cancellation = res.data.cancel;
                 $('#buyer').text(res.data.nickname);
                 $('#receiver_name').text(res.data.receiver_name);
                 $('#receiver_mobile').text(res.data.receiver_mobile);
@@ -300,7 +300,7 @@
                                                     var post_company = post_name + '&nbsp;&nbsp;&nbsp;运单号: &nbsp;&nbsp;&nbsp;' + post_no;
                                                     $('#post_name').html(post_company);
                                                 }
-                                                
+
                                                 $.notify({
                                                     message: "订单发货成功"
                                                 },{
@@ -411,7 +411,7 @@
                   $("#post-form").hide();
                 }
               });
-            $('#order_number').text(order_no);
+            $('#order_number').text(code);
             $('#detail_address').text(detail_address + ',  ' + receiver_name + ',  ' + receiver_mobile);
         </script>
     </script>
