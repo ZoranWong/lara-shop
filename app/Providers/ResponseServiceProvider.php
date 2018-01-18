@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\AjaxResponseService as AjaxResponse;
+
+use App\Services\AjaxResponse;
 use Response;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +28,15 @@ class ResponseServiceProvider extends ServiceProvider
 
         // 错误ajax接口返回宏
         Response::macro('errorAjax', function ($error, $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
+            return response()->json(AjaxResponse::errorAjax($error, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
+        });
+        // api接口返回宏
+        Response::macro('api', function ($mContent = [], $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
+            return response()->json(AjaxResponse::ajax($mContent, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
+        });
+
+        // 错误ajax接口返回宏
+        Response::macro('errorApi', function ($error, $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
             return response()->json(AjaxResponse::errorAjax($error, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
         });
     }

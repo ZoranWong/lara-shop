@@ -169,7 +169,6 @@ EOT;
         $deleteConfirm = trans('admin.delete_confirm');
         $confirm = trans('admin.confirm');
         $cancel = trans('admin.cancel');
-logger(__FILE__.':'.__FUNCTION__);
         $script = <<<SCRIPT
 
 $('.grid-row-delete').unbind('click').click(function() {

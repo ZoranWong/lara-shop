@@ -9,7 +9,6 @@ use App\Renders\Tree;
 use App\Renders\Widgets\Box;
 use App\Renders\Widgets\Tab;
 use Illuminate\Contracts\Support\Renderable;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 abstract class BasePage implements Renderable
 {
@@ -29,9 +28,12 @@ abstract class BasePage implements Renderable
      * */
     protected $model = null;
 
+
     public function __construct()
     {
+        $this->css = new Css();
         Form::registerBuiltinFields();
+
     }
 
     protected function setBoxTitle($title)
@@ -51,7 +53,6 @@ abstract class BasePage implements Renderable
 
     public function edit($id )
     {
-        new Css();
         $form = $id ? $this->form($id)->edit($id) : $this->form($id);
         $this->box->content($form);
         return $this;
@@ -59,7 +60,6 @@ abstract class BasePage implements Renderable
 
     public function create( )
     {
-        new Css();
         $form = $this->form();
         $this->box->content($form);
         return $this;

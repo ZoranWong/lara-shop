@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Admin\ManagerHome;
+namespace App\Http\Controllers\Admin\Home\Manager;
 
 use App\Http\Controllers\Admin\Common\BasePage;
 use App\Models\Order;

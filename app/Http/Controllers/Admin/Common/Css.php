@@ -4,25 +4,29 @@ use App\Renders\Facades\SectionContent;
 
 class Css
 {
+    protected $boxCss = <<<BOXCSS
+.box{
+    border-top: none !important;
+}
+BOXCSS;
+    protected $boxHeaderCss = <<<BOXHEADERCSS
+.box-header{
+    padding: 16px 12px 12px 16px !important;
+}
+BOXHEADERCSS;
+
+
+    protected $navTabsCustomCss = <<<NAVTABSCUSTOM
+.nav-tabs-custom{
+    box-shadow: none !important;
+}
+NAVTABSCUSTOM;
+
+
     public function __construct()
     {
-//        SectionContent::css((function(){
-//            return <<<CSS
-//.input-group-addon {
-//padding: 6px 12px;
-//font-size: 14px;
-//font-weight: 400;
-//line-height: 2;
-//color: #555;
-//text-align: center;
-//background-color: #eee;
-//border: 1px solid #ccc;
-//border-radius: 4px;
-//}
-//.col-form-label.control-label{
-//text-align: right;
-//}
-//CSS;
-//        })());
+        SectionContent::css($this->boxCss);
+        SectionContent::css($this->navTabsCustomCss);
+        SectionContent::css($this->boxHeaderCss);
     }
 }

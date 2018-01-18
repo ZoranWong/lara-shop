@@ -5,7 +5,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
+let ElementUI = require('element-ui');
+let upload = require('./components/Upload.vue');
 
 window.Vue = require('vue');
 
@@ -14,8 +16,8 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.use(ElementUI);
+Vue.component('vue-upload', upload);
 
 const app = new Vue({
     el: '#app'

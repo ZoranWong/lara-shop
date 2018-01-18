@@ -29,6 +29,8 @@ class Content extends \Encore\Admin\Layout\Content
      */
     protected $rows = [];
 
+    protected $id = null;
+
     /**
      * Content constructor.
      *
@@ -67,6 +69,11 @@ class Content extends \Encore\Admin\Layout\Content
         $this->description = $description;
 
         return $this;
+    }
+
+    public function setID($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -155,6 +162,7 @@ class Content extends \Encore\Admin\Layout\Content
     public function render()
     {
         $items = [
+            'id' => $this->id,
             'content'     => $this->build(),
         ];
 

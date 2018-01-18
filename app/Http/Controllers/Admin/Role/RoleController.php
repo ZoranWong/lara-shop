@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Role;
 
 use App\Http\Controllers\Admin\Common\BasePage;
 use App\Http\Controllers\Admin\Role\Page;

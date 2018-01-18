@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
+    'cloud' => env('FILESYSTEM_CLOUD', 'oss'),
 
     /*
     |--------------------------------------------------------------------------
@@ -63,6 +63,30 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'oss' => [
+            'driver'     => 'oss',
+            'access_id'  => env('OSS_ACCESS_ID','IsdaxhlR9kzdnGMQ'),
+            'access_key' => env('OSS_ACCESS_KEY','BTNu7FgrQImHLhtMsVjm4J30Ttwmk2'),
+            'bucket'     => env('OSS_BUCKET','zuizan'),
+            //ECS访问的内网Endpoint oss-cn-hangzhou-internal.aliyuncs.com
+            //外网Endpoint  oss-cn-hangzhou.aliyuncs.com
+            'endpoint'   => env('OSS_ENDPOINT','oss-cn-hangzhou.aliyuncs.com'),
+            //'prefix'     => env('OSS_PREFIX', 'v2'), // optional
+            'url'        => env('OSS_URL','https://zuizan.oss-cn-hangzhou.aliyuncs.com'),
+        ],
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => 'xxxxx.com1.z0.glb.clouddn.com', //你的七牛域名
+                'https'     => 'dn-yourdomain.qbox.me',         //你的HTTPS域名
+                'custom'    => 'static.abc.com',                //Useless 没啥用，请直接使用上面的 default 项
+            ],
+            'access_key'=> '',  //AccessKey
+            'secret_key'=> '',  //SecretKey
+            'bucket'    => '',  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+            'access'    => 'public'  //空间访问控制 public 或 private
+        ],
     ],
 
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Renders\From;
 
+use App\Renders\Form;
 use App\Renders\From;
 use Illuminate\Support\Collection;
 
@@ -47,6 +48,7 @@ use Illuminate\Support\Collection;
  * @method Field\Tags           tags($column, $label = '')
  * @method Field\Icon           icon($column, $label = '')
  * @method Field\Embeds         embeds($column, $label = '')
+ * @method Field\VueUpload      vueUpload($column, $label = '')
  */
 class EmbeddedForm
 {

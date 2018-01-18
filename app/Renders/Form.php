@@ -3,6 +3,7 @@ namespace App\Renders;
 //use Illuminate\Contracts\Support\Renderable;
 use App\Exceptions\Handler;
 use App\Renders\From\Builder;
+use App\Renders\From\Row;
 use Illuminate\Support\Collection;
 use App\Renders\From\Field;
 /**
@@ -51,6 +52,7 @@ use App\Renders\From\Field;
  * @method Field\MultipleFile   multipleFile($column, $label = '')
  * @method Field\Captcha        captcha($column, $label = '')
  * @method Field\Listbox        listbox($column, $label = '')
+ * @method Field\VueUpload      vueUpload($column, $label = '')
  */
 class Form extends \Encore\Admin\Form
 {
@@ -82,6 +84,83 @@ class Form extends \Encore\Admin\Form
         $this->builder = new Builder($this);
 
         $callback($this);
+    }
+
+    /**
+     * Add a row in form.
+     *
+     * @param Closure $callback
+     *
+     * @return $this
+     */
+    public function row(\Closure $callback)
+    {
+        $this->rows[] = new Row($callback, $this);
+
+        return $this;
+    }
+
+
+    /**
+     * Register builtin fields.
+     *
+     * @return void
+     */
+    public static function registerBuiltinFields()
+    {
+        $map = [
+            'button'         => Field\Button::class,
+            'checkbox'       => Field\Checkbox::class,
+            'color'          => Field\Color::class,
+            'currency'       => Field\Currency::class,
+            'date'           => Field\Date::class,
+            'dateRange'      => Field\DateRange::class,
+            'datetime'       => Field\Datetime::class,
+            'dateTimeRange'  => Field\DatetimeRange::class,
+            'datetimeRange'  => Field\DatetimeRange::class,
+            'decimal'        => Field\Decimal::class,
+            'display'        => Field\Display::class,
+            'divider'        => Field\Divide::class,
+            'divide'         => Field\Divide::class,
+            'embeds'         => Field\Embeds::class,
+            'editor'         => Field\Editor::class,
+            'email'          => Field\Email::class,
+            'file'           => Field\File::class,
+            'hasMany'        => Field\HasMany::class,
+            'hidden'         => Field\Hidden::class,
+            'id'             => Field\Id::class,
+            'image'          => Field\Image::class,
+            'ip'             => Field\Ip::class,
+            'map'            => Field\Map::class,
+            'mobile'         => Field\Mobile::class,
+            'month'          => Field\Month::class,
+            'multipleSelect' => Field\MultipleSelect::class,
+            'number'         => Field\Number::class,
+            'password'       => Field\Password::class,
+            'radio'          => Field\Radio::class,
+            'rate'           => Field\Rate::class,
+            'select'         => Field\Select::class,
+            'slider'         => Field\Slider::class,
+            'switch'         => Field\SwitchField::class,
+            'text'           => Field\Text::class,
+            'textarea'       => Field\Textarea::class,
+            'time'           => Field\Time::class,
+            'timeRange'      => Field\TimeRange::class,
+            'url'            => Field\Url::class,
+            'year'           => Field\Year::class,
+            'html'           => Field\Html::class,
+            'tags'           => Field\Tags::class,
+            'icon'           => Field\Icon::class,
+            'multipleFile'   => Field\MultipleFile::class,
+            'multipleImage'  => Field\MultipleImage::class,
+            'captcha'        => Field\Captcha::class,
+            'listbox'        => Field\Listbox::class,
+            'vueUpload'      => Field\VueUpload::class,
+        ];
+
+        foreach ($map as $abstract => $class) {
+            static::extend($abstract, $class);
+        }
     }
 
     /**
@@ -152,68 +231,6 @@ class Form extends \Encore\Admin\Form
             return $element;
         }
     }
-
-    /**
-     * Register builtin fields.
-     *
-     * @return void
-     */
-    public static function registerBuiltinFields()
-    {
-        $map = [
-            'button'         => Field\Button::class,
-            'checkbox'       => Field\Checkbox::class,
-            'color'          => Field\Color::class,
-            'currency'       => Field\Currency::class,
-            'date'           => Field\Date::class,
-            'dateRange'      => Field\DateRange::class,
-            'datetime'       => Field\Datetime::class,
-            'dateTimeRange'  => Field\DatetimeRange::class,
-            'datetimeRange'  => Field\DatetimeRange::class,
-            'decimal'        => Field\Decimal::class,
-            'display'        => Field\Display::class,
-            'divider'        => Field\Divide::class,
-            'divide'         => Field\Divide::class,
-            'embeds'         => Field\Embeds::class,
-            'editor'         => Field\Editor::class,
-            'email'          => Field\Email::class,
-            'file'           => Field\File::class,
-            'hasMany'        => Field\HasMany::class,
-            'hidden'         => Field\Hidden::class,
-            'id'             => Field\Id::class,
-            'image'          => Field\Image::class,
-            'ip'             => Field\Ip::class,
-            'map'            => Field\Map::class,
-            'mobile'         => Field\Mobile::class,
-            'month'          => Field\Month::class,
-            'multipleSelect' => Field\MultipleSelect::class,
-            'number'         => Field\Number::class,
-            'password'       => Field\Password::class,
-            'radio'          => Field\Radio::class,
-            'rate'           => Field\Rate::class,
-            'select'         => Field\Select::class,
-            'slider'         => Field\Slider::class,
-            'switch'         => Field\SwitchField::class,
-            'text'           => Field\Text::class,
-            'textarea'       => Field\Textarea::class,
-            'time'           => Field\Time::class,
-            'timeRange'      => Field\TimeRange::class,
-            'url'            => Field\Url::class,
-            'year'           => Field\Year::class,
-            'html'           => Field\Html::class,
-            'tags'           => Field\Tags::class,
-            'icon'           => Field\Icon::class,
-            'multipleFile'   => Field\MultipleFile::class,
-            'multipleImage'  => Field\MultipleImage::class,
-            'captcha'        => Field\Captcha::class,
-            'listbox'        => Field\Listbox::class,
-        ];
-
-        foreach ($map as $abstract => $class) {
-            static::extend($abstract, $class);
-        }
-    }
-
     public function render()
     {
         try {

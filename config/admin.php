@@ -68,7 +68,7 @@ return [
      */
     'upload' => [
 
-        'disk' => 'admin',
+        'disk' => 'oss',
 
         'directory' => [
             'image' => 'images',

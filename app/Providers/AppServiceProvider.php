@@ -28,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+
+        if($this->app->runningInConsole()){
+            $this->app->register(\Encore\Admin\AdminServiceProvider::class);
+        }
     }
 }

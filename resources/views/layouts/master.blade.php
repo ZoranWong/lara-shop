@@ -36,7 +36,7 @@
     {{--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
     {{--<script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>--}}
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
-    <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.js') }}"></script>
     {{--<script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>--}}
     {{--<script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.js') }}"></script>--}}
     {{--<script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js") }}"></script>--}}
@@ -78,10 +78,8 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition @yield('body_class')">
-
+<body class="hold-transition  @yield('body_class')">
 @yield('body')
-
 {{--<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>--}}
 {{--<script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>--}}
 
@@ -123,8 +121,8 @@
 <script src="{{ asset ("/vendor/laravel-admin/toastr/build/toastr.min.js") }}"></script>
 <script src="{{ asset ("/vendor/laravel-admin/bootstrap3-editable/js/bootstrap-editable.min.js") }}"></script>
 <script src="{{ asset ("/vendor/laravel-admin/sweetalert/dist/sweetalert.min.js") }}"></script>
-{!! \App\Renders\Facades\SectionContent::js() !!}
 <script src="{{ asset ("/vendor/laravel-admin/laravel-admin/laravel-admin.js") }}"></script>
+{!! \App\Renders\Facades\SectionContent::js() !!}
 @yield('adminlte_js')
 </body>
 </html>

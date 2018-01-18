@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Permission;
 
 use App\Http\Controllers\Admin\BaseController as Controller;
 use App\Http\Controllers\Admin\Permission\Page;
