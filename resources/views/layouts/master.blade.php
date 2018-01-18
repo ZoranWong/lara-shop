@@ -9,9 +9,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    {{--<link rel="stylesheet" href="{{ asset("/vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css") }}">--}}
+    <link rel="stylesheet" href="{{ asset("/vendor/laravel-admin/AdminLTE/bootstrap/css/bootstrap.min.css") }}">
     {{--<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css">--}}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">--}}
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
@@ -32,10 +32,12 @@
 
     <!-- REQUIRED JS SCRIPTS -->
     <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    {{--<script src="{{ asset('/bower_components/jquery/dist/jquery.slim.min.js') }}"></script>--}}
     {{--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
     {{--<script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>--}}
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
-    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    {{--<script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>--}}
     {{--<script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.js') }}"></script>--}}
     {{--<script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js") }}"></script>--}}
     <script src="{{ asset ("/vendor/adminlte/dist/js/adminlte.min.js") }}"></script>

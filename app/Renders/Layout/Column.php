@@ -36,7 +36,7 @@ class Column extends \Encore\Admin\Layout\Column
     public function append($content)
     {
         $this->contents[] = $content;
-logger('content', [class_basename($content)]);
+
         return $this;
     }
 

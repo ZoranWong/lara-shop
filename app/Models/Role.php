@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role updateById($id, $data)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRole[] $userRoles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
  */
 class Role extends Model
 {

@@ -46,6 +46,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User updateById($id, $data)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $managerStore
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $ownStore
+ * @method static bool|null forceDelete()
+ * @method static bool|null restore()
  */
 class User extends Authenticatable
 {

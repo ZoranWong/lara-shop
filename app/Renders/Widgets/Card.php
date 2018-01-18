@@ -43,7 +43,7 @@ CARD;
     public function render()
     {
         // TODO: Implement render() method.
-        logger($this->template());
+
         return $this->template();
     }
 }

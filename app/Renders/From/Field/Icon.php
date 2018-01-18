@@ -19,14 +19,15 @@ class Icon extends Text
         $this->script = <<<EOT
 
 $('{$this->getElementClassSelector()}').iconpicker({
-    placement:'bottomLeft'
+    placement:'bottomLeft',
+    animation: true,
 });
 
 EOT;
 
         $this->prepend('<i class="fa fa-pencil"></i>')
             ->defaultAttribute('style', 'width: 140px');
-
+        $this->defaultAttribute('role', 'iconpicker');
         return parent::render();
     }
 }

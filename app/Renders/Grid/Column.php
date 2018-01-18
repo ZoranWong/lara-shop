@@ -3,7 +3,6 @@
 namespace App\Renders\Grid;
 
 use Closure;
-use App\Renders\Grid;
 use App\Renders\Grid\Displayers\AbstractDisplayer;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;

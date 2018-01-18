@@ -16,6 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole findByUserId($userId, $columns = array())
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole updateById($id, $data)
+ * @property int $user_id 用户id
+ * @property int $role_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUserId($value)
  */
 class UserRole extends Model
 {

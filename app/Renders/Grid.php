@@ -9,6 +9,7 @@ use App\Renders\Grid\Exporter;
 use App\Renders\Grid\Filter;
 use App\Renders\Grid\Model;
 use App\Renders\Grid\Tools;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -171,7 +172,6 @@ class Grid extends \Encore\Admin\Grid
         $grid = $this;
         $callback = $this->actionsCallback;
         $column = $this->addColumn('__actions__', trans('admin.action'));
-        logger('__actions__');
         $column->display(function ($value) use ($grid, $column, $callback) {
             $actions = new Actions($value, $grid, $column, $this);
 
@@ -194,6 +194,7 @@ class Grid extends \Encore\Admin\Grid
 
         return $this->columns[] = $column;
     }
+
 
 
     /**

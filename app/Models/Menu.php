@@ -35,6 +35,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Menu|null $parent
  * @property-read \App\Models\Permission|null $parentPermission
  * @property-read \App\Models\Permission $permission
+ * @property int $id
+ * @property int|null $parent_id 父级菜单id
+ * @property int $order 排序
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu deleteByIds($ids)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu search($where)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu updateById($id, $data)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereParentId($value)
  */
 class Menu extends Model
 {
@@ -71,5 +80,10 @@ class Menu extends Model
     public function children() : HasMany
     {
         return $this->hasMany('App\Models\Menu', 'parent_permission_id', 'permission_id');
+    }
+
+    public function roles() : BelongsToMany
+    {
+        return $this->permission()->first()->roles();
     }
 }

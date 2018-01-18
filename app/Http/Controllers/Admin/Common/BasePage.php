@@ -76,20 +76,6 @@ abstract class BasePage implements Renderable
     public function form($id = null)
     {
         return SectionContent::form($this->model, function (Form $form) use( $id ){
-            $css = <<<CSS
-.input-group .input-group-addon{
-    padding: 4px;
-    border-radius: 3px 0 0 3px;
-    border: 1px solid #d2d6de;
-}
-
-.input-group input{
-    border-radius: 0 3px 3px 0;
-    border: 1px solid #d2d6de;
-}
-CSS;
-
-            SectionContent::css($css);
             $this->buildForm($form, $id);
         });
     }

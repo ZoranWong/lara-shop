@@ -10,15 +10,15 @@
 </style>
 <div class="bg-white box-body">
     <div class="box-header d-flex">
-        <div class="float-left">
+        <span class="float-left">
             {!! $grid->renderHeaderTools() !!}
-        </div>
+        </span>
 
-        <div class="float-right">
+        <span class="float-right">
             {!! $grid->renderFilter() !!}
             {!! $grid->renderExportButton() !!}
             {!! $grid->renderCreateButton() !!}
-        </div>
+        </span>
     </div>
     <!-- /.box-header -->
     <div class="box-body table-responsive no-padding">
