@@ -17,9 +17,6 @@ class OrderController
     //订单列表
     public function index(Request $request)
     {
-      if(!$request->ajax()){
-        return view('manager.order.index',['error' => '']);
-      }
         try{
             $queryParams = $request->all();
             $orderNo = array_get($queryParams,'order_no',null);
