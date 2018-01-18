@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
             $table->string('nickname', 124)->comment('用户昵称');
-            $table->string('head_image_url')->comment('用户头像');
+            $table->string('head_image_url',512)->comment('用户头像');
             $table->enum('sex',['MALE','FEMALE'])->comment('用户性别');
             $table->string('mobile')->unique()->comment('用户登录手机号码');
             $table->string('password')->comment('登录密码');

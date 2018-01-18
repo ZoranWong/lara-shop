@@ -18,5 +18,6 @@ Route::group([],function(){
     Route::resource('roles', 'RoleController');
     Route::resource('permissions', 'PermissionController');
     Route::resource('menus', 'MenuController');
+    Route::get('orders', 'OrderController@index');
+    Route::get('orders/index', 'OrderController@index');
 });
-

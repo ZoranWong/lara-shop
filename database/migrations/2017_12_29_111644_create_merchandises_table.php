@@ -24,7 +24,7 @@ class CreateMerchandisesTable extends Migration
             $table->boolean('is_default')->comment('是否默认分组，1未默认，0不为默认');
             $table->timestamps();
             $table->softDeletes();
-            
+
 
 
         });
@@ -41,7 +41,7 @@ class CreateMerchandisesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            
+
         });
 
         Schema::create('merchandise', function (Blueprint $table) {
@@ -64,11 +64,11 @@ class CreateMerchandisesTable extends Migration
             $table->string('brief_introduction')->comment('简介');
             $table->text('content')->comment('商品详细内容');
             $table->text('spec_array')->comment('JSON存储规格数组,数组元素{name:"XX",id:"XX",value:{"XX":"XX"}}');
-            $table->enum('status', ['ON','UNDER'])->comment('货物状态:ON=上架，UNDER=下架');
+            $table->enum('status', ['ON','UNDER','SELL_OUT','DELETE'])->comment('货物状态:ON=上架，UNDER=下架');
             $table->timestamps();
             $table->softDeletes();
 
-            
+
             $table->foreign('store_id')->references('id')->on('store')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('category')
@@ -89,7 +89,7 @@ class CreateMerchandisesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            
+
             $table->foreign('merchandise_id')->references('id')->on('merchandise')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
