@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=30";
+        var param = "status=SEND";
         var condition = false;
         function initFunctionSendGoods(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){

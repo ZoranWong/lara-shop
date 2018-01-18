@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=60";
+        var param = "status=REFUND";
         var condition = false;
         function initFunctionSendGoods(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){

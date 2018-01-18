@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=";
+        var param = "status=WAIT";
         var condition = false;
         function initFunctionWaitPay(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){

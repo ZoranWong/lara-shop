@@ -198,7 +198,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         \App\Providers\MenuServiceProvider::class,
-        \zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+        //\zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
     ],
 
     /*

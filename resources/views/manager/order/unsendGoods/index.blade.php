@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=20";
+        var param = "status=PAID";
         var condition = false;
         function initFunctionUnsendGoods(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){

@@ -19,7 +19,7 @@ class OrderController
     {
         try{
             $queryParams = $request->all();
-            $orderNo = array_get($queryParams,'order_no',null);
+            $code = array_get($queryParams,'code',null);
             $startTime = array_get($queryParams,'created_at_start',null);
             $endTime = array_get($queryParams,'created_at_end',null);
             $nickname = array_get($queryParams,'nickname',null);
@@ -49,8 +49,8 @@ class OrderController
             if($endTime){
                 $modelObj = $modelObj->where('created_at','<=', $endTime);
             }
-            if($orderNo){
-                $modelObj = $modelObj->where('code', $orderNo);
+            if($code){
+                $modelObj = $modelObj->where('code', $code);
             }
             if($status){
                 //处理退款中订单

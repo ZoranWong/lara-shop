@@ -105,40 +105,6 @@ class Order extends Model
       return  $order;
     }
 
-    public static function search($storeId,$receiverName = '',$startTime = '',$endTime = '',
-        $goodsValue = '',$offset = 0,$limit = 10,$sort = 'id',$order = 'desc')
-    {
-        $modelObj = new static;
-        $modelObj = $modelObj->where('store_id',$storeId);
-        if($receiverName){
-            $modelObj = $modelObj->where('receiver_name','like', '%'. $receiverName . '%');
-        }
-        if($startTime){
-            $modelObj = $modelObj->where('created_at','>', $startTime);
-        }
-        if($endTime){
-            $modelObj = $modelObj->where('created_at','<', $endTime);
-        }
-        if($goodsValue){
-            $orderItem = OrderItem::where('name','like','%'. $goodsValue . '%')
-              ->orWhere('merchandise_code',$goodsValue)
-              ->get(['id'])->toArray();
-            if($orderItem){
-                $orderIdList = array_unique(array_flatten($orderItem));
-                if($orderIdList){
-                    $modelObj->whereIn('id',$orderIdList);
-                }
-            }else{
-                $modelObj->where('id','<',0);
-            }
-        }
-        $total = $modelObj->count();
-        $modelObj = $modelObj->orderBy($sort,$order)->skip($offset)->limit($limit);
-        $list = $modelObj->with(['user'=>function($query){
-            $query->select(['id','nickname']);
-        }])->get()->toArray();
-        return ['total' => $total,'rows' => $list];
-    }
 
     public static function backStockNum($orderId)
     {

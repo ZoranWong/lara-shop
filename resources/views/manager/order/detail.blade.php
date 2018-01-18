@@ -156,15 +156,15 @@
                 targetData = $('#targetData').text();
                 switch(res.data.status)
                 {
-                    case 10: var html = '等待买家付款';
+                    case 'WAIT': var html = '等待买家付款';
                              var tip = '-请务必等待订单状态变更为“等待商家发货”后再进行发货。';
                              $('#close').show();break;
-                    case 20: var html = '买家已付款，等待商家发货';
+                    case 'PAID': var html = '买家已付款，等待商家发货';
                              var tip = '-请及时给用户发货，如有问题请联系用户协商处理';
                              $('#send_goods').show();break;
-                    case 30: var html = '商家已发货，等待交易成功';
+                    case 'SEND': var html = '商家已发货，等待交易成功';
                              var tip= "-请及时关注你发出的包裹状态，确保能配送至买家手中；\n-如果买家表示未收到货或者货物有问题，请及时联系买家积极处理，友好协商；";break;
-                    case 40: var html = '已完成';
+                    case 'COMPLETED': var html = '已完成';
                              var tip = '交易完成，如果买家提出售后要求，请积极自行于买家协商，做好售后服务。';
                              var  string = '';
                              if(res.data.post_no){
@@ -172,9 +172,9 @@
                              }
                              var post_company = res.data.post_name + string;
                              $('#post_name').html(post_company);break;
-                    case 50: var html = '已取消';
+                    case 'CANCEL': var html = '已取消';
                              var tip = (res.data.cancellation == 2) ? '卖家取消' : ((res.data.cancellation == 1) ? '买家取消' : ((res.data.cancellation == 3) ? '系统自动取消' : ''));break;
-                    case 60: var html = '已关闭';
+                    case 'CLOSED': var html = '已关闭';
                              var tip = (res.data.cancellation == 2) ? '卖家取消' : ((res.data.cancellation == 1) ? '买家取消' : ((res.data.cancellation == 3) ? '系统自动取消' : ''));break;
                 }
                 if(res.data.refunded_fee != 0) {
@@ -185,13 +185,13 @@
                 //显示导向图步骤
                 $('#radius-g-1').show();
 
-                if(res.data.paid_at > 0 || res.data.status == 20){
+                if(res.data.status == 'PAID'){
                     $('#radius-g-1,#radius-g-2').show();
                 }
-                if(res.data.consigned_at > 0 || res.data.status == 30){
+                if(res.data.status == 'SEND'){
                     $('#radius-g-1,#radius-g-2,#radius-g-3').show();
                 }
-                if(res.data.signed_at > 0 || res.data.status == 40){
+                if(res.data.status == 'COMPLETED'){
                     $('#radius-g-1,#radius-g-2,#radius-g-3,#radius-g-4').show();
                 }
             });

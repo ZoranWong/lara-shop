@@ -43,12 +43,12 @@
                           <div class="input-group-addon">状态</div>
                           <select class="select form-control" name="status">
                               <option value="0">全部</option>
-                              <option value="10">待付款</option>
-                              <option value="20">待发货</option>
-                              <option value="30">待收货</option>
-                              <option value="40">已完成</option>
-                              <option value="50">已关闭</option>
-                              <option value="60">退款中</option>
+                              <option value="WAIT">待付款</option>
+                              <option value="PAID">待发货</option>
+                              <option value="SEND">待收货</option>
+                              <option value="COMPLETED">已完成</option>
+                              <option value="CLOSED">已关闭</option>
+                              <option value="REFUND">退款中</option>
                           </select>
                       </div>
                   </div>
@@ -111,37 +111,37 @@
             param = $(e.target).serialize();
             condition = false;
 
-            if(param.indexOf("status=10") > 0 ){
+            if(param.indexOf("status=WAIT") > 0 ){
                 $('.nav-tabs-custom ul li:eq(1)').addClass('active');
                 $('.nav-tabs-custom ul li:eq(1)').siblings().removeClass('active');
                 $('#waitPay').addClass('active');
                 $('#unsendGoods,#sendGoods,#finish,#close,#all,#refund').removeClass('active');
 
-            } else if(param.indexOf("status=20") > 0 ){
+            } else if(param.indexOf("status=PAID") > 0 ){
                 $('.nav-tabs-custom ul li:eq(2)').addClass('active');
                 $('.nav-tabs-custom ul li:eq(2)').siblings().removeClass('active');
                 $('#unsendGoods').addClass('active');
                 $('#waitPay,#sendGoods,#finish,#close,#all,#refund').removeClass('active');
 
-            } else if(param.indexOf("status=30") > 0 ){
+            } else if(param.indexOf("status=SEND") > 0 ){
                 $('.nav-tabs-custom ul li:eq(3)').addClass('active');
                 $('.nav-tabs-custom ul li:eq(3)').siblings().removeClass('active');
                 $('#sendGoods').addClass('active');
                 $('#waitPay,#unsendGoods,#finish,#close,#all,#refund').removeClass('active');
 
-            } else if(param.indexOf("status=40") > 0 ){
+            } else if(param.indexOf("status=COMPLETED") > 0 ){
                 $('.nav-tabs-custom ul li:eq(4)').addClass('active');
                 $('.nav-tabs-custom ul li:eq(4)').siblings().removeClass('active');
                 $('#finish').addClass('active');
                 $('#waitPay,#unsendGoods,#sendGoods,#close,#all,#refund').removeClass('active');
 
-            } else if(param.indexOf("status=50") > 0 ){
+            } else if(param.indexOf("status=CLOSED") > 0 ){
                 $('.nav-tabs-custom ul li:eq(5)').addClass('active');
                 $('.nav-tabs-custom ul li:eq(5)').siblings().removeClass('active');
                 $('#close').addClass('active');
                 $('#waitPay,#unsendGoods,#sendGoods,#finish,#all,#refund').removeClass('active');
 
-            } else if(param.indexOf("status=60") > 0 ){
+            } else if(param.indexOf("status=REFUND") > 0 ){
                 $('.nav-tabs-custom ul li:last').addClass('active');
                 $('.nav-tabs-custom ul li:last').siblings().removeClass('active');
                 $('#refund').addClass('active');

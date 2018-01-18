@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=40";
+        var param = "status=COMPLETED";
         var condition = false;
         function initFunctionFinish(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){

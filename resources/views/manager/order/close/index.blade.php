@@ -28,7 +28,7 @@
 @push('js')
 <script>
     $(document).ready(function () {
-        var param = "status=50";
+        var param = "status=CLOSED";
         var condition = false;
         function initFunctionClose(paramsJSON){
             $.get('/ajax/orders/index', paramsJSON, function(json){
