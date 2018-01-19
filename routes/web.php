@@ -23,6 +23,10 @@ Route::group([],function(){
     Route::get('orders/detail/{id}', function ($id){
       return view('manager.order.detail',['id' => $id]);
     });
+
+    Route::get('categories', function (){
+      return view('manager.category.index',[]);
+    });
 });
 
 
@@ -40,4 +44,14 @@ Route::group(['prefix' => 'ajax','namespace' => 'Ajax'],function(){
   Route::post('orders/cancel', 'OrderController@cancel');
   //订单详情
   Route::get('orders/detail/{id}', 'OrderController@detail');
+
+
+    //商品分类
+  Route::get('category/list', 'CategoryController@index');
+  Route::post('category/create', 'CategoryController@store');
+  Route::get('category/{id}', 'CategoryController@show');
+  Route::post('category/save/{id}', 'CategoryController@update');
+  Route::post('category/delete', 'CategoryController@destroy');
+
+
 });

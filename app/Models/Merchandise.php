@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +10,7 @@ use Illuminate\Database\Query\Builder;
 use Exception;
 
 
-class Goods extends Model
+class Merchandise extends Model
 {
     use ModelTrait ,StoreTrait , SoftDeletes;
 

@@ -144,12 +144,7 @@
         }
         initFunctionWaitPay(param);
 
-         // 日期控件
-        $('.datepicker').datetimepicker({
-            autoclose: true,
-            language: 'zh-CN',
-            format: 'yyyy-mm-dd'
-        });
+
     })
 </script>
 @endpush

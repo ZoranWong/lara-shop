@@ -225,22 +225,22 @@
 
                 }
                 html += getPaginate(currentPage,pageCount);
-                if(paramsJSON.indexOf("status=10") > 0 ){
+                if(paramsJSON.indexOf("status=WAIT") > 0 ){
                     $('#content-waitPay').html(html);
 
-                } else if(paramsJSON.indexOf("status=20") > 0 ){
+                } else if(paramsJSON.indexOf("status=PAID") > 0 ){
                     $('#content-unsendGoods').html(html);
 
-                } else if(paramsJSON.indexOf("status=30") > 0 ){
+                } else if(paramsJSON.indexOf("status=SEND") > 0 ){
                     $('#content-sendGoods').html(html);
 
-                } else if(paramsJSON.indexOf("status=40") > 0 ){
+                } else if(paramsJSON.indexOf("status=COMPLETED") > 0 ){
                     $('#content-finish').html(html);
 
-                } else if(paramsJSON.indexOf("status=50") > 0 ){
+                } else if(paramsJSON.indexOf("status=CLOSED") > 0 ){
                     $('#content-close').html(html);
 
-                } else if(paramsJSON.indexOf("status=60") > 0 ){
+                } else if(paramsJSON.indexOf("status=REFUND") > 0 ){
                     $('#content-refund').html(html);
 
                 } else {
@@ -302,6 +302,11 @@
             window.open(url);
 
             return false;
+        });
+        $('.datepicker').datetimepicker({
+            autoclose: true,
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd'
         });
     });
 </script>

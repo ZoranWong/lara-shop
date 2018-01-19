@@ -25,7 +25,7 @@
 <!-- /.col -->
 </div>
 
-@push('js')
+
 <script>
     $(document).ready(function () {
         var param = "";
@@ -144,13 +144,6 @@
             });
         }
         initFunction();
-
         // 日期控件
-        $('.datepicker').datetimepicker({
-            autoclose: true,
-            language: 'zh-CN',
-            format: 'yyyy-mm-dd'
-        });
     })
 </script>
-@endpush
