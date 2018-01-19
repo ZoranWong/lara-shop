@@ -63,7 +63,7 @@ $(document).ready(function () {
       for(var i in data){
         categoryArr.push(data[i].name);
         if(data[i].created_at == null)data[i].created_at = '-';
-        categoryHtml += '<tr id="tr'+data[i].id+'"><td><span id="span'+data[i].id+'">'+data[i].name+'</span><input type="text" style="display:none" id="name'+data[i].id+'" value="'+data[i].name+'"></td><td>'+data[i].goods_num+'</td><td>'+data[i].created_at+'</td>';
+        categoryHtml += '<tr id="tr'+data[i].id+'"><td><span id="span'+data[i].id+'">'+data[i].name+'</span><div><input type="text" style="display:none" id="name'+data[i].id+'" value="'+data[i].name+'"></div></td><td>'+data[i].goods_num+'</td><td>'+data[i].created_at+'</td>';
 
         categoryHtml += '<td><button type="button" class="btn btn-sm btn-primary category-edit" name="edit" data-id="'+data[i].id+'" id="bj'+data[i].id+'">编辑</button>';
 

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Ajax;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Merchandise;
 use Illuminate\Validation\Rule;
 use App\Services\StoreService;
 
-class CategoryController
+class CategoryController extends Controller
 {
     public function index()
     {
@@ -47,7 +48,6 @@ class CategoryController
         $data   = array_only($request->all(),array_keys($fileds));
 
         $result = Category::createForStore($data);
-
         return response()->ajax($result);
     }
 
