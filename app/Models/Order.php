@@ -50,7 +50,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order deleteByIds($ids)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order updateById($id, $data)
- * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order store()
@@ -101,4 +100,88 @@ class Order extends Model
     ];
 
     protected $table = 'order';
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at',
+    ];
+
+    public function ordersItem()
+    {
+      return $this->hasMany(OrderItem::class,'order_id','id');
+    }
+
+    public function user()
+    {
+      return $this->belongsTo('App\Models\User','buyer_user_id');
+    }
+
+    public function cancel($cancel='BUYER')
+    {
+      $order = $this;
+      $order->status = self::STATUS['CANCEL'];
+      $order->cancel = $cancel;//取消人
+      $order->save();
+      $this->backStockNum($order->id);
+      return  $order;
+    }
+
+    public static function backStockNum($orderId)
+    {
+        if(!is_array($orderId)){
+            $orderId = [$orderId];
+        }
+        $orderItems = OrderItem::with(['merchandise', 'product'])->whereIn('order_id',$orderId)->get();
+        if($orderItems){
+            foreach($orderItems as $item){
+                if($item['product']){
+                    $product = $item['product'];
+                    if($product){
+                        $product->stock_num += $item['num'];
+                        $product->save();
+                    }
+                }
+                $merchandise = $item['merchandise'];
+                if($merchandise){
+                    $merchandise->stock_num += $item['num'];
+                    $merchandise->save();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 计算最大退款(不含邮费)
+     * @param array $array
+     * @param float $orderPayment
+     * @param float $postFee
+     * @return array
+     * */
+    public static function countRefundNoPost(array  $array = [] , float $orderPayment , $postFee)
+    {
+        $payment = array_sum($array);
+        $i = 1;
+        $total = count($array);
+        $discount = $payment - $orderPayment + $postFee;
+        $tempPayment = 0;
+        $data = [];
+        foreach ($array as $key => $value) {
+            if($orderPayment <= $postFee) {
+                $data[$key] = 0;
+            }else {
+            if($i >= $total) {
+              $data[$key] = max($payment - $tempPayment - $discount , 0);
+            }else {
+              $data[$key] = max(floor($value - $discount * $value / $payment) , 0);
+            }
+            }
+        $i = $i + 1;
+        $tempPayment = $data[$key] + $tempPayment;
+        }
+        return $data;
+    }
 }

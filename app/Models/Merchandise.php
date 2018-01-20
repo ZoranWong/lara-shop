@@ -9,7 +9,6 @@ use App\Models\Traits\StoreTrait;
 use Illuminate\Database\Query\Builder;
 use Exception;
 
-
 /**
  * App\Models\Merchandise
  *

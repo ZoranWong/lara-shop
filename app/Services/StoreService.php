@@ -7,7 +7,7 @@ class StoreService
 {
     public static function getCurrentID() : int
     {
-        return ($store = self::getCurrentStore()) ? $store['id'] : 0;
+        return ($store = self::getCurrentStore()) ? $store['id'] : 1;
     }
     /**
      *

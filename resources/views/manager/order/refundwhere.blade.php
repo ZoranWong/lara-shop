@@ -37,7 +37,7 @@ $(document).ready(function () {
 				$("#list").append('<tr><td>'+(data.item[i].refund_back_id ? data.item[i].refund_back_id : '-')+'</td><td>'+(data.item[i].refund_id ? data.item[i].refund_id : '-')+'</td><td>'+data.item[i].apply_at+'</td><td>'+data.item[i].total_fee+'</td><td><a data-refunding_at="'+data.item[i].refunding_at+'" data-arrive_at="'+data.item[i].arrive_at+'" data-id="'+data.item[i].order_item_id+'" data-why="'+data.item[i].return_msg+'" href="javascript:void(0);">'+data.item[i].refund_status+'</a></td></tr>');
 			};
 			$("#refundMoney").text('退款总额：'+data.total_money+'元');
-			$("#orderNo").append('订单：<a href="/shop/order/detail2/'+{{$id}}+'">'+data.order_no+'</a>');
+			$("#orderNo").append('订单：<a href="/shop/order/detail2/'+{{$id}}+'">'+data.code+'</a>');
 			$("#list a").click(function() {
 				if($(this).text() == '商家退款中' || $(this).text() == '确认到账') {
 					var speed = $("#speed").text();

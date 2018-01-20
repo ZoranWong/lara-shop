@@ -61,7 +61,7 @@
             维权原因：<span id="refund_reason" style="height: 25px;"></span> <br>
             维权编号：<span id="after_sales_no" style="height: 25px;"></span>
             <hr>
-            订单编号：<span id="order_no" style="height: 25px;color:#3c8dbc;"></span> <br>
+            订单编号：<span id="code" style="height: 25px;color:#3c8dbc;"></span> <br>
             付款时间：<span id="paid_at_later" style="height: 25px;"></span> <br>
             买家：<span id="buyerName" style="height: 25px;"></span> <br>
             物流信息：<span id="postInfo" style="height: 25px;"></span> <br>
@@ -152,7 +152,7 @@
             var history = data.history;
             apply = data.apply;
             if(json.success) {
-                $("#order_no").text(order.order_no);
+                $("#code").text(order.code);
                 $("#paid_at_later").text(order.paid_at ? order.paid_at : '-');
                 $("#buyerName").text(order.buyerName);
                 $("#postInfo").text((order.post_name ? order.post_name : '') +"  "+ (order.post_code ? order.post_code : ''));
@@ -166,7 +166,7 @@
                 $("#after_sales_no").text(apply.after_sales_no);
                 $("#goodName").text(orderItem.name);
                 $("#goodsSku").text(orderItem.sku_properties_name);
-                $("img").attr('src',orderItem.pic_thumb_path);
+                $("img").attr('src',orderItem.merchandise_main_image_url);
                 if(apply.handle_type == 0) {
                     $(".radius-r:first").css('margin-left','130px');
                     $(".progress-r:last").hide();
