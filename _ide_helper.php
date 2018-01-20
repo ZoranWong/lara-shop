@@ -12421,7 +12421,9 @@ namespace Intervention\Image\Facades {
  
 }
 
-namespace Maatwebsite\Excel\Facades { 
+namespace Maatwebsite\Excel\Facades {
+
+    use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
     class Excel {
         
@@ -12430,7 +12432,7 @@ namespace Maatwebsite\Excel\Facades {
          *
          * @param $filename
          * @param callable|null $callback
-         * @return \Maatwebsite\Excel\LaravelExcelWriter 
+         * @return LaravelExcelWriter
          * @static 
          */ 
         public static function create($filename, $callback = null)

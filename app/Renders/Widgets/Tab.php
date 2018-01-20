@@ -51,7 +51,7 @@ TEMPLATE;
     public function add($title, $content, $active = false)
     {
         $this->data['tabs'][] = [
-            'id'      => mt_rand(),
+            'id'      => md5($title),
             'title'   => $title,
             'content' => $content,
         ];

@@ -63,8 +63,17 @@ class Filter
     /**
      * @var string
      */
-    protected $view = 'components.filter.modal';
+    protected $view = 'components.filter.toolbar';
 
+    /**
+     * @var string
+     * */
+    protected $pk;
+
+    /**
+     *@var string
+     * */
+    protected $id = '';
     /**
      * Create a new filter instance.
      *
@@ -74,7 +83,9 @@ class Filter
     {
         $this->model = $model;
 
-        $pk = $this->model->eloquent()->getKeyName();
+        $this->pk = $pk = $this->model->eloquent()->getKeyName();
+
+        $this->id = str_random();
 
         $this->equal($pk, strtoupper($pk));
     }
@@ -106,8 +117,13 @@ class Filter
      */
     public function removeIDFilterIfNeeded()
     {
+        $pk = $this->pk;
         if (!$this->useIdFilter) {
-            array_shift($this->filters);
+            $index = -1;
+            collect($this->filters)->map(function (AbstractFilter $filter, $idx) use ($pk, &$index){
+                $filter->getColumn() != $pk ? :($index = $idx);
+            });
+            array_pull($this->filters, $index);
         }
     }
 
@@ -205,19 +221,38 @@ class Filter
 
         $script = <<<'EOT'
 
-$("#filter-modal .submit").click(function () {
-    $("#filter-modal").modal('toggle');
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-});
+//            $('.filter-toolbar form').validator().on('submit', function (e) {
+//                if(!e.isDefaultPrevented()){
+//                    e.preventDefault();
+//                };
+//                return false;
+//            });
 
 EOT;
+        $css = <<<CSS
+.filter-group {
+    margin-right: 0px !important;
+}
+CSS;
+
         SectionContent::script($script);
+        SectionContent::css($css);
 
         return view($this->view)->with([
+            'id'        => $this->id,
             'action'    => $this->action ?: $this->urlWithoutFilters(),
             'filters'   => $this->filters,
         ]);
+    }
+
+    /**
+     * @return string
+     * */
+    public function submit()
+    {
+        return <<<SCRIPT
+            $('.filter-toolbar form').submit();
+SCRIPT;
     }
 
     /**
@@ -259,10 +294,8 @@ EOT;
     {
         if (in_array($method, $this->supports)) {
             $className = '\\App\\Renders\\Grid\\Filter\\'.ucfirst($method);
-
             return $this->addFilter(new $className(...$arguments));
         }
-
         return $this;
     }
 
@@ -274,5 +307,12 @@ EOT;
     public function __toString()
     {
         return $this->render();
+    }
+    /**
+     * @return string
+     * */
+    public function id()
+    {
+        return $this->id;
     }
 }

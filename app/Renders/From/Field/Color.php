@@ -4,7 +4,7 @@ namespace App\Renders\From\Field;
 
 class Color extends Text
 {
-    protected static $css = [
+    protected static $link = [
         '/vendor/laravel-admin/AdminLTE/plugins/colorpicker/bootstrap-colorpicker.min.css',
     ];
 

@@ -17,8 +17,5 @@ Route::group([],function(){
     Route::resource('menus', 'Menu\MenuController');
     Route::get('/setting', 'Setting\SettingController@index');
     Route::post('user/avatar', 'FileController@userAvatar');
-    Route::get('orders', function (){
-      return view('manager.order.index',['error' => '']);
-    });
-    Route::get('orders/index', 'OrderController@index');
+    Route::resource('orders', 'Order\OrderController');
 });

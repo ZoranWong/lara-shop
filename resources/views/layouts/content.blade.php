@@ -6,5 +6,4 @@
     @include('components.partials.exception')
     @include('components.partials.toastr')
     {!! $content !!}
-
 @endsection

@@ -1,5 +1,3 @@
-<div class="form-group">
-    {{--<div class="input-group-addon">{{$label}}</div>--}}
-    {{--<label>{{$label}}</label>--}}
+<div class="form-group col-md-3 col-sm-2 filter-group">
     @include($presenter->view())
 </div>

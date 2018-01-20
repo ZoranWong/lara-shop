@@ -23,6 +23,8 @@ abstract class BasePage implements Renderable
 
     protected $css = null;
     protected $js = null;
+
+    protected $conditionCallback = null;
     /**
      * @var string $model
      * */
@@ -34,6 +36,11 @@ abstract class BasePage implements Renderable
         $this->css = new Css();
         Form::registerBuiltinFields();
 
+    }
+
+    public function conditions(\Closure $callback)
+    {
+        $this->conditionCallback = $callback;
     }
 
     protected function setBoxTitle($title)
@@ -99,8 +106,20 @@ abstract class BasePage implements Renderable
     public function grid()
     {
         return SectionContent::grid($this->model, function (Grid $grid){
+            if ($this->conditionCallback) {
+                $grid->model()->addConditions(call_user_func($this->conditionCallback));
+            }
+            $grid->filter(function (Grid\Filter $filter){
+                $filter->disableIdFilter();
+                $this->filter($filter);
+            });
             $this->buildGrid($grid);
         });
+    }
+
+    protected function filter(Grid\Filter $filter)
+    {
+
     }
 
     public function tree()

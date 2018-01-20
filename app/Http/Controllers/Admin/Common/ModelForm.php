@@ -25,6 +25,11 @@ CSS;
         return $this->page->table();
     }
 
+    protected function conditions()
+    {
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

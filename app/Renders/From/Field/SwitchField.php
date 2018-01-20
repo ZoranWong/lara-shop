@@ -6,7 +6,7 @@ use App\Renders\From\Field;
 
 class SwitchField extends Field
 {
-    protected static $css = [
+    protected static $link = [
         '/vendor/laravel-admin/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
     ];
 

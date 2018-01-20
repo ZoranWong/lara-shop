@@ -11,4 +11,9 @@ class BaseController extends Controller
      * @var BasePage $page
      * */
     protected $page = null;
+
+    public function __construct(\Closure $callback)
+    {
+        $this->page->conditions($callback);
+    }
 }

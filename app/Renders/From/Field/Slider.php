@@ -6,7 +6,7 @@ use App\Renders\From\Field;
 
 class Slider extends Field
 {
-    protected static $css = [
+    protected static $link = [
         '/vendor/laravel-admin/AdminLTE/plugins/ionslider/ion.rangeSlider.css',
         '/vendor/laravel-admin/AdminLTE/plugins/ionslider/ion.rangeSlider.skinNice.css',
     ];

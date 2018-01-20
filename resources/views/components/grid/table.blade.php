@@ -10,15 +10,21 @@
 </style>
 <div class="bg-white box-body">
     <div class="box-header d-flex">
-        <span class="float-left">
-            {!! $grid->renderHeaderTools() !!}
-        </span>
-
-        <span class="float-right">
+        <div class="col-sm-12">
             {!! $grid->renderFilter() !!}
-            {!! $grid->renderExportButton() !!}
-            {!! $grid->renderCreateButton() !!}
-        </span>
+        </div>
+        <div class="col-sm-12">
+            <span class="float-left">
+                {!! $grid->renderHeaderTools() !!}
+            </span>
+
+            <span class="float-right">
+                {!! $grid->renderFilterButton() !!}
+                {!! $grid->renderExportButton() !!}
+                {!! $grid->renderCreateButton() !!}
+            </span>
+        </div>
+
     </div>
     <!-- /.box-header -->
     <div class="box-body table-responsive no-padding">

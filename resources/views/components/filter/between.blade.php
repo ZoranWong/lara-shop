@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group col-md-3 col-sm-2 filter-group">
     <div class="input-group">
         <div class="input-group-addon">{{$label}}</div>
         <input type="text" class="form-control" placeholder="{{$label}}" name="{{$name['start']}}" value="{{ request($name['start'], array_get($value, 'start')) }}">

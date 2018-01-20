@@ -15,7 +15,7 @@ class File extends Field
      *
      * @var array
      */
-    protected static $css = [
+    protected static $link = [
         '/vendor/laravel-admin/bootstrap-fileinput/css/fileinput.min.css?v=4.3.7',
     ];
 

@@ -9,7 +9,7 @@ class Tags extends Field
 {
     protected $value = [];
 
-    protected static $css = [
+    protected static $link = [
         '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.min.css',
     ];
 

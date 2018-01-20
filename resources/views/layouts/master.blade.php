@@ -31,10 +31,11 @@
     <link rel="stylesheet" href="{{ asset("/vendor/adminlte/dist/css/AdminLTE.min.css") }}">
 
     <!-- REQUIRED JS SCRIPTS -->
-    <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    {{--<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.js') }}"></script>--}}
+    {{--<script src="{{ asset('/bower_components/jquery/dist/jquery.js') }}"></script>--}}
     {{--<script src="{{ asset('/bower_components/jquery/dist/jquery.slim.min.js') }}"></script>--}}
     {{--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
-    {{--<script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>--}}
+    <script src="{{ asset ("/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js") }}"></script>
     <script src="https://getbootstrap.com/assets/js/vendor/popper.min.js"></script>
     <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.js') }}"></script>
     {{--<script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>--}}
@@ -55,7 +56,7 @@
     {{--<link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">--}}
     <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-table/dist/bootstrap-table.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/dropzone/dist/min/basic.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/dropzone/dist/min/dropzone.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css') }}">
@@ -79,8 +80,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition  @yield('body_class')">
-@yield('body')
-{{--<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>--}}
 {{--<script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>--}}
 
 {{--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>--}}
@@ -95,7 +94,9 @@
 <script src="{{ asset('bower_components/bootbox.js/bootbox.js') }}"></script>
 <script src="{{ asset('bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-switch/dist/js/bootstrap-switch.js') }}"></script>
-<script src="{{ asset('bower_components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+<script src="{{ asset('bower_components/moment/min/locales.min.js') }}"></script>
+<script src="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js') }}"></script>
 <script src="{{ asset('bower_components/dropzone/dist/min/dropzone.min.js') }}"></script>
 <script src="{{ asset('bower_components/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>
@@ -110,7 +111,7 @@
     <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 @endif
 <!-- ./wrapper -->
-
+@yield('body')
 <script>
     function LA() {}
     LA.token = "{{ csrf_token() }}";
@@ -121,8 +122,8 @@
 <script src="{{ asset ("/vendor/laravel-admin/toastr/build/toastr.min.js") }}"></script>
 <script src="{{ asset ("/vendor/laravel-admin/bootstrap3-editable/js/bootstrap-editable.min.js") }}"></script>
 <script src="{{ asset ("/vendor/laravel-admin/sweetalert/dist/sweetalert.min.js") }}"></script>
-<script src="{{ asset ("/vendor/laravel-admin/laravel-admin/laravel-admin.js") }}"></script>
 {!! \App\Renders\Facades\SectionContent::js() !!}
+<script src="{{ asset ("/vendor/laravel-admin/laravel-admin/laravel-admin.js") }}"></script>
 @yield('adminlte_js')
 </body>
 </html>

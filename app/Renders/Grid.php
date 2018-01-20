@@ -26,6 +26,12 @@ class Grid extends \Encore\Admin\Grid
     protected $model;
 
     /**
+     * @var Filter
+     * */
+    protected $filter = null;
+
+
+    /**
      * Create a new grid instance.
      *
      * @param Eloquent $model
@@ -92,6 +98,11 @@ class Grid extends \Encore\Admin\Grid
     public function renderExportButton()
     {
         return new Tools\ExportButton($this);
+    }
+
+    public function renderFilterButton()
+    {
+        return new Tools\FilterButton($this);
     }
 
     /**

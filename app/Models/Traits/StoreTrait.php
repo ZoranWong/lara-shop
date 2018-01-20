@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 
 trait StoreTrait
 {
@@ -11,7 +12,7 @@ trait StoreTrait
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeStore($query)
+    public function scopeStore(Builder $query)
     {
         $storeId = \App\Services\StoreService::getCurrentID();
         return $query->where('store_id', '=', $storeId);
@@ -19,11 +20,23 @@ trait StoreTrait
 
     /**
      * ajax接口查询信息 for store
-     *
+     * @param array $where
+     * @param int $offset
+     * @param int $limit
+     * @param string $sort
+     * @param string $order
+     * @param array $with
+     * @param array $whereHas
      * @return array
      */
-    public static function ajaxSearchForStore(array $where, $offset = 0,
-        $limit = 10,$sort = 'id',$order = 'desc' , $with = [],$whereHas=[])
+    public static function ajaxSearchForStore(
+        array $where,
+        int $offset = 0,
+        int $limit = 10,
+        string $sort = 'id',
+        string $order = 'desc' ,
+        array $with = [],
+        array $whereHas=[])
     {
         $modelObj = new static;
         $modelObj = $modelObj->store()->magicWhere($where);

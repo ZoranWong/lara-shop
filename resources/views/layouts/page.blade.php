@@ -34,13 +34,14 @@
             <section class="content">
 
                 @yield('content')
-                {!! \App\Renders\Facades\SectionContent::script() !!}
+
             </section>
             <!-- /.content -->
             @if(config('adminlte.layout') == 'top-nav')
             </div>
             <!-- /.container -->
             @endif
+            {!! \App\Renders\Facades\SectionContent::script() !!}
         </div>
         <!-- /.content-wrapper -->
 
