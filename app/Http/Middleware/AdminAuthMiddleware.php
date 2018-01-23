@@ -17,7 +17,7 @@ class AdminAuthMiddleware
         '/register',
         'password/reset',
         'password/email',
-        'password/reset/{token}'
+        'password/reset/*'
     ];
     /**
      * Handle an incoming request.

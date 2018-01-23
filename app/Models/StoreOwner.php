@@ -42,11 +42,9 @@ use Illuminate\Database\Query\Builder;
  */
 class StoreOwner extends Model
 {
-    use ModelTrait;
-
-    use UserRelationTrait;
-
-    use WechatUserRelationTrait;
+    use ModelTrait,
+        UserRelationTrait,
+        WechatUserRelationTrait;
 
     const ROLE = 'store.owner';
     /**
@@ -85,16 +83,13 @@ class StoreOwner extends Model
     {
         return $this->belongsTo('App\Models\Store','store_id','id');
     }
+
     /**
-     * 获取店铺管理人员信息
+     * 用户关系
+     * @return BelongsTo
      * */
     public function user() : BelongsTo
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
-    }
-
-    public function scopeFindByOpenId(\Illuminate\Database\Eloquent\Builder $query, $openId) : \Illuminate\Database\Eloquent\Builder
-    {
-        return $query->where('open_id', $openId);
     }
 }

@@ -54,7 +54,7 @@ abstract class BasePage implements Renderable
 
     public function table()
     {
-        $this->box->content($this->grid());
+        $this->box->content($this->grid()->render());
         return $this;
     }
 

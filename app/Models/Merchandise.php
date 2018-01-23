@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\ModelTrait;
 use App\Models\Traits\StoreTrait;
@@ -33,11 +34,9 @@ use Exception;
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise deleteByIds($ids)
- * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Merchandise onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise search($where)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise store()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise updateById($id, $data)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise whereBriefIntroduction($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise whereCategoryId($value)
@@ -62,6 +61,7 @@ use Exception;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Merchandise withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Merchandise withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \App\Models\Category $category
  */
 class Merchandise extends Model
 {
@@ -75,10 +75,18 @@ class Merchandise extends Model
     protected $table = 'merchandise';
 
     const   STATUS = [
-        'TAKEN_OFF'  => 'UNDER',//商品下架
-        'ON_SHELVES' => 'ON',//商品上架
+        'TAKEN_OFF'  => 'TAKEN_OFF',//商品下架
+        'ON_SHELVES' => 'ON_SHELVES',//商品上架
         'SELL_OUT'   => 'SELL_OUT',//售罄
-        'DELETE'     => 'DELETE',//已删除
+//        'DELETE'     => 'DELETE',//已删除
+    ];
+
+    const   STATUS_ZH_CN = [
+        ' '           => '全部',
+        'TAKEN_OFF'  => '商品下架',//商品下架
+        'ON_SHELVES' => '商品上架',//商品上架
+        'SELL_OUT'   => '售罄',//售罄
+//        'DELETE'     => '已删除',//已删除
     ];
 
     protected $casts = [
@@ -99,5 +107,15 @@ class Merchandise extends Model
     protected static function boot()
     {
         parent::boot();
+    }
+
+    public function category() : BelongsTo
+    {
+        return $this->belongsTo('App\Models\Category', 'category_id', 'id');
+    }
+
+    public function store() : BelongsTo
+    {
+        return $this->belongsTo('App\Models\Store', 'store_id', 'id');
     }
 }

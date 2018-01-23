@@ -38,7 +38,6 @@ class CreateUsersTable extends Migration
             $table->integer('expire_in')->comment('token有效时间');
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('user_id')->references('id')->on('user')
                 ->onUpdate('cascade')->onDelete('cascade');
         });

@@ -17,6 +17,9 @@ class MenuController extends Controller
     {
         $this->page = $page;
         $this->page->setModel(Menu::class);
+        parent::__construct(function (){
+            return [];
+        });
     }
 
     public function index(): BasePage
@@ -31,22 +34,25 @@ CSS;
         return $this->page->showTabs();
     }
 
+
     public function store(): \Symfony\Component\HttpFoundation\Response
     {
         \DB::beginTransaction();
         try{
-            $permissionData = [
-                'name' => 'menu-'.str_random(),
-                'display_name' => '菜单-'.Input::get('text'),
-            ];
-            $permission = Permission::create($permissionData);
-            app('request')['permission_id'] = $permission['id'];
-            if(Input::get('roles')){
-                $permission->roles()->sync(array_filter(Input::get('roles')));
-                unset(app('request')['roles']);
-            }
-            if(app('request')['parent_id'] == 0){
-                unset(app('request')['parent_id']);
+            if(Input::get('text') && Input::get('icon') && Input::get('url')){
+                $permissionData = [
+                    'name' => 'menu-'.str_random(),
+                    'display_name' => '菜单-'.Input::get('text'),
+                ];
+                $permission = Permission::create($permissionData);
+                app('request')['permission_id'] = $permission['id'];
+                if(Input::get('roles')){
+                    $permission->roles()->sync(array_filter(Input::get('roles')));
+                    unset(app('request')['roles']);
+                }
+                if(app('request')['parent_id'] == 0){
+                    unset(app('request')['parent_id']);
+                }
             }
             $result = $this->page->form()->store();
             \DB::commit();
@@ -55,6 +61,5 @@ CSS;
             \DB::rollBack();
            return back()->withInput()->withErrors($exception->getMessage());
         }
-
     }
 }

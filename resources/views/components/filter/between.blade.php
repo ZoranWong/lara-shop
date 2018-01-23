@@ -1,8 +1,8 @@
-<div class="form-group col-md-3 col-sm-2 filter-group">
+<div class="form-group col-md-5 col-sm-12 filter-group">
     <div class="input-group">
         <div class="input-group-addon">{{$label}}</div>
-        <input type="text" class="form-control" placeholder="{{$label}}" name="{{$name['start']}}" value="{{ request($name['start'], array_get($value, 'start')) }}">
+        <input type="{{$type}}" class="form-control {{$class}}" placeholder="{{$label}}" name="{{$name['start']}}" value="{{ request($name['start'], array_get($value, 'start')) }}">
         <span class="input-group-addon" style="border-left: 0; border-right: 0;">-</span>
-        <input type="text" class="form-control" placeholder="{{$label}}" name="{{$name['end']}}" value="{{ request($name['end'], array_get($value, 'end')) }}">
+        <input type="{{$type}}" class="form-control {{$class}}" placeholder="{{$label}}" name="{{$name['end']}}" value="{{ request($name['end'], array_get($value, 'end')) }}">
     </div>
 </div>

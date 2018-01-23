@@ -55,6 +55,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order store()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Order withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OrderItem[] $ordersItem
+ * @property-read \App\Models\User $user
+ * @method static bool|null forceDelete()
  */
 class Order extends Model
 {

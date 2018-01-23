@@ -2,6 +2,7 @@
 
 namespace App\Renders\From\Field;
 
+use App\Renders\Facades\SectionContent;
 use Illuminate\Contracts\Support\Arrayable;
 
 class Checkbox extends MultipleSelect
@@ -12,9 +13,7 @@ class Checkbox extends MultipleSelect
         '/vendor/laravel-admin/AdminLTE/plugins/iCheck/all.css',
     ];
 
-    protected static $js = [
-        '/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js',
-    ];
+    protected static $js = [];
 
     /**
      * Set options.
@@ -55,8 +54,9 @@ class Checkbox extends MultipleSelect
      */
     public function render()
     {
-        $this->script = "$('{$this->getElementClassSelector()}').iCheck({checkboxClass:'icheckbox_minimal-blue'});";
-
+        $js = '/vendor/laravel-admin/AdminLTE/plugins/iCheck/icheck.min.js';
+        $script = "$('{$this->getElementClassSelector()}').iCheck({checkboxClass:'icheckbox_minimal-blue'});";
+        SectionContent::jsLoad($js, $script);
         return parent::render()->with('inline', $this->inline);
     }
 }

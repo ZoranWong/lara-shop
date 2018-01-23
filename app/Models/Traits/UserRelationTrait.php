@@ -10,14 +10,6 @@ use Illuminate\Database\Query\Builder;
 trait UserRelationTrait
 {
     /**
-     * 用户关系
-     * @return BelongsTo
-     * */
-    public function user() : BelongsTo
-    {
-        return $this->belongTo('App\Models\User', 'user_id', 'id');
-    }
-    /**
      *local scope方法：使用userId查找数据
      * @param Builder $query
      * @param int $userId

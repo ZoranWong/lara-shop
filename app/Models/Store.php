@@ -34,6 +34,14 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store deleteByIds($ids)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store updateById($id, $data)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StoreManager[] $managers
+ * @property-read \App\Models\StoreOwner $owner
+ * @property string|null $wechat
+ * @property string|null $qq
+ * @property string $status 店铺状态
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store whereQq($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Store whereWechat($value)
  */
 class Store extends Model
 {
@@ -43,34 +51,35 @@ class Store extends Model
 
     protected $table = 'store';
 
-    protected $fillable = [
-        'user_id',
-        'open_id',
-        'union_id',
-        'expire_in',
-        'session_key'
+    const STATUS = [
+        'APPLY' => 'APPLY',
+        'PASS' => 'PASS',
+        'REFUSE' => 'REFUSE'
     ];
 
-    public function ownerRelation() : HasOne
+    const STATUS_ZH_CN = [
+        'APPLY' => '申请中',
+        'PASS' => '通过',
+        'REFUSE' => '拒绝'
+    ];
+
+    protected $fillable = [
+        'id',
+        'name',
+        'logo_url',
+        'amount',
+        'status',
+        'wechat',
+        'qq'
+    ];
+
+    public function owner() : HasOne
     {
         return $this->hasOne('App\Models\StoreOwner', 'store_id', 'id');
     }
 
-    public function owner() : User
-    {
-        return $this->ownerRelation->user;
-    }
-
-    public function managerRelations() : HasMany
+    public function managers() : HasMany
     {
         return $this->hasMany('App\Models\StoreManager', 'store_id', 'id');
-    }
-
-    public function managers() : Collection
-    {
-        return $this->managerRelations->map(function (StoreManager $manager)
-        {
-            return $manager->user;
-        });
     }
 }

@@ -5,7 +5,7 @@ use Illuminate\Contracts\Support\Renderable;
 
 class Task extends Widget implements Renderable
 {
-    protected $view = "shop.home.task";
+    protected $view = "store.home.task";
     public function render()
     {
         // TODO: Implement render() method.

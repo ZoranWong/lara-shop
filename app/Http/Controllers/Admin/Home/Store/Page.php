@@ -102,7 +102,7 @@ class Page extends BasePage
         $this->taskAndWxAuthBox->column(['md' => 8, 'sm' => 12], function (Column $column) use($data){
             $column->row(function (Row $row) use($data){
                 $row->height(100);
-                $row->column(12, view('shop.home.manager_card', $data));
+                $row->column(12, view('store.home.manager_card', $data));
             });
         });
 

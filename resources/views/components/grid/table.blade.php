@@ -54,7 +54,7 @@
                                     @if($column->getLabel() != ' ' && $column->getLabel() != '')
                                         <th style="text-align: center;vertical-align: middle;" data-field="{{$column->getName()}}">
                                             <div class="th-inner ">
-                                                {{$column->getLabel()}}{!! $column->sorter() !!}
+                                                {!! $column->getLabel() !!}{!! $column->sorter() !!}
                                             </div>
                                             <div class="fht-cell"></div>
                                         </th>

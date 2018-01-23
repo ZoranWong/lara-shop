@@ -166,10 +166,12 @@ return [
 
     'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\ActiveFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
-        JeroenNoten\LaravelAdminLte\Menu\Filters\ClassesFilter::class,
+        \App\Filters\ActiveFilter::class,
+        //JeroenNoten\LaravelAdminLte\Menu\Filters\SubmenuFilter::class,
+        \App\Filters\ChildrenFilter::class,
+        \App\Filters\ClassesFilter::class,
         //JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
+        \App\Filters\MenuFilter::class,
     ],
 
     /*

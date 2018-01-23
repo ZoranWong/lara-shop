@@ -9,36 +9,19 @@ use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
-    /**
-     * 图文回复图片上传
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function newsImage(Request $request)
-    {
-        $fileds = [
-            'image' => 'required|image',//'dimensions:min_width=100,min_height=200'
-        ];
-        $this->validate($request, $fileds);
-        $imageDir = 'wechat/news/' . date('Ym');
-        $imageUrl = $this->uploadImage($request->file('image'),$imageDir);
-
-        return response()->ajax($imageUrl);
-    }
 
     /**
-     * 图片回复图片上传
+     * 头像图片上传
      *
      * @param  Request  $request
      * @return Response
      */
     public function userAvatar(Request $request)
     {
-        $fileds = [
+        $fields = [
             'image' => 'required|image',//'dimensions:min_width=100,min_height=200'
         ];
-        $this->validate($request, $fileds);
+        $this->validate($request, $fields);
         $imageDir = 'user/avatar/' . date('Ym');
         $imageUrl = $this->uploadImage($request->file('image'),$imageDir);
 

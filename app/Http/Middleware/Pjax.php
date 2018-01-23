@@ -22,8 +22,10 @@ class Pjax
         '/register',
         'password/reset',
         'password/email',
-        'password/reset/{token}',
-        '/setting'
+        'password/reset/*',
+        '/setting',
+        '/admins/create',
+        '/admins/*/edit'
     ];
     /**
      * Handle an incoming request.

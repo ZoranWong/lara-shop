@@ -157,7 +157,7 @@ class Grid extends \Encore\Admin\Grid
         $this->appendActionsColumn();
 
         Column::setOriginalGridData($data);
-
+logger('build');
         $this->columns->map(function (\Encore\Admin\Grid\Column $column) use (&$data) {
             $data = $column->fill($data);
 
@@ -221,6 +221,7 @@ class Grid extends \Encore\Admin\Grid
             return Handler::renderException($e);
         }
 
+        $this->variables['id'] = str_random();
         return view($this->view, $this->variables())->render();
     }
 

@@ -18,32 +18,16 @@ Route::group([],function(){
     Route::get('/setting', 'Setting\SettingController@index');
     Route::post('user/avatar', 'FileController@userAvatar');
     Route::resource('orders', 'Order\OrderController');
-    Route::get('categories', function (){
-      return view('manager.category.index',[]);
-    });
+    Route::resource('stores', 'Store\StoreController');
+    Route::resource('admins', 'Administrator\AdministratorController');
+    Route::resource('users', 'User\UserController');
+    Route::resource('categories', 'Category\CategoryController');
+    Route::resource('merchandises', 'Merchandise\MerchandiseController');
 });
 
 
 //ajax请求路由
-Route::group(['prefix' => 'ajax','namespace' => 'Ajax'],function(){
-  //订单列表
-  Route::get('orders/index', 'OrderController@index');
-  //修改订单
-  Route::post('orders/update/{id}', 'OrderController@update');
-  //订单发货
-  Route::post('orders/consign/{id}', 'OrderController@consign');
-  //删除订单
-  Route::post('orders/delete', 'OrderController@destroy');
-  //取消订单
-  Route::post('orders/cancel', 'OrderController@cancel');
-  //订单详情
-  Route::get('orders/detail/{id}', 'OrderController@detail');
-
-
-    //商品分类
-  Route::get('category/list', 'CategoryController@index');
-  Route::post('category/create', 'CategoryController@store');
-  Route::get('category/{id}', 'CategoryController@show');
-  Route::post('category/save/{id}', 'CategoryController@update');
-  Route::post('category/delete', 'CategoryController@destroy');
+Route::group(['prefix' => 'ajax'],function(){
+    Route::put('/store/{id}/agree', 'Store\StoreController@agree');
+    Route::put('/store/{id}/refuse', 'Store\StoreController@refuse');
 });

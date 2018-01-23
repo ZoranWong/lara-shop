@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelTrait;
+use App\Renders\Traits\AdminBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Zizaco\Entrust\Contracts\EntrustUserInterface;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 /**
@@ -46,13 +48,17 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User updateById($id, $data)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $managerStore
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $ownStore
+ * @method static bool|null forceDelete()
+ * @method static bool|null restore()
  */
-class User extends Authenticatable
+class User extends Authenticatable implements EntrustUserInterface
 {
     //
     use Notifiable;
 
     use ModelTrait;
+
+    use AdminBuilder;
 
     use EntrustUserTrait { restore as private restoreA; }
 

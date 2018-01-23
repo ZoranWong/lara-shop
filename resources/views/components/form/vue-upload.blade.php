@@ -5,7 +5,7 @@
     <div class="{{$viewClass['field']}}">
 
         @include('components.form.error')
-        <vue-upload class="{{$class}}" name="{{$name}}" {!! $attributes !!}></vue-upload>
+        <vue-upload class="{{$class}}" name="{{$name}}" {{$value ? "xthumb =".$value : ""}} {!! $attributes !!}></vue-upload>
         {{--<input type="file" class="{{$class}}" name="{{$name}}" {!! $attributes !!} />--}}
 
         @include('components.form.help-block')

@@ -7,7 +7,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WxAuthQrCode extends Widget implements Renderable
 {
-    protected $view = "shop.home.wx_auth_qrcode";
+    protected $view = "store.home.wx_auth_qrcode";
 
     public function render()
     {

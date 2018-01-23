@@ -105,7 +105,7 @@ $('.grid-select-all').iCheck({checkboxClass:'icheckbox_minimal-blue', "increaseA
     padding: "0px",
     background: "rgb(255, 255, 255)",
     border: "0px",
-    opacity: "inherit",
+    opacity: "0",
 });
 
 $('.grid-select-all').on('ifChanged', function(event) {

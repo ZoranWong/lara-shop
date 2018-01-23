@@ -42,8 +42,10 @@ class Text extends Presenter
             'placeholder' => $this->placeholder,
             'icon'        => $this->icon,
             'type'        => $this->type,
+            'class'       => $this->getElementClass()
         ];
     }
+
 
     /**
      * Set input placeholder.
@@ -80,6 +82,7 @@ class Text extends Presenter
      */
     public function integer() : Text
     {
+        $this->type = 'number';
         return $this->inputmask(['alias' => 'integer']);
     }
 
@@ -104,6 +107,7 @@ class Text extends Presenter
      */
     public function currency($options = []) : Text
     {
+        $this->type = 'number';
         return $this->inputmask(array_merge($options, [
             'alias'                 => 'currency',
             'prefix'                => '',
@@ -160,11 +164,25 @@ class Text extends Presenter
     public function inputmask($options = [], $icon = 'pencil') : Text
     {
         $options = json_encode($options);
+        $class = is_string($this->filter->getId()) ? $this->filter->getId() : $this->getElementClass();
+        $script =<<<SCRIPT
+$('#filter-modal input.{$class}').inputmask({$options});
+SCRIPT;
 
-        SectionContent::script("$('#filter-modal input.{$this->filter->getId()}').inputmask($options);");
+
+        SectionContent::jsLoad([asset('/vendor/laravel-admin/AdminLTE/plugins/input-mask/jquery.inputmask.bundle.min.js')],
+            $script);
 
         $this->icon = $icon;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getElementClass() : string
+    {
+        return str_replace('.', '_', $this->filter->getColumn());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Renders\From\Field;
 
+use App\Renders\Facades\SectionContent;
 use App\Renders\From\Field;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -179,13 +180,16 @@ class File extends Field
         $this->options(['overwriteInitial' => true]);
 
         $options = json_encode($this->options);
-
-        $this->script = <<<EOT
+        $js = [
+            '/vendor/laravel-admin/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js?v=4.3.7',
+            '/vendor/laravel-admin/bootstrap-fileinput/js/fileinput.min.js?v=4.3.7',
+        ];
+        $script = <<<EOT
 
 $("input{$this->getElementClassSelector()}").fileinput({$options});
 
 EOT;
-
+        SectionContent::jsLoad($js, $script);
         return parent::render();
     }
 }

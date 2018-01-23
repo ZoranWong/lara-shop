@@ -15,7 +15,7 @@ class MenuBuilderService
      * */
     public static function menus() : array
     {
-        $menus = Menu::get()->toArray();
+        $menus = (new Menu())->toTree();
         return $menus;
     }
 }

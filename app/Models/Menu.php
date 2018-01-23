@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Models\Traits\ModelTrait;
+use App\Renders\Traits\AdminBuilder;
 use App\Renders\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Input;
 
 /**
  * App\Models\Menu
@@ -61,6 +63,7 @@ class Menu extends Model
         'is_visible',
         'order'
     ];
+
 
     public function parent() : BelongsTo
     {

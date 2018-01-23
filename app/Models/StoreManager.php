@@ -6,6 +6,7 @@ use App\Models\Traits\ModelTrait;
 use App\Models\Traits\UserRelationTrait;
 use App\Models\Traits\WechatUserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\StoreManager
@@ -36,14 +37,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager findByUserId($userId, $columns = array())
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager updateById($id, $data)
+ * @property-read \App\Models\User $user
  */
 class StoreManager extends Model
 {
-    use ModelTrait;
-
-    use UserRelationTrait;
-
-    use WechatUserRelationTrait;
+    use ModelTrait,
+        UserRelationTrait,
+        WechatUserRelationTrait;
 
     const ROLE = 'store.manager';
     /**
@@ -129,5 +129,14 @@ class StoreManager extends Model
         $storeInfo = self::where('user_id',$userId)->where('store_id',$storeId)->first();
 
         return $storeInfo ? true : false;
+    }
+
+    /**
+     * 用户关系
+     * @return BelongsTo
+     * */
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 }

@@ -232,6 +232,14 @@ return;
         return Auth::guard('admin')->user();
     }
 
+    public static function jsLoad($js = null, $script = '')
+    {
+        if($js){
+            JsLoader::getInstance()->js($js, $script);
+        }
+        return JsLoader::getInstance()->render();
+    }
+
     public static function extend($name, $class)
     {
         static::$extensions[$name] = $class;

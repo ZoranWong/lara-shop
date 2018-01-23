@@ -6,6 +6,8 @@ use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Zizaco\Entrust\Contracts\EntrustPermissionInterface;
+use Zizaco\Entrust\Traits\EntrustPermissionTrait;
 
 /**
  * App\Models\Permission
@@ -32,9 +34,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereParentId($value)
  * @property-read \App\Models\Menu $menu
  */
-class Permission extends Model
+class Permission extends Model implements EntrustPermissionInterface
 {
-    use ModelTrait;
+    use ModelTrait,
+        EntrustPermissionTrait;
 
     const ALL_RIGHT = '*';
     /**

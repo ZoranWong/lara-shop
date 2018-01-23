@@ -1,8 +1,3 @@
-<script>
-
-    $(function () {
-        @foreach($script as $s)
-            {!! $s !!}
-        @endforeach
-    });
-</script>
+@foreach($script as $s)
+    {!! $s !!}
+@endforeach

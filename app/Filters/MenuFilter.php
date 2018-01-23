@@ -5,14 +5,9 @@ use App\Models\User;
 use JeroenNoten\LaravelAdminLte\Menu\Builder;
 use JeroenNoten\LaravelAdminLte\Menu\Filters\FilterInterface;
 use Auth;
-use Zizaco\Entrust\Entrust;
 
 class MenuFilter implements FilterInterface
 {
-    public function __construct()
-    {
-    }
-
     public function transform($item, Builder $builder)
     {
         if (! $this->isVisible($item)) {
@@ -32,6 +27,8 @@ class MenuFilter implements FilterInterface
         if($id == User::SUPER_ADMIN_ID) {
             return true;
         }
-        return ! isset($item['can']) || Entrust::can($item['can']);
+        $can = [];
+        $can[] = $item['permission']['name'];
+        return Auth::user()->can($can);
     }
 }

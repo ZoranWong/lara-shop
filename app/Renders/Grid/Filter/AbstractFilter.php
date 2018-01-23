@@ -76,6 +76,8 @@ abstract class AbstractFilter
      */
     protected $parent;
 
+    protected $type = 'text';
+
     /**
      * @var string
      */
@@ -467,6 +469,11 @@ abstract class AbstractFilter
     public function __toString()
     {
         return $this->render();
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**

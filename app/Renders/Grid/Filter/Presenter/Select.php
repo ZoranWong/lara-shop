@@ -21,6 +21,18 @@ class Select extends Presenter
     public function __construct($options)
     {
         $this->options = $options;
+        $css = <<<CSS
+.select2-container .select2-selection{
+    height: 34px;
+    border-radius: 0 4px 4px 0;
+    border-color: #d2d6de;
+}
+.select2-container .select2-selection .select2-selection__arrow{
+    height: 34px;
+}
+CSS;
+        SectionContent::css($css);
+
     }
 
     /**

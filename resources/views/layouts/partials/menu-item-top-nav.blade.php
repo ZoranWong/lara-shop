@@ -1,20 +1,20 @@
 @if (is_array($item))
     <li class="{{ $item['top_nav_class'] }}">
         <a href="{{ $item['href'] }}"
-           @if (isset($item['submenu'])) class="dropdown-toggle" data-toggle="dropdown" @endif
+           @if (isset($item['children'])) class="dropdown-toggle" data-toggle="dropdown" @endif
            @if (isset($item['target'])) target="{{ $item['target'] }}" @endif
         >
             <i class="fa fa-fw {{ $item['icon'] or 'fa-circle-o' }} {{ isset($item['icon_color']) ? 'text-' . $item['icon_color'] : '' }}"></i>
             {{ $item['text'] }}
             @if (isset($item['label']))
                 <span class="label label-{{ $item['label_color'] or 'primary' }}">{{ $item['label'] }}</span>
-            @elseif (isset($item['submenu']))
+            @elseif (isset($item['children']))
                 <span class="caret"></span>
             @endif
         </a>
-        @if (isset($item['submenu']))
+        @if (isset($item['children']))
             <ul class="dropdown-menu" role="menu">
-                @foreach($item['submenu'] as $subitem)
+                @foreach($item['children'] as $subitem)
                     @if (is_string($subitem))
                         @if($subitem == '-')
                             <li role="separator" class="dropdown-item divider"></li>

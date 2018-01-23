@@ -19,7 +19,6 @@
 
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("/vendor/adminlte/dist/css/skins/" . config('admin.skin') .".min.css") }}">
-    {!! \App\Renders\Facades\SectionContent::link() !!}
     <link rel="stylesheet" href="{{ asset("/vendor/laravel-admin/laravel-admin/laravel-admin.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/laravel-admin/nprogress/nprogress.css") }}">
     <link rel="stylesheet" href="{{ asset("/vendor/laravel-admin/sweetalert/dist/sweetalert.css") }}">
@@ -101,6 +100,7 @@
 <script src="{{ asset('bower_components/select2/dist/js/select2.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+<script src="{{ asset('bower_components/js-md5/build/md5.min.js') }}"></script>
 @if(config('adminlte.plugins.select2'))
     <!-- Select2 -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -110,6 +110,28 @@
     <!-- DataTables -->
     <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 @endif
+<script>
+    (function($){
+        var batchLoadJs = function (list, callback){
+            if(list !== undefined && list !== null && $.isArray(list) && list.length > 0){
+                var count = list.length;
+                var loadCount = 0;
+                $.each(list, function (index, url) {
+                    $.getScript(url).done(function( script, textStatus ) {
+                        console.log( textStatus );
+                        loadCount ++;
+                        console.log(loadCount, count);
+                        if(loadCount == count){
+                            console.log('loaded all');
+                            if(callback != undefined )callback();
+                        }
+                    });
+                });
+            }
+        };
+        $.batchLoadJs = batchLoadJs;
+    })(jQuery);
+</script>
 <!-- ./wrapper -->
 @yield('body')
 <script>
@@ -125,5 +147,40 @@
 {!! \App\Renders\Facades\SectionContent::js() !!}
 <script src="{{ asset ("/vendor/laravel-admin/laravel-admin/laravel-admin.js") }}"></script>
 @yield('adminlte_js')
+<script>
+    (function($){
+        var zoukeApp = {
+            init: function(){
+                var self = this;
+
+                // 初始化
+                $(document).pjax('a:not(a[target="_blank"])', 'body', {
+                    timeout: 1600,
+                    maxCacheLength: 500
+                });
+
+                // PJAX 渲染结束时
+                $(document).on('pjax:end', function() {
+                    // 这里的调用 **只有** 在「局部刷新」时才会运行
+                    console.log('pjax install');
+                    self.siteBootUp();
+                });
+                self.siteBootUp();
+            },
+
+            /*
+             * Things to be execute when normal page load
+             * and pjax page load.
+             */
+        };
+        window.zoukeApp = $.extend(zoukeApp, window.zoukeApp);
+
+    })(jQuery);
+
+    //「页面刷新」事件触发运行
+    $(document).ready(function() {
+        zoukeApp.init();
+    });
+</script>
 </body>
 </html>

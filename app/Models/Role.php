@@ -6,6 +6,8 @@ use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Zizaco\Entrust\Contracts\EntrustRoleInterface;
+use Zizaco\Entrust\Traits\EntrustRoleTrait;
 
 /**
  * App\Models\Role
@@ -29,14 +31,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRole[] $userRoles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $perms
  */
-class Role extends Model
+class Role extends Model implements EntrustRoleInterface
 {
-    use ModelTrait;
+    use ModelTrait,
+        EntrustRoleTrait;
     /**
      * model关联数据库表单
      * */
     protected $table = 'role';
+
+    const ADMINISTRATOR = 'admin';
+
+    const SUPER = 'super';
+
+    const USER = 'user';
 
     protected $fillable = [
         'id',

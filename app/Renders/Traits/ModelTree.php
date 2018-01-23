@@ -2,6 +2,7 @@
 
 namespace App\Renders\Traits;
 
+use App\Renders\Tree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -176,7 +177,7 @@ trait ModelTree
         $orderColumn = DB::getQueryGrammar()->wrap($this->orderColumn);
         $byOrder = $orderColumn.' = 0,'.$orderColumn;
 
-        $self = new static();
+        $self = static::with(['permission']);
 
         if ($this->queryCallback instanceof \Closure) {
             $self = call_user_func($this->queryCallback, $self);
@@ -289,10 +290,8 @@ trait ModelTree
     protected static function boot()
     {
         parent::boot();
-
         static::saving(function (Model $branch) {
             $parentColumn = $branch->getParentColumn();
-
             if (Request::has($parentColumn) && Request::input($parentColumn) == $branch->getKey()) {
                 throw new \Exception(trans('admin.parent_select_error'));
             }
@@ -302,7 +301,7 @@ trait ModelTree
 
                 Request::offsetUnset('_order');
 
-                static::tree()->saveOrder($order);
+                (new Tree(new static()))->saveOrder($order);
 
                 return false;
             }

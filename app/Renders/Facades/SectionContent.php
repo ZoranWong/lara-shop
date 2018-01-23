@@ -13,6 +13,7 @@ use Closure;
  * @method static \Illuminate\View\View css($css = null, $isLink = false)
  * @method static \Illuminate\View\View link($link = null)
  * @method static \Illuminate\View\View js($js = null)
+ * @method static \Illuminate\View\View jsLoad($js = null, $script = null)
  * @method static \Illuminate\View\View script($script = '')
  * @method static \App\Renders\Grid grid($model, Closure $callable)
  * @method static \App\Renders\Form form($model, Closure $callable)

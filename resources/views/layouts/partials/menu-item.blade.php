@@ -11,15 +11,15 @@
                 <span class="pull-right-container">
                     <span class="label label-{{ $item['label_color'] or 'primary' }} pull-right">{{ $item['label'] }}</span>
                 </span>
-            @elseif (isset($item['submenu']))
+            @elseif (isset($item['children']))
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
                 </span>
             @endif
         </a>
-        @if (isset($item['submenu']))
-            <ul class="{{ $item['submenu_class'] }}">
-                @each('layouts.partials.menu-item', $item['submenu'], 'item')
+        @if (isset($item['children']))
+            <ul class="{{ $item['children_class'] }}">
+                @each('layouts.partials.menu-item', $item['children'], 'item')
             </ul>
         @endif
     </li>
