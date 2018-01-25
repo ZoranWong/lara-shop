@@ -6,7 +6,7 @@
         <h3 class="group-name">
           <el-select v-model="spec.id" @change="specChange" 
           allow-create filterable default-first-option>
-            <el-option v-for="item in defaultSku" :value="item.id" :label="item.name"></el-option>
+            <el-option v-for="item in defaultSku" :key="item.id" :value="item.id" :label="item.name"></el-option>
           </el-select>
           <span class="group-remove" @click="removeSpec(spec)">
             ×
@@ -38,25 +38,27 @@
       SkuList: SkuList
     },
     props: {
-      goodsId: 0
+      merchandiseId: 0
     },
     data () {
       return {
         skuTree: [], // 用户已选的规格
         specMax: 3,  // 规格数量的最大值
         tableData: [], // 渲染表格数据的数据
-        products: []
+        products: [],
+        defaultSku: []
       }
     },
     // 获取店铺内已有的规格
     created() {
       let self = this;
+      console.log('created editor');
       this.getAllSpec(function(defaultSku){
         self.defaultSku = defaultSku;
-        if (self.goodsId) {
-          self.getGoodsSpec();
+        if (self.merchandiseId) {
+          self.getMerchandiseSpecification();
         }
-      })
+      });
     },
     // 监听skutree的变化，计算笛卡尔积，生成tableData
     watch: {
@@ -71,12 +73,15 @@
               return obj;
             });
           });
-          let params = ['sell_price', 'stock_num', 'products_no', 'market_price'];
+          let params = ['sell_price', 'stock_num', 'code', 'market_price'];
           this.tableData = this.createTableData(arr, params);
           this.$emit('updateSku', [this.tableData, this.skuTree]);
         },
         deep: true
       }
+    },
+    mounted: function () {
+
     },
     methods: {
       // 序列化sku,生成tableData
@@ -132,7 +137,7 @@
           type: 1,
           value: newSpecValue
         };
-        this.$http.put(this.url + '/' + newSpec.id, newSpec)
+        this.$http.put('/ajax/specification' + '/' + newSpec.id, newSpec)
             .then(function(res){
 
             });
@@ -141,18 +146,19 @@
       createdSpec (id, callback) {
         let data = {
           name: id,
-          value: '{}',
+          value: {},
           type: 1,
           note: id
         };
-        this.$http.post(this.url, data).then(function (res) {
+        console.log(this);
+        this.$http.post('/ajax/specification', data).then(function (res) {
           callback(res.data.data);
         });
       },
       // 获取所有规格
       getAllSpec (callback) {
-        this.$http.get(this.url).then(function (res) {
-          let defaultSku = res.data.data.map(item => {
+        this.$http.get('/ajax/specification').then(function (res) {
+          let defaultSku = res.data.data.map(function (item) {
             let arr = [];
             if (item.value instanceof Object) {
                 _.each(item.value, function (value, index) {
@@ -168,9 +174,9 @@
         })
       },
       // 已有商品的规格获取
-      getGoodsSpec (callback) {
+      getMerchandiseSpecification () {
         let self = this;
-        let  url = '/ajax/merchandise/' + this.goodsId + '/specification';
+        let  url = '/ajax/merchandise/' + this.merchandiseId + '/products';
         this.$http.get(url).then(function (res) {
           let data = res.data.data;
           if (data.length === 0) {
@@ -180,14 +186,18 @@
             let productObj = {
               sell_price: item.sell_price,
               stock_num: item.stock_num,
-              products_no: item.products_no,
+              code: item.code,
               market_price: item.market_price,
             };
-            item.spec_array.forEach(function(spec){
-              productObj[spec.id] = spec.value
+            _.each(item.spec_array,function (spec, index) {
+                productObj[spec.id] = spec.value
             });
+//            item.spec_array.forEach(function(spec){
+//              productObj[spec.id] = spec.value
+//            });
             return productObj;
           });
+
           let productList = self.deepCopy(data);
           let tempList = [];
           productList.forEach(function (productItem) {
@@ -290,14 +300,14 @@
         for (let i = 0; i < data.length; i++) {
           let arr = data[i].spec_array;
           let arrCopy = [];
-          for (let j = 0; j < arr.length; j++) {
-            let item = {};
-            item.id = arr[j].id;
-            item.name = arr[j].name;
-            item.tip = arr[j].tip;
-            item.value = arr[j].value;
-            arrCopy.push(item);
-          }
+          _.each(arr, function (value, j) {
+              let item = {};
+              item.id = arr[j].id;
+              item.name = arr[j].name;
+              item.tip = arr[j].tip;
+              item.value = arr[j].value;
+              arrCopy.push(item);
+          });
           specList.push(arrCopy);
         }
         return specList;

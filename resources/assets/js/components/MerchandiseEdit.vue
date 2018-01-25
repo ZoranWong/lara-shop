@@ -1,10 +1,10 @@
-<template id = "merchandise-edit" name = "merchandise">
+<template id = "merchandise-edit" >
     <div class = "col-md-12 merchandise-info">
         <el-row class="tab" :gutter="20">
-            <el-col class="tab-item" :class="{active: type === 1}" :span="12">
+            <el-col class="tab-item" :class="{active: step === 1}" :span="12">
                 <div  @click="setStep(1)">编辑基本信息</div>
             </el-col>
-            <el-col class="tab-item" :class="{active: type === 2}" :span="12">
+            <el-col class="tab-item" :class="{active: step === 2}" :span="12">
                 <div  @click="setStep(2)">编辑商品详情</div>
             </el-col>
         </el-row>
@@ -23,6 +23,17 @@
                     </el-switch>
                 </el-form-item>
 
+                <el-form-item label="店铺" prop="store_id" v-if="!storeId">
+                    <el-select v-model="ruleForm.store_id"  filterable>
+                        <el-option
+                                v-for="item in stores"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-form-item label="商品分组" prop="category_id">
                     <el-select v-model="ruleForm.category_id"  filterable>
                         <el-option
@@ -39,7 +50,7 @@
                 <el-form-item label="规格" prop="sku">
                     <sku
                             v-on:updateSku="updateSku"
-                            :goods-id="goodsId">
+                            :merchandise-id="ruleForm['id']">
                     </sku>
                     <sku-table
                             v-if="tableData.length > 0"
@@ -72,7 +83,7 @@
                 </el-row>
                 <el-form-item label="图片" prop="images">
                     <el-upload
-                            action="/upload/image_image"
+                            action="/ajax/merchandise/image"
                             name="image"
                             list-type="picture-card"
                             :file-list="ruleForm.images"
@@ -90,9 +101,29 @@
             </div>
             <div class = "form-group">
                 <el-form-item >
+                    <el-button v-if = "ruleForm.id" type="success" @click="saveMerchandise">提交</el-button>
                     <el-button type="success" @click="setStep(2)">下一步</el-button>
                 </el-form-item>
             </div>
+        </el-form>
+
+        <el-form label-width="100px" v-show="step === 2" class="form">
+            <el-form-item label="商品简介">
+                <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        placeholder="请输入内容"
+                        v-model="ruleForm.brief_introduction">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="商品详情">
+                <script id="container" name="content" type="text/plain">
+                    {{ruleForm.content}}
+                </script>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="success" @click="saveMerchandise">提交</el-button>
+            </el-form-item>
         </el-form>
     </div>
 </template>
@@ -105,56 +136,57 @@
     ];
     export default {
         components: {
-            'sku': SKU,
-            'sku-tabke': SkuTable
+            sku: SKU,
+            skuTable: SkuTable
         },
         props: {
-            goodsId: 0,
-            categoryList: [],       // 商品分类列表
-            skuTree: [],            // sku组件传出的规格结构，用于构建列表的表头
-            tableData: [],          // 列表数据
-            dialogImageUrl: '',     // 图片预览url
-            dialogVisible: false,   // 图片预览开关
-            ruleForm: {
-                type: Object,
-                default: {
-                    status: STATUS[0],
-                    name: '',
-                    category_id: null,
-                    sell_price: 0,
-                    market_price: 0,
-                    post_fee: 0,
-                    stock_num: 0,
-                    images: [],
-                    products: [],
-                    brief_introduction: null,
-                    content: null
+            method: {
+                type: String,
+                default: function () {
+                    return 'POST';
                 }
             },
+            url: ''
         },
-        data: {
-            editor: null,
-            step: 1, // 表单类型切换，区分基本信息和商品详情
-            status: STATUS,
-            skuTree: [],            // sku组件传出的规格结构，用于构建列表的表头
-            tableData: [],          // 列表数据
-            dialogImageUrl: '',     // 图片预览url
-            dialogVisible: false,   // 图片预览开关
-            rules: {
-                name: [
-                    { required: true, message: '请输入商品名称', trigger: 'blur' }
-                ],
-                sell_price: [
-                    { required: true, message: '请输入商品价格', trigger: 'blur' }
-                ],
-                images: [
-                    { type:'array', required: true, message: '请选择商品图像', trigger: 'blur' }
-                ]
-            }
+        data () {
+            return {
+                editor: null,
+                step: 1, // 表单类型切换，区分基本信息和商品详情
+                status: STATUS,
+                skuTree: [],            // sku组件传出的规格结构，用于构建列表的表头
+                tableData: [],          // 列表数据
+                dialogImageUrl: '',     // 图片预览url
+                dialogVisible: false,   // 图片预览开关
+                categoryList: categories ? categories : [],
+                stores: stores ? stores : [],
+                storeId: storeId ? storeId : null,
+                ruleForm: merchandise,
+                rules: {
+                    name: [
+                        { required: true, message: '请输入商品名称', trigger: 'blur' }
+                    ],
+                    sell_price: [
+                        { required: true, message: '请输入商品价格', trigger: 'blur' }
+                    ],
+                    images: [
+                        { type:'array', required: true, message: '请选择商品图像', trigger: 'blur' }
+                    ]
+                }
+            };
         },
         create: function () {
+            console.log('create vue components');
             let self = this;
             this.editor = UE.getEditor('container');
+            this.editor.ready(function() {
+                self.editor.execCommand('serverparam', '_token', '{{ csrf_token() }}');
+            })
+        },
+        mounted: function () {
+            console.log('mounted vue components');
+            let self = this;
+            if(!this.editor)
+                this.editor = UE.getEditor('container');
             this.editor.ready(function() {
                 self.editor.execCommand('serverparam', '_token', '{{ csrf_token() }}');
             })
@@ -189,6 +221,11 @@
                 let price = [];
                 for (let i = 0; i < skuRes.length; i++) {
                     if (_.compact(_.keys(skuRes[i].spec_array)).length > 0) {
+                        let tmp = [];
+                        _.each(skuRes[i].spec_array, function (value, key) {
+                            tmp.push(value);
+                        });
+                        skuRes[i].spec_array = tmp;
                         arr.push(skuRes[i]);
                     }
                     price.push(skuRes[i].sell_price);
@@ -196,7 +233,7 @@
                 }
                 this.ruleForm.sell_price = Math.min.apply(null, price).toString();
                 this.ruleForm.stock_num = num;
-                this.ruleForm.products = JSON.stringify(arr);
+                this.ruleForm.products = arr;
                 this.skuList = arr;
             },
             // 响应sku更新事件
@@ -219,6 +256,7 @@
             formatPostData(){
                 let data = {
                     name: this.ruleForm.name,
+                    store_id: this.ruleForm.store_id,
                     status: this.ruleForm.status,
                     category_id: this.ruleForm.category_id,
                     sell_price: this.ruleForm.sell_price,
@@ -238,26 +276,28 @@
                 return data;
             },
             // 提示消息
-            showMessage (setStep, info) {
-                this.$alert(info, setStep ? '成功': '失败', {
+            showMessage (type, info) {
+                this.$alert(info, type ? '成功': '失败', {
                     type: type ? 'success': 'error',
                     confirmButtonText: '确定',
                     callback: function (action) {
-                        location.pathname = this.listPath;
+                        location.pathname = '/merchandises';
                     }
                 })
             },
             // 提交表单
             saveMerchandise(){
                 let postData = this.formatPostData();
+                let self = this;
                 this.$http[this.method](this.url, postData)
                     .then(function(res){
                         if (res.data.hasError) {
-                            this.showMessage(false, res.data.error);
+                            self.showMessage(false, res.data.error);
                         } else {
-                            this.showMessage(true, this.goodsId ? '更新商品成功' : '添加商品成功');
+//                            $.pjax.reload('#pjax-container');
+                            self.showMessage(true, self.ruleForm['id'] ? '更新商品成功' : '添加商品成功');
                         }
-                    })
+                    });
             },
             // 校验sku数据
             validateSku(){
@@ -286,3 +326,40 @@
         }
     }
 </script>
+
+<style>
+    .form h4 span{
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+    }
+    .form .el-upload__input{
+        display: none;
+    }
+    .form .el-upload .el-icon-plus{
+        line-height: 148px;
+    }
+    .tab{
+        padding: 0 200px;
+        margin: 20px 0 50px;
+    }
+    .tab .tab-item{
+        text-align: center;
+        cursor: pointer;
+        height: 35px;
+        line-height: 35px;
+        border-radius: 2px;
+        border: 1px #ccc solid;
+    }
+    .tab .tab-item:hover{
+        background: #00a65a;
+        color: #fff;
+    }
+    .tab .tab-item.active{
+        background: #00a65a;
+        color: #fff;
+    }
+    .form{
+        max-width: 900px;
+    }
+</style>

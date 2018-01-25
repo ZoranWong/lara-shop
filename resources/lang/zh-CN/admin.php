@@ -35,7 +35,7 @@ return [
     'entries'      => '条',
     'captcha'      => '验证码',
 
-    'action'            => '操作',
+    'action'            => '批量操作',
     'title'             => '标题',
     'description'       => '简介',
     'back'              => '返回',

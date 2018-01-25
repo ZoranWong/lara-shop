@@ -8,7 +8,7 @@ class AuthManager extends BaseAuthManager
 
     public function createMiniProgramDriver($name, $config) : Guard
     {
-        $provider = $this->createUserProvider($config['provider'] ?? null);
+        $provider = $this->createMiniProgramProvider($config['provider.mini_program'] ?? null);
 
         $guard = new MiniProgramGuard($name, $provider, $this->app['session.store']);
 
@@ -28,5 +28,10 @@ class AuthManager extends BaseAuthManager
         }
 
         return $guard;
+    }
+
+    protected function createMiniProgramProvider($config)
+    {
+        return new MiniProgramUserProvider($this->app['hash'], $config['model']);
     }
 }

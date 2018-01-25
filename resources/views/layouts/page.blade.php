@@ -21,7 +21,6 @@
         <div class="content-wrapper pjax-container" id="pjax-container">
             {!! \App\Renders\Facades\SectionContent::link() !!}
             {!! \App\Renders\Facades\SectionContent::css() !!}
-            {!! \App\Renders\Facades\SectionContent::jsLoad() !!}
             @if(config('adminlte.layout') == 'top-nav')
             <div class="container">
             @endif
@@ -42,6 +41,7 @@
             </div>
             <!-- /.container -->
             @endif
+            {!! \App\Renders\Facades\SectionContent::jsLoad() !!}
             <script>
                 if(window.zoukeApp === undefined){
                     window.zoukeApp = {};

@@ -57,6 +57,7 @@ use App\Models\Traits\StoreTrait;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem withoutTrashed()
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem currentStore()
  */
 class OrderItem extends Model
 {

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\ModelTrait;
 use App\Models\Traits\StoreTrait;
 use Illuminate\Database\Query\Builder;
 use Exception;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Merchandise
@@ -20,7 +22,6 @@ use Exception;
  * @property string $name 商品名称
  * @property string $main_image_url 主图url
  * @property float $sell_price 售价
- * @property float $prime_price 原价
  * @property float $max_price 最大价格
  * @property float $min_price 最小价格
  * @property int $stock_num 库存
@@ -62,6 +63,15 @@ use Exception;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Merchandise withoutTrashed()
  * @mixin \Eloquent
  * @property-read \App\Models\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
+ * @property-read \App\Models\Store $store
+ * @property float $prime_price 原价
+ * @property float|null $market_price 原价
+ * @property array $images
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise currentStore()
+ * @method bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise whereImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Merchandise whereMarketPrice($value)
  */
 class Merchandise extends Model
 {
@@ -90,7 +100,8 @@ class Merchandise extends Model
     ];
 
     protected $casts = [
-        'spec_array' => 'array'
+        'spec_array' => 'array',
+        'images' => 'array'
     ];
 
     /**
@@ -99,8 +110,8 @@ class Merchandise extends Model
      * @var array
      */
     protected $fillable = [
-        'store_id','category_id','code','name','main_image_url','sell_price','max_price',
-        'min_price','stock_num','sell_num','sort','brief_introduction','content',
+        'store_id','category_id','code','name','main_image_url','sell_price','max_price','images',
+        'min_price','stock_num','sell_num','sort','brief_introduction','content','market_price',
         'spec_array','status','deleted_at'
     ];
 
@@ -117,5 +128,27 @@ class Merchandise extends Model
     public function store() : BelongsTo
     {
         return $this->belongsTo('App\Models\Store', 'store_id', 'id');
+    }
+
+    public function products () : HasMany
+    {
+        return $this->hasMany('App\Models\Product', 'merchandise_id', 'id');
+    }
+
+    public function saveProducts(Collection $products, string $key = 'code')
+    {
+        $list =  $products->map(function (Product $product) use(&$key){
+            $model = Product::where('merchandise_id', $this->id)->where($key, $product[$key])->first();
+            if($model){
+                $data = $product->toArray();
+                unset($data[$key]);
+                $model->update($data);
+            }else{
+                $model = $this->products()->save($product);
+            }
+            return $model->toArray();
+        });
+
+        $this['products'] = $list->toArray();
     }
 }

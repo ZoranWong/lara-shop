@@ -30,8 +30,8 @@
   </div>
 </template>
 <script>
-  import _ from 'underscore'
-  import {Select, Button, Popover, Tag} from 'element-ui'
+  import _ from 'underscore';
+  import {Select, Button, Popover, Tag} from 'element-ui';
   export default{
     components: {
       ElSelect: Select,
@@ -50,17 +50,20 @@
         default: []
       }
     },
+    mounted: function () {
+
+    },
     computed: {
       // 可供选择的规则子选项
       selectableList () {
-        var res = []
-        var self = this
+        let res = [];
+        let self = this;
         this.optionList.forEach(function (item) {
           if (item.name === self.spec.name) {
-            res = item.value
+            res = item.value;
           }
-        })
-        return res
+        });
+        return res;
       }
     },
     data () {
@@ -72,23 +75,23 @@
     },
     methods: {
       cancelPop () {
-        this.visible = false
-        this.selectItemList = []
+        this.visible = false;
+        this.selectItemList = [];
       },
       submitPop () {
-        var self = this
+        let self = this;
         // 过滤掉重复的规格
         this.selectItemList = this.selectItemList.filter(function(item){
-          return self.spec.value.indexOf(item) === -1
-        })
-        this.visible = false
-        this.spec.value = this.spec.value.concat(this.selectItemList)
-        this.selectItemList = []
-        this.$emit('updateSpec', this.spec)
+          return self.spec.value.indexOf(item) === -1;
+        });
+        this.visible = false;
+        this.spec.value = this.spec.value.concat(this.selectItemList);
+        this.selectItemList = [];
+        this.$emit('updateSpec', this.spec);
       },
       removeItem (index) {
-        this.spec.value.splice(index, 1)
-        this.$emit('updateSpec', this.spec)
+        this.spec.value.splice(index, 1);
+        this.$emit('updateSpec', this.spec);
       }
     }
   }

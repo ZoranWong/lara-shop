@@ -8,12 +8,6 @@ if (! function_exists('getImageUrl')) {
      */
     function getImageUrl($path)
     {
-        $domain = config('filesystems.disks.oss.url');
-        $prefix = config('filesystems.disks.oss.prefix');
-        $url = $domain .'/' ;
-        if($prefix){
-            $url = $url . $prefix . '/';
-        }
-        return  $url . $path;
+        return  Storage::cloud()->path($path);
     }
 }

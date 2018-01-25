@@ -63,7 +63,6 @@ class StoreOwner extends Model
         'store_id',
         'user_id',
         'open_id',
-
         'token'
     ];
 

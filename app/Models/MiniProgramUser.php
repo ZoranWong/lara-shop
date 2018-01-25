@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\UserRelationTrait;
 use App\Models\Traits\WechatUserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Traits\ModelTrait;
 /**
@@ -35,6 +36,7 @@ use App\Models\Traits\ModelTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser whereUnionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser whereUserId($value)
+ * @property-read \App\Models\User $user
  */
 class MiniProgramUser extends Model
 {
@@ -63,4 +65,9 @@ class MiniProgramUser extends Model
         'open_id',
         'session_key'
     ];
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+    }
 }

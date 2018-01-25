@@ -2,7 +2,9 @@
 
 namespace App\Models\Traits;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * model通用方法
  * */
@@ -55,11 +57,15 @@ trait ModelTrait
      * @param Builder $query
      * @param int $id
      * @param array $data
-     * @return bool
+     * @return null|Model
      * */
-    public function scopeUpdateById(Builder $query, int $id, array $data) : bool
+    public function scopeUpdateById(Builder $query, int $id, array $data) : Model
     {
-        return $query->where(['id' => $id])->update($data);
+        $model = $query->find($id);
+        foreach ($data as $key => $value){
+            $model->{$key} = $value;
+        }
+        return $model->save() ? $model : null;
     }
 
     /**

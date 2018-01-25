@@ -47,7 +47,7 @@ return [
         ],
         'mini_program' => [
             'driver' => 'miniProgram',
-            'provider' => 'users'
+            'provider' => 'mini_program'
         ]
     ],
 
@@ -74,10 +74,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+         'mini_program' => [
+             'driver' => 'miniProgram',
+             'model' => App\Models\User::class,
+         ],
     ],
 
     /*

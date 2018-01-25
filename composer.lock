@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d6304a0468406d0652b14da4bce6f18",
+    "content-hash": "2b910349422e8c69bb197629d55d4a8b",
     "packages": [
         {
             "name": "aliyuncs/oss-sdk-php",
@@ -16,7 +16,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aliyun/aliyun-oss-php-sdk/zipball/0b9b85b6c5c38cfc4ef3b0205a5a62d1e36acf2e",
+                "url": "https://files.phpcomposer.com/files/aliyun/aliyun-oss-php-sdk/0b9b85b6c5c38cfc4ef3b0205a5a62d1e36acf2e.zip",
                 "reference": "0b9b85b6c5c38cfc4ef3b0205a5a62d1e36acf2e",
                 "shasum": ""
             },
@@ -57,7 +57,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apollopy/flysystem-aliyun-oss/zipball/984879bd38a48db05a4d78142df4c6ad9318f0fa",
+                "url": "https://files.phpcomposer.com/files/apollopy/flysystem-aliyun-oss/984879bd38a48db05a4d78142df4c6ad9318f0fa.zip",
                 "reference": "984879bd38a48db05a4d78142df4c6ad9318f0fa",
                 "shasum": ""
             },
@@ -178,7 +178,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/5a91b62b9d37cee635bbf8d553f4546057250bee",
+                "url": "https://files.phpcomposer.com/files/Bacon/BaconQrCode/5a91b62b9d37cee635bbf8d553f4546057250bee.zip",
                 "reference": "5a91b62b9d37cee635bbf8d553f4546057250bee",
                 "shasum": ""
             },
@@ -224,7 +224,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/d7c88f08131f6404cb714f3f6cf0642f6afa3903",
+                "url": "https://files.phpcomposer.com/files/barryvdh/laravel-debugbar/d7c88f08131f6404cb714f3f6cf0642f6afa3903.zip",
                 "reference": "d7c88f08131f6404cb714f3f6cf0642f6afa3903",
                 "shasum": ""
             },
@@ -306,7 +306,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/54cacc9b81758b14e3ce750f205a393d52339e97",
+                "url": "https://files.phpcomposer.com/files/doctrine/annotations/54cacc9b81758b14e3ce750f205a393d52339e97.zip",
                 "reference": "54cacc9b81758b14e3ce750f205a393d52339e97",
                 "shasum": ""
             },
@@ -374,7 +374,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/eb152c5100571c7a45470ff2a35095ab3f3b900b",
+                "url": "https://files.phpcomposer.com/files/doctrine/cache/eb152c5100571c7a45470ff2a35095ab3f3b900b.zip",
                 "reference": "eb152c5100571c7a45470ff2a35095ab3f3b900b",
                 "shasum": ""
             },
@@ -444,7 +444,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
+                "url": "https://files.phpcomposer.com/files/doctrine/collections/1a4fb7e902202c33cce8c55989b945612943c2ba.zip",
                 "reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
                 "shasum": ""
             },
@@ -511,7 +511,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/4acb8f89626baafede6ee5475bc5844096eba8a9",
+                "url": "https://files.phpcomposer.com/files/doctrine/common/4acb8f89626baafede6ee5475bc5844096eba8a9.zip",
                 "reference": "4acb8f89626baafede6ee5475bc5844096eba8a9",
                 "shasum": ""
             },
@@ -584,7 +584,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/729340d8d1eec8f01bff708e12e449a3415af873",
+                "url": "https://files.phpcomposer.com/files/doctrine/dbal/729340d8d1eec8f01bff708e12e449a3415af873.zip",
                 "reference": "729340d8d1eec8f01bff708e12e449a3415af873",
                 "shasum": ""
             },
@@ -776,7 +776,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mingyoung/easywechat-composer/zipball/1ead4ea961efbcdb8e8e58c5a7b66503af32b641",
+                "url": "https://files.phpcomposer.com/files/mingyoung/easywechat-composer/1ead4ea961efbcdb8e8e58c5a7b66503af32b641.zip",
                 "reference": "1ead4ea961efbcdb8e8e58c5a7b66503af32b641",
                 "shasum": ""
             },
@@ -876,7 +876,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/z-song/laravel-admin/zipball/fe40c19b644ac069e6e611fe0f08cb4d80aa9e6a",
+                "url": "https://files.phpcomposer.com/files/z-song/laravel-admin/fe40c19b644ac069e6e611fe0f08cb4d80aa9e6a.zip",
                 "reference": "fe40c19b644ac069e6e611fe0f08cb4d80aa9e6a",
                 "shasum": ""
             },
@@ -1048,7 +1048,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f4db5a78a5ea468d4831de7f0bf9d9415e348699",
+                "url": "https://files.phpcomposer.com/files/guzzle/guzzle/f4db5a78a5ea468d4831de7f0bf9d9415e348699.zip",
                 "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699",
                 "shasum": ""
             },
@@ -1113,7 +1113,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "url": "https://files.phpcomposer.com/files/guzzle/promises/a59da6cf61d80060647ff4d3eb2c03a2bc694646.zip",
                 "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
                 "shasum": ""
             },
@@ -1164,7 +1164,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+                "url": "https://files.phpcomposer.com/files/guzzle/psr7/f5b8a8512e2b58b0071a7280e39f14f72e05d87c.zip",
                 "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
                 "shasum": ""
             },
@@ -1229,7 +1229,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/3603dbcc9a17d307533473246a6c58c31cf17919",
+                "url": "https://files.phpcomposer.com/files/Intervention/image/3603dbcc9a17d307533473246a6c58c31cf17919.zip",
                 "reference": "3603dbcc9a17d307533473246a6c58c31cf17919",
                 "shasum": ""
             },
@@ -1386,7 +1386,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeremeamia/super_closure/zipball/443c3df3207f176a1b41576ee2a66968a507b3db",
+                "url": "https://files.phpcomposer.com/files/jeremeamia/super_closure/443c3df3207f176a1b41576ee2a66968a507b3db.zip",
                 "reference": "443c3df3207f176a1b41576ee2a66968a507b3db",
                 "shasum": ""
             },
@@ -1444,7 +1444,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/7211b894d2e1594d9919f1bde1948c7668410129",
+                "url": "https://files.phpcomposer.com/files/jeroennoten/Laravel-AdminLTE/7211b894d2e1594d9919f1bde1948c7668410129.zip",
                 "reference": "7211b894d2e1594d9919f1bde1948c7668410129",
                 "shasum": ""
             },
@@ -1486,48 +1486,6 @@
                 "laravel"
             ],
             "time": "2017-10-02T14:52:05+00:00"
-        },
-        {
-            "name": "johnlui/aliyun-oss",
-            "version": "v1.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/johnlui/AliyunOSS.git",
-                "reference": "a8e1dd1c840e4441a513e6f2e8d4a2b9b52fa04e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/johnlui/AliyunOSS/zipball/a8e1dd1c840e4441a513e6f2e8d4a2b9b52fa04e",
-                "reference": "a8e1dd1c840e4441a513e6f2e8d4a2b9b52fa04e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "JohnLui\\AliyunOSS\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "John Lui",
-                    "email": "wenhanlv@gmail.com"
-                }
-            ],
-            "description": "阿里云 OSS 官方 SDK 的 Composer 封装，支持任何 PHP 项目，包括 Laravel、Symfony、TinyLara 等等。",
-            "homepage": "https://github.com/johnlui/AliyunOSS",
-            "keywords": [
-                "AliyunOSS",
-                "aliyun",
-                "oss"
-            ],
-            "time": "2017-03-08T03:35:57+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1819,7 +1777,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/dc09b19f455750663b922ed52dcc0ff215bed284",
+                "url": "https://files.phpcomposer.com/files/thephpleague/flysystem-aws-s3-v3/dc09b19f455750663b922ed52dcc0ff215bed284.zip",
                 "reference": "dc09b19f455750663b922ed52dcc0ff215bed284",
                 "shasum": ""
             },
@@ -1944,7 +1902,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/afee79a236348e39a44cb837106b7c5b4897ac2a",
+                "url": "https://files.phpcomposer.com/files/maximebf/php-debugbar/afee79a236348e39a44cb837106b7c5b4897ac2a.zip",
                 "reference": "afee79a236348e39a44cb837106b7c5b4897ac2a",
                 "shasum": ""
             },
@@ -1994,54 +1952,6 @@
                 "debugbar"
             ],
             "time": "2017-01-05T08:46:19+00:00"
-        },
-        {
-            "name": "menthe/aliyun-ueditor",
-            "version": "v0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/menthe/aliyun-ueditor.git",
-                "reference": "7ef8738c80e237ddd852993a0caf74cb30e23dc3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/menthe/aliyun-ueditor/zipball/7ef8738c80e237ddd852993a0caf74cb30e23dc3",
-                "reference": "7ef8738c80e237ddd852993a0caf74cb30e23dc3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-fileinfo": "*",
-                "illuminate/support": "5.*",
-                "johnlui/aliyun-oss": "^1.3",
-                "nesbot/carbon": "^1.21",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Harris\\UEditor\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Harris Wang",
-                    "email": "i@harris.wang"
-                }
-            ],
-            "description": "UEditor for laravel5. Support i18n. UEditor is a Rich Text Web Editor From Baidu.",
-            "keywords": [
-                "Harris",
-                "Harris Wang",
-                "aliyun",
-                "laravel",
-                "menthe",
-                "ueditor"
-            ],
-            "time": "2017-02-20T09:26:25+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2175,7 +2085,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
+                "url": "https://files.phpcomposer.com/files/jmespath/jmespath.php/adcc9531682cf87dfda21e1fd5d0e7a41d292fac.zip",
                 "reference": "adcc9531682cf87dfda21e1fd5d0e7a41d292fac",
                 "shasum": ""
             },
@@ -2283,7 +2193,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/579f4ce846734a1cf55d6a531d00ca07a43e3cda",
+                "url": "https://files.phpcomposer.com/files/nikic/PHP-Parser/579f4ce846734a1cf55d6a531d00ca07a43e3cda.zip",
                 "reference": "579f4ce846734a1cf55d6a531d00ca07a43e3cda",
                 "shasum": ""
             },
@@ -2387,7 +2297,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/socialite/zipball/5e4bb8676a8ebd696d2a8c94c0483d44c2ade0ac",
+                "url": "https://files.phpcomposer.com/files/overtrue/socialite/5e4bb8676a8ebd696d2a8c94c0483d44c2ade0ac.zip",
                 "reference": "5e4bb8676a8ebd696d2a8c94c0483d44c2ade0ac",
                 "shasum": ""
             },
@@ -2548,7 +2458,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+                "url": "https://files.phpcomposer.com/files/PHPOffice/PHPExcel/372c7cbb695a6f6f1e62649381aeaa37e7e70b32.zip",
                 "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
                 "shasum": ""
             },
@@ -2605,7 +2515,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/4d45fb62d96418396ec58ba76e6f065bca16e10a",
+                "url": "https://files.phpcomposer.com/files/silexphp/Pimple/4d45fb62d96418396ec58ba76e6f065bca16e10a.zip",
                 "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a",
                 "shasum": ""
             },
@@ -2655,7 +2565,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "url": "https://files.phpcomposer.com/files/nrk/predis/f0210e38881631afeafb56ab43405a92cafd9fd1.zip",
                 "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
                 "shasum": ""
             },
@@ -2705,7 +2615,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "url": "https://files.phpcomposer.com/files/php-fig/cache/d11b50ad223250cf17b86e38383413f5a6764bf8.zip",
                 "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
                 "shasum": ""
             },
@@ -2800,7 +2710,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "url": "https://files.phpcomposer.com/files/php-fig/http-message/f6561bf28d520154e4b0ec72be95418abe6d9363.zip",
                 "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
                 "shasum": ""
             },
@@ -3150,7 +3060,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/0d8fbf73f7adc166ec5aabbf898b7327f6c69600",
+                "url": "https://files.phpcomposer.com/files/SimpleSoftwareIO/simple-qrcode/0d8fbf73f7adc166ec5aabbf898b7327f6c69600.zip",
                 "reference": "0d8fbf73f7adc166ec5aabbf898b7327f6c69600",
                 "shasum": ""
             },
@@ -3190,6 +3100,53 @@
                 "wrapper"
             ],
             "time": "2016-12-06T01:39:52+00:00"
+        },
+        {
+            "name": "stevenyangecho/laravel-u-editor",
+            "version": "v1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevenyangecho/laravel-u-editor.git",
+                "reference": "e8612da55f5a7ec1acf76cc2d03e3504ccb3bff9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/stevenyangecho/laravel-u-editor/e8612da55f5a7ec1acf76cc2d03e3504ccb3bff9.zip",
+                "reference": "e8612da55f5a7ec1acf76cc2d03e3504ccb3bff9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "illuminate/support": "5.*",
+                "php": ">=5.4.0",
+                "qiniu/php-sdk": "7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stevenyangecho\\UEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steven Yang",
+                    "email": "yqmking@163.com"
+                }
+            ],
+            "description": "UEditor for laravel5. Support i18n. UEditor is a Rich Text Web Editor From Baidu.",
+            "keywords": [
+                "laravel",
+                "laravel-u-editor",
+                "laravel5 web text editor",
+                "steven yang",
+                "stevenyangecho",
+                "ueditor"
+            ],
+            "time": "2017-06-21T06:29:09+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3504,7 +3461,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/09bd97b844b3151fab82f2fdd62db9c464b3910a",
+                "url": "https://files.phpcomposer.com/files/symfony/dom-crawler/09bd97b844b3151fab82f2fdd62db9c464b3910a.zip",
                 "reference": "09bd97b844b3151fab82f2fdd62db9c464b3910a",
                 "shasum": ""
             },
@@ -3814,7 +3771,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/04f62674339602def515bff4bc6901fc1d4951e8",
+                "url": "https://files.phpcomposer.com/files/symfony/polyfill-apcu/04f62674339602def515bff4bc6901fc1d4951e8.zip",
                 "reference": "04f62674339602def515bff4bc6901fc1d4951e8",
                 "shasum": ""
             },
@@ -3929,7 +3886,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/265fc96795492430762c29be291a371494ba3a5b",
+                "url": "https://files.phpcomposer.com/files/symfony/polyfill-php56/265fc96795492430762c29be291a371494ba3a5b.zip",
                 "reference": "265fc96795492430762c29be291a371494ba3a5b",
                 "shasum": ""
             },
@@ -4044,7 +4001,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/6e719200c8e540e0c0effeb31f96bdb344b94176",
+                "url": "https://files.phpcomposer.com/files/symfony/polyfill-util/6e719200c8e540e0c0effeb31f96bdb344b94176.zip",
                 "reference": "6e719200c8e540e0c0effeb31f96bdb344b94176",
                 "shasum": ""
             },
@@ -4145,7 +4102,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/c2b757934f2d9681a287e662efbc27c41fe8ef86",
+                "url": "https://files.phpcomposer.com/files/symfony/psr-http-message-bridge/c2b757934f2d9681a287e662efbc27c41fe8ef86.zip",
                 "reference": "c2b757934f2d9681a287e662efbc27c41fe8ef86",
                 "shasum": ""
             },
@@ -4467,7 +4424,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/toplan/laravel-sms/zipball/9c8427493c768c07a15fb993436267b81f31bae5",
+                "url": "https://files.phpcomposer.com/files/toplan/laravel-sms/9c8427493c768c07a15fb993436267b81f31bae5.zip",
                 "reference": "9c8427493c768c07a15fb993436267b81f31bae5",
                 "shasum": ""
             },
@@ -4514,7 +4471,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/toplan/phpsms/zipball/863918ed0970d335471fb48c09f9f446a4daddbd",
+                "url": "https://files.phpcomposer.com/files/toplan/phpsms/863918ed0970d335471fb48c09f9f446a4daddbd.zip",
                 "reference": "863918ed0970d335471fb48c09f9f446a4daddbd",
                 "shasum": ""
             },
@@ -4571,7 +4528,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/toplan/task-balancer/zipball/6ba16aafbf6888de0f0c53ea93dfff844b6ef27f",
+                "url": "https://files.phpcomposer.com/files/toplan/task-balancer/6ba16aafbf6888de0f0c53ea93dfff844b6ef27f.zip",
                 "reference": "6ba16aafbf6888de0f0c53ea93dfff844b6ef27f",
                 "shasum": ""
             },
@@ -4721,7 +4678,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Zizaco/entrust/zipball/3623cc052937d9e62543402b50f24065720d44b9",
+                "url": "https://files.phpcomposer.com/files/Zizaco/entrust/3623cc052937d9e62543402b50f24065720d44b9.zip",
                 "reference": "3623cc052937d9e62543402b50f24065720d44b9",
                 "shasum": ""
             },

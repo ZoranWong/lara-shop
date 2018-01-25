@@ -38,6 +38,7 @@ use App\Models\Traits\StoreTrait;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Merchandise[] $merchandises
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category currentStore()
  */
 class Category extends Model
 {

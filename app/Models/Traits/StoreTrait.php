@@ -12,7 +12,7 @@ trait StoreTrait
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeStore(Builder $query)
+    public function scopeCurrentStore(Builder $query)
     {
         $storeId = \App\Services\StoreService::getCurrentID();
         return $query->where('store_id', '=', $storeId);

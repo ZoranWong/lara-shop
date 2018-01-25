@@ -51,7 +51,7 @@ class CreateMerchandisesTable extends Migration
             $table->string('main_image_url', 255)->comment('主图url');
             $table->text('images')->nullable()->comment('图片数组');
             $table->float('sell_price')->comment('售价');
-            $table->float('prime_price')->comment('原价');
+            $table->float('market_price')->default(0)->comment('原价');
             $table->float('max_price')->comment('最大价格');
             $table->float('min_price')->comment('最小价格');
             $table->unsignedInteger('stock_num')->comment('库存');

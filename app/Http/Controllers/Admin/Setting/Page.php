@@ -27,7 +27,7 @@ CSS;
         SectionContent::css($css);
         $id = \Auth::id();
         $form->setAction("/user/{$id}/edit");
-        $form->vueUpload('head_image_url', '头像')->attribute(['url' => '/user/avatar', 'id' => 'app', 'xthumb' => \Auth::user()->head_image_url]);
+        $form->vueUpload('head_image_url', '头像')->attribute(['url' => '/ajax/user/avatar', 'id' => 'app', 'xthumb' => \Auth::user()->head_image_url]);
         $form->display('mobile', '手机')->readOnly();
         $form->text('nickname', '昵称');
         $form->radio('sex', '性别')->options([

@@ -70,7 +70,7 @@ IMAGE;
         }
         $form->text('nickname', '昵称')->rules('required');
         $form->mobile('mobile', '手机号码')->rules('required');
-        $form->vueUpload('head_image_url', '头像')->attribute(['url' => '/user/avatar', 'id' => 'app'])->rules('required');
+        $form->vueUpload('head_image_url', '头像')->attribute(['url' => '/ajax/user/avatar', 'id' => 'app'])->rules('required');
         $form->password('password', trans('admin.password'))->rules('required|confirmed');
         $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
             ->default(function ($form) {

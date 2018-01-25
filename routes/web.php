@@ -16,7 +16,6 @@ Route::group([],function(){
     Route::resource('permissions', 'Permission\PermissionController');
     Route::resource('menus', 'Menu\MenuController');
     Route::get('/setting', 'Setting\SettingController@index');
-    Route::post('user/avatar', 'FileController@userAvatar');
     Route::resource('orders', 'Order\OrderController');
     Route::resource('stores', 'Store\StoreController');
     Route::resource('admins', 'Administrator\AdministratorController');
@@ -30,4 +29,15 @@ Route::group([],function(){
 Route::group(['prefix' => 'ajax'],function(){
     Route::put('/store/{id}/agree', 'Store\StoreController@agree');
     Route::put('/store/{id}/refuse', 'Store\StoreController@refuse');
+    Route::get('/specification', 'Merchandise\SpecificationController@index');
+    Route::post('/specification', 'Merchandise\SpecificationController@store');
+    Route::put('/specification/{id}', 'Merchandise\SpecificationController@update');
+    Route::post('/editor/upload/image', 'FileController@serve');
+    Route::post('/user/avatar', 'FileController@userAvatar');
+    Route::post('/merchandise/image', 'FileController@merchandiseImage');
+    Route::post('/merchandise', 'Merchandise\MerchandiseController@ajaxStore');
+    Route::put('/merchandise/{id}', 'Merchandise\MerchandiseController@ajaxUpdate');
+    Route::get('/merchandise/{goodId}/products', 'Merchandise\MerchandiseController@products');
+    Route::put('/merchandise/on/{ids}', 'Merchandise\MerchandiseController@onShelves');
+    Route::put('/merchandise/off/{ids}', 'Merchandise\MerchandiseController@takenOff');
 });

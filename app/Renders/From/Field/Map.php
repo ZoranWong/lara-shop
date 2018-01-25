@@ -20,11 +20,11 @@ class Map extends Field
      */
     public static function getAssets()
     {
-        if (config('app.locale') == 'zh-CN') {
-            $js = '//map.qq.com/api/js?v=2.exp';
-        } else {
-            $js = '//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key='.env('GOOGLE_API_KEY');
-        }
+//        if (config('app.locale') == 'zh_CN') {
+//            $js = '//map.qq.com/api/js?v=2.exp';
+//        } else {
+//            $js = '//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key='.env('GOOGLE_API_KEY');
+//        }
 
         return compact('js');
     }

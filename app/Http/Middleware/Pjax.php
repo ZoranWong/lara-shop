@@ -25,7 +25,9 @@ class Pjax
         'password/reset/*',
         '/setting',
         '/admins/create',
-        '/admins/*/edit'
+        '/admins/*/edit',
+        '/merchandises/create',
+        '/merchandises/*/edit'
     ];
     /**
      * Handle an incoming request.

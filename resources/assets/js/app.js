@@ -5,12 +5,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-// require('./bootstrap');
+require('./bootstrap');
 let ElementUI = require('element-ui');
 let upload = require('./components/Upload.vue');
+let merchandiseEdit = require('./components/MerchandiseEdit.vue');
 
 window.Vue = require('vue');
-
+Vue.prototype.$http = window.axios;
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -18,6 +19,7 @@ window.Vue = require('vue');
  */
 Vue.use(ElementUI);
 Vue.component('vue-upload', upload);
+Vue.component('merchandise-editor', merchandiseEdit);
 
 const app = new Vue({
     el: '#app'

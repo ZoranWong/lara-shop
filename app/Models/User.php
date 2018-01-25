@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\ModelTrait;
 use App\Renders\Traits\AdminBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -48,8 +49,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User updateById($id, $data)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $managerStore
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $ownStore
- * @method static bool|null forceDelete()
- * @method static bool|null restore()
+ * @property-read \App\Models\StoreOwner $owner
  */
 class User extends Authenticatable implements EntrustUserInterface
 {
@@ -65,6 +65,12 @@ class User extends Authenticatable implements EntrustUserInterface
     use SoftDeletes { restore as private restoreB; }
 
     const SUPER_ADMIN_ID = 1;
+
+    const SEX = [
+        'UNKNOWN' ,
+        'MALE'    ,
+        'FEMALE'
+    ];
 
     /**
      * 与模型关联的数据表
@@ -137,4 +143,13 @@ class User extends Authenticatable implements EntrustUserInterface
         return $this->belongsToMany('App\Models\Store', 'store_manager', 'store_id', 'user_id');
     }
 
+    public function owner() : HasOne
+    {
+        return $this->hasOne('App\Models\StoreOwner', 'user_id', 'id');
+    }
+
+    public function tokens() : HasMany
+    {
+        return $this->hasMany('App\Models\Token', 'user_id', 'id');
+    }
 }
