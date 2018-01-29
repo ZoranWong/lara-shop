@@ -50,6 +50,13 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $managerStore
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Store[] $ownStore
  * @property-read \App\Models\StoreOwner $owner
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Token[] $tokens
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User searchBy($where)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ShoppingCart[] $shoppingCarts
+ * @property-read \App\Models\MiniProgramUser $miniProgramUser
+ * @method static bool|null forceDelete()
+ * @method static bool|null restore()
  */
 class User extends Authenticatable implements EntrustUserInterface
 {
@@ -148,8 +155,36 @@ class User extends Authenticatable implements EntrustUserInterface
         return $this->hasOne('App\Models\StoreOwner', 'user_id', 'id');
     }
 
+    public function miniProgramUser() :HasOne
+    {
+        return $this->hasOne('App\Models\MiniProgramUser', 'user_id', 'id');
+    }
+
     public function tokens() : HasMany
     {
         return $this->hasMany('App\Models\Token', 'user_id', 'id');
+    }
+
+    public function getToken()
+    {
+        $token = \Cache::get($this->id);
+        return  $token? $token : (($token = $this->tokens()->where('expire_in',
+            '>', time())->first(['token'])) ? $token['token'] : null);
+    }
+
+    public function setToken($token)
+    {
+        $this->tokens->push( $token );
+        return $this->tokens;
+    }
+
+    public function orders() : HasMany
+    {
+        return $this->hasMany('App\Models\Order', 'buyer_user_id', 'id');
+    }
+
+    public function shoppingCarts():HasMany
+    {
+        return $this->hasMany('App\Models\ShoppingCart', 'buyer_user_id', 'id');
     }
 }

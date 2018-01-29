@@ -11,3 +11,11 @@ if (! function_exists('getImageUrl')) {
         return  Storage::cloud()->path($path);
     }
 }
+
+
+if(! function_exists('uniqueCode')){
+    function uniqueCode($prefix = '')
+    {
+        return $prefix.date('Ymdhis').sprintf('%06d', rand(0, 999999));
+    }
+}

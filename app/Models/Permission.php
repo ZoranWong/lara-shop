@@ -33,6 +33,7 @@ use Zizaco\Entrust\Traits\EntrustPermissionTrait;
  * @property int|null $parent_id 父级权限id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission whereParentId($value)
  * @property-read \App\Models\Menu $menu
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permission searchBy($where)
  */
 class Permission extends Model implements EntrustPermissionInterface
 {

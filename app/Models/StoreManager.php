@@ -7,43 +7,41 @@ use App\Models\Traits\UserRelationTrait;
 use App\Models\Traits\WechatUserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Models\StoreManager
  *
  * @property int $store_id 店铺id
- * @property string|null $union_id 微信多平台用户三方登录唯一标识
  * @property int $user_id 店铺管理者用户id
- * @property string $open_id 微信登录open_id
- * @property string $session_key 微信登录session
- * @property int $expire_in 微信登录session过期时间
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
  * @property-read \App\Models\Store $store
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereExpireIn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereOpenId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereSessionKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereStoreId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereUnionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereUserId($value)
- * @mixin \Eloquent
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager deleteByIds($ids)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager findByOpenId($openId, $columns = array())
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager findBySession($sessionKey, $columns = array())
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager findByUserId($userId, $columns = array())
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StoreManager onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager updateById($id, $data)
- * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereStoreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StoreManager withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\StoreManager withoutTrashed()
+ * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\StoreManager searchBy($where)
  */
 class StoreManager extends Model
 {
     use ModelTrait,
         UserRelationTrait,
-        WechatUserRelationTrait;
+        SoftDeletes;
 
     const ROLE = 'store.manager';
     /**
@@ -60,10 +58,7 @@ class StoreManager extends Model
      */
     protected $fillable = [
         'store_id',
-        'user_id',
-        'open_id',
-        'session_key',
-        'token'
+        'user_id'
     ];
 
     /**

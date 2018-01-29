@@ -16,7 +16,7 @@ trait ModelTrait
      * @param array $where
      * @return Builder
      */
-    public function scopeSearch(Builder $query, array $where) : Builder
+    public function scopeSearchBy(Builder $query, array $where) : Builder
     {
         $query = $this->magicWhere($query, $where);
         return $query;

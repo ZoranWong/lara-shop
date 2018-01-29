@@ -6,6 +6,8 @@ use App\Models\Traits\ModelTrait;
 use App\Models\Traits\UserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -31,12 +33,17 @@ use Illuminate\Support\Facades\Cache;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Token whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Token whereUserId($value)
  * @property-read \App\Models\User $user
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Token onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Token withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Token withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Token searchBy($where)
  */
 class Token extends Model
 {
     //
-    use ModelTrait;
-    use UserRelationTrait;
+    use ModelTrait,UserRelationTrait,SoftDeletes;
     protected $table = "token";
 
     protected $cache = [];
@@ -75,8 +82,26 @@ class Token extends Model
             Cache::forget($userId);
             Cache::forget($old);
         }
+        $time = time();
+        $minutes = ($this->expire_in - $time) / 60;
         if($this->expire_in > 0){
-            Cache::put($token, $userId, 0);
+            Cache::put($userId, $token, $minutes);
+            Cache::put($token, $userId, $minutes);
+        }
+    }
+
+    public static function token($token, $time){
+        $userId = Cache::get($token);
+        if($userId){
+            return ['user_id' => $userId];
+        }else{
+            $token = self::where('token', $token)->where('expire_in', '>', $time)->first(['user_id']);
+            if($token){
+                $token = $token->toArray();
+                return $token;
+            }else{
+                return null;
+            }
         }
     }
 

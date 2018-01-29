@@ -200,6 +200,7 @@ return [
         \App\Providers\MenuServiceProvider::class,
         \zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
         \Stevenyangecho\UEditor\UEditorServiceProvider::class,
+        \Laravel\Scout\ScoutServiceProvider::class,
     ],
 
     /*

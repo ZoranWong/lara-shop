@@ -40,4 +40,5 @@ Route::group(['prefix' => 'ajax'],function(){
     Route::get('/merchandise/{goodId}/products', 'Merchandise\MerchandiseController@products');
     Route::put('/merchandise/on/{ids}', 'Merchandise\MerchandiseController@onShelves');
     Route::put('/merchandise/off/{ids}', 'Merchandise\MerchandiseController@takenOff');
+    Route::put('/order/{id}/send/merchandise', 'Order\OrderController@sendMerchandise');
 });

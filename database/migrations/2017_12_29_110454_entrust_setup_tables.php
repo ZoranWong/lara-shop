@@ -46,10 +46,10 @@ class EntrustSetupTables extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
-            $table->integer('parent_id')->nullable()->unsigned()->default(null)->comment('权限id');
+            $table->unsignedInteger('parent_id')->nullable()->default(null)->comment('权限id');
             $table->string('name')->unique()->comment('权限唯一名称标示');
-            $table->string('display_name')->nullable()->comment('权限显示名称');
-            $table->string('description')->nullable()->comment('权限描述');
+            $table->string('display_name')->nullable()->default(null)->comment('权限显示名称');
+            $table->string('description')->nullable()->default(null)->comment('权限描述');
             $table->timestamps();
 
             $table->foreign('parent_id')->references('id')->on('permission')
@@ -100,7 +100,7 @@ class EntrustSetupTables extends Migration
             $table->integer('parent_permission_id')->nullable()->default(null)->unsigned()->comment('父级权限id');
             $table->string('text', 64)->comment('菜单名称');
             $table->string('icon', 32)->comment('菜单图标');
-            $table->string('url', 255)->comment('路由url');
+            $table->string('url', 255)->nullable()->default(null)->comment('路由url');
             $table->boolean('is_active')->default(false)->comment('是否active');
             $table->boolean('visible')->default(true)->comment('是否visible');
             $table->tinyInteger('order')->default(0)->comment('排序');
@@ -122,7 +122,7 @@ class EntrustSetupTables extends Migration
             $table->string('name', 64)->comment('接口名称');
             $table->string('http_method', 8)->comment('http方法');
             $table->string('route_name', 255)->comment('路由名称');
-            $table->string('$http_url_pattern', 255)->comment('路由url正则表达式');
+            $table->string('http_url_pattern', 255)->comment('路由url正则表达式');
             $table->string('params', 255)->comment('路由参数JSON格式');
             $table->boolean('disable')->default(false)->comment('是否无效');
             $table->timestamps();

@@ -16,7 +16,7 @@ class Grid extends \App\Renders\Grid
         if ($this->builded) {
             return;
         }
-        $this->model()->with('orderItems');
+        $this->model()->with(['orderItems.user', 'orderItems.refund']);
         $data = $this->processFilter();
 
         $this->prependRowSelectorColumn();
@@ -30,7 +30,7 @@ class Grid extends \App\Renders\Grid
 
     protected function buildRows(array $data)
     {
-        collect($data)->map(function (Order $model, $number) {
+        collect($data)->map(function ($model, $number) {
             $this->rows->push(new Row($number, $model));
         });
 

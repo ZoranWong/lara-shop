@@ -45,17 +45,19 @@ class MerchandiseController extends Controller
 
     public function ajaxStore(Request $request): \Symfony\Component\HttpFoundation\Response
     {
-        app('request')['code'] = 'ZM-'.date('Ymdhis').str_random(4);
         $storeID = StoreService::getCurrentID();
         $storeID =  $storeID ? $storeID : $request['store_id'];
         app('request')['store_id'] = $storeID;
-        if(!$request['store_id'] || !Store::find($request['store_id'])){
+        $store = Store::find($request['store_id']);
+        if(!$request['store_id'] || !$store){
             return back()->withInput()->withErrors('店铺信息错误或者不存在');
         }
         $products = app('request')['products'];
         unset(app('request')['products']);
-        $productsModels = [];
+        $productsModels = collect();
         $merchandiseData = Input::all();
+        $merchandiseData['store_code'] = $store['code'];
+//        $merchandiseData['code'] = uniqueCode('ZM-');
         if($products){
             $merchandiseData['max_price'] = 0;
             $merchandiseData['min_price'] = 0;
@@ -67,8 +69,8 @@ class MerchandiseController extends Controller
                 if($merchandiseData['max_price'] == 0 || $merchandiseData['max_price'] < $product['sell_price']){
                     $merchandiseData['max_price'] = $product['sell_price'];
                 }
-                $product['code'] = 'ZMP-'.date('Ymdhis').str_random(4);
-                $productsModels[] = new Product($product);
+//                $product['code'] = uniqueCode('ZMP-');
+                $productsModels->push(new Product($product));
             }
         }
         \DB::beginTransaction();
@@ -76,7 +78,7 @@ class MerchandiseController extends Controller
             $merchandise = Merchandise::create($merchandiseData);
 
             if(count($productsModels) > 0) {
-                $merchandise->s($productsModels);
+                $merchandise->saveProducts($productsModels);
             }
             \DB::commit();
             return response()->ajax($merchandise);
@@ -99,12 +101,10 @@ class MerchandiseController extends Controller
                 if($merchandiseData['min_price'] == 0 || $merchandiseData['min_price'] > $product['sell_price']){
                     $merchandiseData['min_price'] = $product['sell_price'];
                 }
-
                 if($merchandiseData['max_price'] == 0 || $merchandiseData['max_price'] < $product['sell_price']){
                     $merchandiseData['max_price'] = $product['sell_price'];
                 }
-                $product['code'] = isset($product['code']) && !!$product['code'] ? $product['code'] : 'ZMP-'.date('Ymdhis').
-                    str_random(4);
+                $product['code'] = isset($product['code']) && !!$product['code'] ? $product['code'] : uniqueCode('ZMP-');
                 $productsModels->push(new Product($product));
             }
         }

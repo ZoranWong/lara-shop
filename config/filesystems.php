@@ -77,15 +77,15 @@ return [
         'qiniu' => [
             'driver'  => 'qiniu',
             'domains' => [
-                'default'   => 'jouker.qiniudn.com/', //你的七牛域名
-                'https'     => 'https://jouker.qiniudn.com/',         //你的HTTPS域名
-                'custom'    => 'static.abc.com',                //Useless 没啥用，请直接使用上面的 default 项
+                'default'   => env('QINIU_DOMAIN_DEFAULT', 'jouker.qiniudn.com/'), //你的七牛域名
+                'https'     => env('QINIU_DOMAIN_HTTPS', 'https://jouker.qiniudn.com/'),         //你的HTTPS域名
+                'custom'    => env('QINIU_DOMAIN_CUSTOM', 'static.abc.com'),                //Useless 没啥用，请直接使用上面的 default 项
             ],
-            'access_key'=> 'jcjRSvq37da4clZn4wx-LSDozGHH31I_Ls0yOFW3',  //AccessKey
-            'secret_key'=> 'Zrrl4ItH9bkInz4FwemX9h6J3CpVy7BLowDC2Eni',  //SecretKey
-            'bucket'    => 'jouker',  //Bucket名字
-            'notify_url'=> '',  //持久化处理回调地址
-            'access'    => 'public'  //空间访问控制 public 或 private
+            'access_key'=> env('QINIU_ACCESS_KEY', 'jcjRSvq37da4clZn4wx-LSDozGHH31I_Ls0yOFW3'),  //AccessKey
+            'secret_key'=> env('QINIU_SECRET_KEY', 'Zrrl4ItH9bkInz4FwemX9h6J3CpVy7BLowDC2Eni'),  //SecretKey
+            'bucket'    => env('QINIU_BUCKET', 'jouker'),  //Bucket名字
+            'notify_url'=> env('QINIU_NOTIFY_URL', ''),  //持久化处理回调地址
+            'access'    => env('QINIU_ACCESS', 'public')  //空间访问控制 public 或 private
         ],
     ],
 

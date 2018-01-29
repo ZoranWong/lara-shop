@@ -6,6 +6,7 @@ use App\Models\Traits\UserRelationTrait;
 use App\Models\Traits\WechatUserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Traits\ModelTrait;
 /**
@@ -37,17 +38,17 @@ use App\Models\Traits\ModelTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser whereUserId($value)
  * @property-read \App\Models\User $user
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\MiniProgramUser onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\MiniProgramUser withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\MiniProgramUser withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MiniProgramUser searchBy($where)
  */
 class MiniProgramUser extends Model
 {
     //
-    use ModelTrait;
-
-    use Notifiable;
-
-    use UserRelationTrait;
-
-    use WechatUserRelationTrait;
+    use ModelTrait, Notifiable, UserRelationTrait, WechatUserRelationTrait, SoftDeletes;
     /**
      * model关联数据库表单
      * */
@@ -63,7 +64,7 @@ class MiniProgramUser extends Model
 
     protected $hidden = [
         'open_id',
-        'session_key'
+        'union_id'
     ];
 
     public function user() : BelongsTo

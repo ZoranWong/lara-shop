@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PermissionRole deleteByIds($ids)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PermissionRole search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PermissionRole updateById($id, $data)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\PermissionRole searchBy($where)
  */
 class PermissionRole extends Model
 {

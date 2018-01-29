@@ -39,6 +39,7 @@ use App\Models\Traits\StoreTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Merchandise[] $merchandises
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category currentStore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Category searchBy($where)
  */
 class Category extends Model
 {

@@ -32,6 +32,7 @@ use Zizaco\Entrust\Traits\EntrustRoleTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRole[] $userRoles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $perms
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role searchBy($where)
  */
 class Role extends Model implements EntrustRoleInterface
 {

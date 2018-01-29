@@ -165,7 +165,8 @@
                     console.log('pjax install');
                     self.siteBootUp();
                 });
-                self.siteBootUp();
+                if(self.siteBootUp != undefined && self.siteBootUp)
+                    self.siteBootUp();
             },
 
             /*

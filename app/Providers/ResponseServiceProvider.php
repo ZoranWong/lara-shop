@@ -4,6 +4,7 @@ namespace App\Providers;
 
 
 use App\Services\AjaxResponse;
+use App\Services\ApiResponse;
 use Response;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,12 +33,17 @@ class ResponseServiceProvider extends ServiceProvider
         });
         // api接口返回宏
         Response::macro('api', function ($mContent = [], $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
-            return response()->json(AjaxResponse::ajax($mContent, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
+            return response()->json(ApiResponse::api($mContent, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
         });
 
         // 错误ajax接口返回宏
         Response::macro('errorApi', function ($error, $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
-            return response()->json(AjaxResponse::errorAjax($error, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
+            return response()->json(ApiResponse::errorApi($error, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
+        });
+
+        // 异常ajax接口返回宏
+        Response::macro('exceptionApi', function (\Exception $mContent, $iAjaxStatus = 200, $iStatus = 200, array $aHeaders = [], $iOptions = 0) {
+            return response()->json(ApiResponse::exceptionApi($mContent, $iAjaxStatus), $iStatus, $aHeaders, $iOptions);
         });
     }
 

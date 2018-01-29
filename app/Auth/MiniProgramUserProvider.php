@@ -1,8 +1,10 @@
 <?php
 namespace App\Auth;
 
+use App\Models\Token;
 use App\Models\User;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 class MiniProgramUserProvider extends EloquentUserProvider
 {
@@ -31,5 +33,10 @@ class MiniProgramUserProvider extends EloquentUserProvider
         $class = '\\'.ltrim($this->model, '\\');
 
         return new $class;
+    }
+
+    public function updateToken(User $user, Token $token)
+    {
+        $user->tokens()->save($token);
     }
 }

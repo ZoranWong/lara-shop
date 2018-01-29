@@ -2,13 +2,21 @@
 namespace App\Auth;
 
 use App\Models\Token;
+use App\Models\User;
+use Illuminate\Auth\GuardHelpers;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Auth\SupportsBasicAuth;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-class MiniProgramGuard extends SessionGuard
+use Illuminate\Support\Str;
+
+class MiniProgramGuard implements Guard
 {
+    use GuardHelpers;
     /**
      * The name of the query string item from the request containing the API token.
      *
@@ -43,9 +51,10 @@ class MiniProgramGuard extends SessionGuard
      */
     protected $request = null;
 
-    public function __construct($name, UserProvider $provider, Session $session, Request $request = null)
+    public function __construct(UserProvider $provider, Request $request = null)
     {
-        parent::__construct($name, $provider, $session, $request);
+        $this->request = $request;
+        $this->provider = $provider;
     }
 
     /**
@@ -53,7 +62,7 @@ class MiniProgramGuard extends SessionGuard
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-    public function user() : Authenticatable
+    public function user()
     {
         // If we've already retrieved the user for the current request we can just
         // return it back immediately. We do not want to fetch the user data on
@@ -65,15 +74,10 @@ class MiniProgramGuard extends SessionGuard
         $user = null;
 
         $token = $this->getTokenForRequest();
-        $token = Token::where('token', $token)->where('expire_in', '>', time())->fisrt();
-        if (! empty($token)) {
-            $user = $this->provider->retrieveByCredentials(
-                ['id' => $token['user_id']]
-            );
-        }
-
-        if(!$user){
-            $user = parent::user();
+        $time = time();
+        $token = Token::token($token, $time);
+        if (!!$token && ! empty($token)) {
+            $user = User::find($token['user_id']);
         }
 
         return $this->user = $user;
@@ -100,6 +104,52 @@ class MiniProgramGuard extends SessionGuard
             $token = $this->request->header($this->headerKey);
         }
 
-        return $token;
+        return $token ? $token : '';
+    }
+
+    /**
+     * Create a new "remember me" token for the user if one doesn't already exist.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    protected function ensureTokenIsSet(User $user)
+    {
+        if (empty($user->getToken())) {
+            $this->cycleToken($user);
+        }
+    }
+
+    public function login(User $user, $remember = false)
+    {
+        $this->cycleToken($user);
+        $this->setUser($user);
+    }
+
+    public function validate(array $credentials = [])
+    {
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * Refresh the "remember me" token for the user.
+     *
+     * @param  User  $user
+     * @return void
+     */
+    protected function cycleToken(User $user)
+    {
+
+        $user->setToken($token = new Token([
+            'token' => bcrypt($user->toJson()),
+            'expire_in' => time() + config('auth.token.ttl'),
+        ]));
+
+        $this->getProvider()->updateToken($user, $token);
+    }
+
+    protected function getProvider() : MiniProgramUserProvider
+    {
+        return $this->provider;
     }
 }

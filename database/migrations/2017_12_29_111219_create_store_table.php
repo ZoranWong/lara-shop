@@ -18,14 +18,17 @@ class CreateStoreTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
+            $table->string('code', 32)->unique()->comment('店铺编号');
             $table->string('name', 32)->comment('店铺名称');
-            $table->string('logo_url')->comment('店铺logo图片');
+            $table->string('logo_url')->default(null)->comment('店铺logo图片');
             $table->float('amount', 12, 2)->default(0)->comment('店铺余额');
             $table->string('wechat', 20)->nullable()->comment('联系人微信');
             $table->string('qq', 20)->nullable()->comment('联系人qq');
             $table->enum('status',['APPLY', 'PASS', 'REFUSE'])->default('APPLY')->commit('店铺状态');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index('code');
         });
 
         Schema::create('store_owner', function (Blueprint $table) {
@@ -34,10 +37,6 @@ class CreateStoreTable extends Migration
             $table->collation = 'utf8_persian_ci';
             $table->unsignedInteger('store_id')->comment('店铺id');
             $table->unsignedInteger('user_id')->comment('店铺拥有者用户id');
-            $table->string('open_id', 64)->nullable()->comment('微信登录open_id');
-            $table->string('union_id', 64)->nullable()->comment('微信多平台用户三方登录唯一标识');
-            $table->string('session_key')->nullable()->comment('微信登录session');
-            $table->unsignedInteger('expire_in')->nullable()->comment('微信登录session过期时间');
             $table->timestamps();
             $table->softDeletes();
 
@@ -55,10 +54,6 @@ class CreateStoreTable extends Migration
             $table->collation = 'utf8_persian_ci';
             $table->unsignedInteger('store_id')->comment('店铺id');
             $table->unsignedInteger('user_id')->comment('店铺管理者用户id');
-            $table->string('open_id', 64)->nullable()->comment('微信登录open_id');
-            $table->string('union_id', 64)->nullable()->comment('微信多平台用户三方登录唯一标识');
-            $table->string('session_key')->nullable()->comment('微信登录session');
-            $table->unsignedInteger('expire_in')->nullable()->comment('微信登录session过期时间');
             $table->timestamps();
             $table->softDeletes();
 

@@ -6,6 +6,8 @@ use App\Models\Traits\ModelTrait;
 use App\Models\Traits\UserRelationTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Models\UserRole
@@ -24,13 +26,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserRole onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserRole withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserRole withoutTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole searchBy($where)
+ * @method static bool|null forceDelete()
  */
 class UserRole extends Model
 {
     //
     protected $table = 'role_user';
-    use ModelTrait;
-    use UserRelationTrait;
+    use ModelTrait,
+        UserRelationTrait,
+        SoftDeletes;
 
     protected $fillable = [
         'role_id',

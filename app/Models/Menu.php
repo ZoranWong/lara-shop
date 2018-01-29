@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\Input;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu searchBy($where)
  */
 class Menu extends Model
 {

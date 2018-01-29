@@ -17,7 +17,9 @@ class Row extends \App\Renders\Grid\Row
             'id'    => $id
         ])->render();
         $tr .= view('store.order.grid.order-item',[
-            'orderItems' => $this->data['orderItems']
+            'orderItems' => $this->data['order_items'],
+            'color' => $color,
+            'order' => $this->data,
         ])->render();
 
         return $tr;

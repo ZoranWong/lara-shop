@@ -16,6 +16,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
+    protected $domains = [];
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -26,6 +28,7 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
     }
 
     /**
@@ -35,10 +38,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->domains = config('domain');
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
+        $this->mapAdminRoutes();
         //
     }
 
@@ -51,14 +56,38 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+        Route::domain($this->domains['web'])
+            ->middleware('web')
             ->namespace($this->namespace)
             ->group(
                 base_path('routes/auth.php')
             );
-        Route::middleware('web')
+        Route::domain($this->domains['web'])
+             ->middleware('web')
              ->namespace($this->namespace.'\Admin')
              ->group(base_path('routes/web.php'));
+    }
+
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::domain($this->domains['admin'])
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(
+                base_path('routes/auth.php')
+            );
+        Route::domain($this->domains['admin'])
+            ->middleware('web')
+            ->namespace($this->namespace.'\Admin')
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -70,9 +99,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        Route::domain($this->domains['api'])
              ->middleware('api')
-             ->namespace($this->namespace)
+             ->namespace($this->namespace.'\Api')
              ->group(base_path('routes/api.php'));
     }
 }

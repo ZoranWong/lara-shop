@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Session deleteByIds($ids)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Session search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Session updateById($id, $data)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Session searchBy($where)
  */
 class Session extends Model
 {

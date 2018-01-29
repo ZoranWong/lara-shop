@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Models\OrderCount
@@ -28,10 +29,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderCount deleteByIds($ids)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderCount search($where)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderCount updateById($id, $data)
+ * @property string|null $store_code
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderCount whereStoreCode($value)
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderCount searchBy($where)
  */
 class OrderCount extends Model
 {
     //
-    use ModelTrait;
+    use ModelTrait, Notifiable;
     protected $table = 'order_count';
 }

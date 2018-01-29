@@ -10,7 +10,7 @@ class AuthManager extends BaseAuthManager
     {
         $provider = $this->createMiniProgramProvider($config['provider.mini_program'] ?? null);
 
-        $guard = new MiniProgramGuard($name, $provider, $this->app['session.store']);
+        $guard = new MiniProgramGuard($provider, $this->app['request']);
 
         // When using the remember me functionality of the authentication services we
         // will need to be set the encryption instance of the guard, which allows

@@ -33,13 +33,14 @@ class ApiResponse
             [
                 'code'     => $exception->getCode(),
                 'response' => $exception->getMessage(),
+                'trace'    => $exception->getTraceAsString()
             ]
         );
 
         return [
             'hasError' => true,
             'success'  => false,
-            'error'    => $error,
+            'error'    => is_string($error)? ['message' =>$error] : $error,
             'code'     => $code,
             'data'     => [],
         ];
@@ -59,7 +60,7 @@ class ApiResponse
         return [
             'hasError' => true,
             'success'  => false,
-            'error'    => $error,
+            'error'    => is_string($error)? ['message' =>$error] : $error,
             'code'     => $code,
             'data'     => [],
         ];

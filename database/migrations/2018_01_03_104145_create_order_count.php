@@ -25,6 +25,7 @@ class CreateOrderCount extends Migration
         Schema::create('order_count',function (Blueprint $table){
             $table->increments('id');
             $table->unsignedInteger('store_id')->comment('商铺ID');
+            $table->string('store_code')->comment('店铺编号');
             $table->float('today_sum',10, 2)->comment('今日销售金额');
             $table->float('yes_sales',10, 2)->comment('昨日销售金额');
             $table->float('last_week_sales',10, 2)->comment('前七天销售金额');

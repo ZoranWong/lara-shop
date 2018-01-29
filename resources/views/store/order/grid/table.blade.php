@@ -87,3 +87,50 @@
     </div>
     <!-- /.box-body -->
 </div>
+
+
+<script type="text/javascript">
+    window.pageInit = function () {
+        $('.refund-agree').unbind('click').bind('click', function (e) {
+            bootbox.confirm({
+                title:'<span class = "text-danger">退款</span>',
+                message:'是否同意此笔退款申请？',
+                buttons:{
+                    cancel: {
+                        label:'取消',
+                        className:"btn btn-primary"
+                    },
+                    confirm: {
+                        label:"确定",
+                        className:"btn btn-primary",
+                    }
+                },
+                callback: function (status) {
+                    if(status){
+
+                    }
+                }
+            });
+        });
+
+        $('.refund-refuse').unbind('click').bind('click', function (e) {
+            bootbox.confirm({
+                title:'<span class = "text-danger">退款</span>',
+                message:'是否拒绝此笔退款申请？',
+                buttons:{
+                    cancel: {
+                        label:'取消',
+                        className:"btn btn-primary"
+                    },
+                    confirm: {
+                        label:"确定",
+                        className:"btn btn-primary",
+                    }
+                },
+                callback: function () {
+
+                }
+            });
+        });
+    }
+</script>

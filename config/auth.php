@@ -2,6 +2,10 @@
 
 return [
 
+    'token' => [
+        'ttl' => 86400
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -45,9 +49,9 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
-        'mini_program' => [
+        'miniProgram' => [
             'driver' => 'miniProgram',
-            'provider' => 'mini_program'
+            'provider' => 'miniProgram'
         ]
     ],
 
@@ -74,7 +78,7 @@ return [
             'model' => App\Models\User::class,
         ],
 
-         'mini_program' => [
+         'miniProgram' => [
              'driver' => 'miniProgram',
              'model' => App\Models\User::class,
          ],

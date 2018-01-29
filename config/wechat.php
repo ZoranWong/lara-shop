@@ -16,9 +16,9 @@ return [
     /*
      * 账号基本信息，请从微信公众平台/开放平台获取
      */
-    'app_id'  => env('WECHAT_APPID', 'your-app-id'),         // AppID
-    'secret'  => env('WECHAT_SECRET', 'your-app-secret'),     // AppSecret
-    'token'   => env('WECHAT_TOKEN', 'your-token'),          // Token
+    'app_id'  => env('WECHAT_APPID', ''),         // AppID
+    'secret'  => env('WECHAT_SECRET', ''),     // AppSecret
+    'token'   => env('WECHAT_TOKEN', ''),          // Token
     'aes_key' => env('WECHAT_AES_KEY', ''),                    // EncodingAESKey
 
     /**
@@ -34,12 +34,12 @@ return [
     /**
      * 小程序配置信息
      */
-    // 'mini_program' => [
-    //     'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
-    //     'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
-    //     'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
-    //     'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
-    // ],
+     'mini_program' => [
+         'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', ''),
+         'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', ''),
+         'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
+         'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
+     ],
 
     /**
      * 路由配置

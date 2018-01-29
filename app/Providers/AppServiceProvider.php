@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth\AuthManager;
+use App\Models\ShoppingCart;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,16 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Switch case directive
-        \Blade::extend(function($value, $compiler){
-            $value = preg_replace('/(\s*)@switch\((.*)\)(?=\s)/', '$1<?php switch($2):', $value);
-            $value = preg_replace('/(\s*)@endswitch(?=\s)/', '$1endswitch; ?>', $value);
-            $value = preg_replace('/(\s*)@case\((.*)\)(?=\s)/', '$1case $2: ?>', $value);
-            $value = preg_replace('/(?<=\s)@default(?=\s)/', 'default: ?>', $value);
-            $value = preg_replace('/(?<=\s)@breakswitch(?=\s)/', '<?php break;', $value);
-            return $value;
-        });
-
         \Validator::extend('products', function ($attribute, $value, $parameters, $validator) {
             if ($value) {
                 if(is_array($value)){
@@ -82,6 +75,31 @@ class AppServiceProvider extends ServiceProvider
                 return true;
             }
         });
+
+        \Validator::extend('mobile', function ($attribute, $value, $parameters, $validator) {
+            if(preg_match("/^1\d{10}$/",$value)){
+                return true;
+            }else{
+                return false;
+            }
+        });
+
+        \Validator::extend('phone', function ($attribute, $value, $parameters, $validator) {
+            if(preg_match("/^1\d{10}$/",$value) || preg_match("/^0\d{2,3}-?\d{7,8}$/", $value)){
+                return true;
+            }else{
+                return false;
+            }
+        });
+
+        \Validator::extend('shopping_carts', function ($attribute, $value, $parameters, $validator) {
+            $value = array_unique($value);
+            return ShoppingCart::whereIn('id', $value)->count() == count($value);
+        });
+
+        \DB::listen(function (QueryExecuted $executed){
+            \Log::debug($executed->sql);
+        });
     }
 
     /**
@@ -96,6 +114,12 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
 
+        $this->app->singleton('auth', function ($app) {
+            $app['auth.loaded'] = true;
+            logger('auth boot ');
+            return new AuthManager($app);
+        });
+        logger('auth boot 1');
         if($this->app->runningInConsole()){
             $this->app->register(\Encore\Admin\AdminServiceProvider::class);
         }
