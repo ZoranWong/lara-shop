@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BaseController as Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Refund;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -14,10 +15,24 @@ class OrderController extends Controller
     public function __construct(Page $page)
     {
         $this->page = $page;
-        parent::__construct(function (){
-            return [
+        parent::__construct(function () use (&$page){
+            $input = app('request');
+            $page->status = $status = $input->input('status', null);
+            $where = [];
+            $refundStatus = Order::REFUND_STATUS;
+            $orderStatus = Order::STATUS;
+            if($status && isset($refundStatus[$status])) {
+                $where[] = ['whereHas' => ['orderItems.refund', function(Builder $query) use($status){
+                    $query->where('status', Refund::STATUS[Order::REFUND_STATUS[$status]]);
+                }]];
+            } else if($status && isset($orderStatus[$status])) {
+                $where[] = ['whereHas' => ['orderItems', function(Builder $query) use($status){
+                    $query->where('status', OrderItem::STATUS[$status]);
+                }]];
+            }
+            unset($input['status']);
 
-            ];
+            return $where;
         });
     }
 

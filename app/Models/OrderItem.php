@@ -97,7 +97,21 @@ class OrderItem extends Model
         'CANCEL' => '取消订单',
         'PAID' => '待发货',
         'SEND' => '待收货',
-        'COMPLETED' => '交易完成'
+        'COMPLETED' => '交易完成',
+        'REFUND_APPLYING' => '退款申请中',
+        'REFUND_PASS'     => '退款申请通过',
+        'REFUND_REFUSED'  => '拒绝退款申请',
+        'REFUND_CLOSED'   => '退款申请关闭'
+    ];
+
+    /**
+     * 退款状态字典
+     * */
+    const REFUND_STATUS = [
+        'REFUND_APPLYING' => 'REFUNDING',
+        'REFUND_PASS'     => 'REFUNDED',
+        'REFUND_REFUSED'  => 'REFUSED',
+        'REFUND_CLOSED'   => 'CLOSED'
     ];
 
     /**

@@ -6,9 +6,11 @@ use App\Renders\Facades\SectionContent;
 use App\Renders\Form;
 use App\Http\Controllers\Admin\Common\BasePage;
 use App\Renders\Grid\Filter;
+use Illuminate\Support\Facades\Input;
 
 class Page extends BasePage
 {
+    public $status = '';
     public function __construct()
     {
         parent::__construct();
@@ -26,7 +28,7 @@ class Page extends BasePage
                 $filter->like('code', '订单号');
                 $filter->between('created_at', '下单时间')->datetime();
                 $filter->like('receiver_name', '微信昵称')->placeholder('请填写微信昵称');
-                $filter->equal('orderItems.status', '订单状态')->select(OrderItem::STATUS_ZH_CN);
+                $filter->equal('status', '订单状态')->select(OrderItem::STATUS_ZH_CN)->default($this->status);
             });
         });
     }
