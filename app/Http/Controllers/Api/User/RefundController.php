@@ -43,6 +43,9 @@ class RefundController extends Controller
                 if(!$orderItem || !$order){
                     return response()->errorApi('订单错误');
                 }
+                if(array_search($orderItem['status'], array_except(OrderItem::STATUS, ['WAIT', 'CANCEL']))){
+                    return response()->errorApi('订单未付款无法退款');
+                }
                 if($refundFee > $orderItem->total_fee){
                     return response()->errorApi('退款金额超出订单总金额！');
                 }
