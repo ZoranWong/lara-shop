@@ -173,19 +173,22 @@ class Merchandise extends Model
 
     public function saveProducts(Collection $products, string $key = 'code')
     {
-        $list =  $products->map(function (Product $product) use(&$key){
+        $updateOrAddProduct=[];
+        $list =  $products->map(function (Product $product) use(&$key, &$updateOrAddProduct){
             $model = Product::where('merchandise_id', $this->id)->where($key, $product[$key])->first();
             if($model){
                 $data = $product->toArray();
                 unset($data[$key]);
                 $model->update($data);
+
             }else{
                 $product['merchandise_code'] = $this->code;
                 $model = $this->products()->save($product);
             }
+            $updateOrAddProduct[] = $model->id;
             return $model->toArray();
         });
-
+        Product::whereNotIn('id', $updateOrAddProduct)->delete();
         $this['products'] = $list->toArray();
     }
 

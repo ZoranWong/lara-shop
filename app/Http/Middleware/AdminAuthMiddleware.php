@@ -28,7 +28,9 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
+        logger('auth admin');
         if(\Auth::guest() && !$this->inExceptArray($request)){
+            logger('is guest');
             return redirect('/login');
         }else{
             return $next($request);

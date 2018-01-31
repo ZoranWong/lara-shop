@@ -32,13 +32,13 @@ class AppServiceProvider extends ServiceProvider
                         }
                     }
                 }else{
-                    logger('not array',[$value]);
+//                    logger('not array',[$value]);
                     return false;
                 }
             }else{
                 return true;
             }
-            logger('value');
+//            logger('value');
             return false;
         });
 
@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
                     }
                     return true;
                 }else{
-                    logger( 'not array');
+//                    logger( 'not array');
                     return false;
                 }
             }else{
@@ -98,7 +98,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         \DB::listen(function (QueryExecuted $executed){
-            \Log::debug($executed->sql);
+            \Log::debug($executed->sql, $executed->bindings);
         });
     }
 
@@ -116,10 +116,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('auth', function ($app) {
             $app['auth.loaded'] = true;
-            logger('auth boot ');
             return new AuthManager($app);
         });
-        logger('auth boot 1');
         if($this->app->runningInConsole()){
             $this->app->register(\Encore\Admin\AdminServiceProvider::class);
         }

@@ -223,7 +223,7 @@ class Column extends \Encore\Admin\Grid\Column
      */
     protected function callDisplayCallbacks($value, $key)
     {
-        logger('data', [$this->data]);
+//        logger('data', [$this->data]);
         foreach ($this->displayCallbacks as $callback) {
             $callback = $this->bindOriginalRow($callback, $key);
             $value = call_user_func($callback, $value, $this->data[$key]);
@@ -256,7 +256,7 @@ class Column extends \Encore\Admin\Grid\Column
     public function fill(array $data)
     {
         $this->data = $data;
-        logger('fill');
+//        logger('fill');
         foreach ($data as $key => &$row) {
             $this->original = $value = array_get($row, $this->name);
 
@@ -267,7 +267,7 @@ class Column extends \Encore\Admin\Grid\Column
             if ($this->isDefinedColumn()) {
                 $this->useDefinedColumn();
             }
-            logger('fill 1');
+//            logger('fill 1');
             if ($this->hasDisplayCallbacks()) {
                 $value = $this->callDisplayCallbacks($this->original, $key);
                 array_set($row, $this->name, $value);

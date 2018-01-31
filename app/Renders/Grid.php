@@ -157,7 +157,7 @@ class Grid extends \Encore\Admin\Grid
         $this->appendActionsColumn();
 
         Column::setOriginalGridData($data);
-logger('build');
+//logger('build');
         $this->columns->map(function (\Encore\Admin\Grid\Column $column) use (&$data) {
             $data = $column->fill($data);
 

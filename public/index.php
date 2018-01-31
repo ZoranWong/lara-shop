@@ -50,7 +50,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 */
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
+$time = -microtime(true);
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
@@ -58,3 +58,7 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+define('LARAVEL_END', microtime(true));
+$time += microtime(true);
+logger('cost time '.sprintf('%d', $time).' s');
