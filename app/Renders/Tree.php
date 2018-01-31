@@ -232,7 +232,7 @@ class Tree extends \Encore\Admin\Tree
 
         $('#{$this->elementId}').nestable($nestableOptions);
 
-        $('.tree_branch_delete').click(function() {
+        $('.tree_branch_delete').unbind('click').bind('click',function() {
             var id = $(this).data('id');
             swal({
               title: "$deleteConfirm",
@@ -266,7 +266,7 @@ class Tree extends \Encore\Admin\Tree
             });
         });
 
-        $('.{$this->elementId}-save').click(function () {
+        $('.{$this->elementId}-save').unbind('click').bind('click', function () {
             var serialize = $('#{$this->elementId}').nestable('serialize');
 
             $.post('{$this->path}', {
@@ -279,12 +279,12 @@ class Tree extends \Encore\Admin\Tree
             });
         });
 
-        $('.{$this->elementId}-refresh').click(function () {
+        $('.{$this->elementId}-refresh').unbind('click').bind('click', function () {
             $.pjax.reload('#pjax-container');
             toastr.success('{$refreshSucceeded}');
         });
 
-        $('.{$this->elementId}-tree-tools').on('click', function(e){
+        $('.{$this->elementId}-tree-tools').unbind('click').bind('click', function(e){
             var target = $(e.target),
                 action = target.data('action');
             if (action === 'expand') {

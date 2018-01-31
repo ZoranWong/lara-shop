@@ -17,9 +17,26 @@ class RefreshButton extends AbstractTool
 
         return <<<EOT
 
-$("body").on("click", ".grid-refresh", function() {
+$(".grid-refresh").unbind('click').bind('click', function() {
     $.pjax.reload('#pjax-container');
-    toastr.success('{$message}');
+    toastr.options.onShown = function() { 
+        console.log('hello', window.successRefresh); 
+        window.successRefresh = 'start';
+    }
+    toastr.options.onHidden = function() { 
+        console.log('goodbye', window.successRefresh); 
+        window.successRefresh = 'end';
+    }
+    toastr.options.onclick = function() { 
+        console.log('clicked'); 
+    }
+    toastr.options.onCloseClick = function() {
+        console.log('close button clicked'); 
+        window.successRefresh = 'end';
+    }
+    if(window.successRefresh != 'start'){
+        toastr.success('{$message}');
+    }
 });
 
 EOT;
