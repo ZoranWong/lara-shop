@@ -73124,7 +73124,7 @@ var STATUS = ['TAKEN_OFF', 'ON_SHELVES'];
             ruleForm: merchandise,
             rules: {
                 name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
-                sell_price: [{ required: true, message: '请输入商品价格', trigger: 'blur', type: 'number' }],
+                sell_price: [{ required: true, message: '请输入商品价格', trigger: 'blur' }],
                 images: [{ type: 'array', required: true, message: '请选择商品图像', trigger: 'blur' }]
             }
         };

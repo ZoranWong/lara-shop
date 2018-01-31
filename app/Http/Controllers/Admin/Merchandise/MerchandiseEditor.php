@@ -33,6 +33,7 @@ class MerchandiseEditor extends Widget implements Renderable
                 }
                 $this->merchandise['images'] = $images;
             }
+            $this->merchandise['sell_price'] = (string)$this->merchandise['sell_price'];
         }
         return view($this->view)->with([
             'merchandise' => $this->merchandise,
