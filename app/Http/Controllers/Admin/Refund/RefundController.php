@@ -27,7 +27,7 @@ class RefundController extends Controller
         $this->miniProgramApp = $miniProgramApplication;
     }
 
-    public function refund($id)
+    public function agree($id)
     {
         $refund = Refund::find($id);
 
@@ -63,5 +63,23 @@ class RefundController extends Controller
             }
         }
         return response()->api('退款成功');
+    }
+
+    public function refuse($id, Request $request)
+    {
+        $refund = Refund::find($id);
+        if(!$refund){
+            return response()->errorApi('没有退款申请记录');
+        }else {
+            $refuseReason = $request->input('refuse_reason', '');
+            $refund->status = Refund::STATUS['REFUSED'];
+            $refund->refuse_reason = $refuseReason;
+            $result = $refund->save();
+            if($result){
+                return response()->api('退款成功');
+            }else{
+                return response()->errorApi('拒绝失败');
+            }
+        }
     }
 }

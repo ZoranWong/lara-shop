@@ -113,9 +113,7 @@ class MerchandiseController extends Controller
             $merchandise = Merchandise::find($id);
             $merchandise->update($merchandiseData);
 
-            if(count($productsModels) > 0) {
-                $merchandise->saveProducts($productsModels, 'code');
-            }
+            $merchandise->saveProducts($productsModels, 'code');
             \DB::commit();
             return response()->ajax($merchandise);
         }catch (\Exception $exception){

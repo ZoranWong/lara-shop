@@ -239,6 +239,9 @@
             // 响应sku更新事件
             updateSku (data) {
                 this.tableData = data[0];
+                if(this.tableData.length == 0){
+                    this.ruleForm.products = [];
+                }
                 this.skuTree = data[1];
             },
             // 切换表单

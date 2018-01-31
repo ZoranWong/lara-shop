@@ -96,7 +96,8 @@ class Refund extends Model
     const STATUS = [
         'REFUNDING' => 'REFUNDING',
         'REFUNDED'  => 'REFUNDED',
-        'CLOSED'    => 'CLOSED'
+        'CLOSED'    => 'CLOSED',
+        'REFUSED'   => 'REFUSED'
     ];
 
     const REFUND_ACCOUNT = [
