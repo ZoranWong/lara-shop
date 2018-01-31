@@ -188,7 +188,11 @@ class Merchandise extends Model
             $updateOrAddProduct[] = $model->id;
             return $model->toArray();
         });
-        Product::whereNotIn('id', $updateOrAddProduct)->delete();
+        if(count($updateOrAddProduct) > 0){
+            Product::where('merchandise_id', $this->id)->whereNotIn('id', $updateOrAddProduct)->delete();
+        }else{
+            Product::where('merchandise_id', $this->id)->delete();
+        }
         $this['products'] = $list->toArray();
     }
 
