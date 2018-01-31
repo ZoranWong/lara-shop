@@ -29,7 +29,7 @@ class MenuFilter implements FilterInterface
         }
         $can = [];
         $can[] = $item['permission']['name'];
-        logger($item['text']);
+
         return Auth::user()->can($can);
     }
 }

@@ -9,7 +9,7 @@ class AuthManager extends BaseAuthManager
     public function createMiniProgramDriver($name, $config) : Guard
     {
         $provider = $this->createMiniProgramProvider($config['provider.miniProgram'] ?? null);
-        logger('user guard', config('auth.defaults'));
+
         $guard = new MiniProgramGuard($provider, $this->app['request']);
 
         // When using the remember me functionality of the authentication services we

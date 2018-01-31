@@ -18,7 +18,6 @@ class Grid extends \App\Renders\Grid
         }
         $this->model()->with(['orderItems.user', 'orderItems.refund']);
         $data = $this->processFilter();
-
         $this->prependRowSelectorColumn();
         $this->appendActionsColumn();
 

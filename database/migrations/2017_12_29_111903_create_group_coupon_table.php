@@ -69,8 +69,12 @@ class CreateGroupCouponTable extends Migration
             $table->unsignedInteger('auto_cancel_at')->default(null)->comment('未成团时自动取消拼团时间');
             $table->unsignedInteger('patched_at')->default(null)->comment('完成拼团时间');
             $table->enum('status', ['OPENING', 'PATCHING', 'FULL', 'PATCHED', 'OVER_DATE', 'INVALID', 'CANCEL'])
+                ->nullable()
+                ->default(null)
                 ->comment('拼团状态:OPENING 开团待付款 PATCHING 拼团中 FULL 满员待成员付款 PATCHED 完成拼团 OVER_DATE 团购过期 INVALID 团购失效 CANCEL 拼团关闭');
             $table->enum('cancel', ['AUTO_CANCEL', 'BUYER_REFUND', 'SELLER_CANCEL'])
+                ->nullable()
+                ->default(null)
                 ->comment('关闭状态：AUTO_CANCEL 拼团过期 BUYER_REFUND 买家退款 SELLER_CANCEL 卖家主动取消拼团');
             $table->timestamps();
             $table->softDeletes();
@@ -105,8 +109,12 @@ class CreateGroupCouponTable extends Migration
             $table->unsignedInteger('opened_at')->default(null)->comment('参团时间');
             $table->unsignedInteger('auto_cancel_at')->comment('未成团时自动取消拼团时间');
             $table->enum('status', ['WAIT_PAY', 'PATCHING',  'PATCHED', 'OVER_DATE', 'INVALID', 'CANCEL', 'SEND', 'COMPLETE'])
+                ->nullable()
+                ->default('WAIT_PAY')
                 ->comment('拼团状态:OPENING 开团待付款 PATCHING 拼团中 FULL 满员待成员付款 PATCHED 完成拼团 OVER_DATE 团购过期 INVALID 团购失效 CANCEL 拼团关闭 SEND 发货 COMPLETE 签收或者完成');
             $table->enum('cancel', ['AUTO_CANCEL', 'BUYER_REFUND', 'SELLER_CANCEL'])
+                ->nullable()
+                ->default(null)
                 ->comment('关闭状态：AUTO_CANCEL 拼团过期 BUYER_REFUND 买家退款 SELLER_CANCEL 卖家主动取消拼团');
             $table->timestamps();
             $table->softDeletes();

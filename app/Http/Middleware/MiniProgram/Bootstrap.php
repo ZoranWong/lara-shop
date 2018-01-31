@@ -16,7 +16,6 @@ class Bootstrap
      */
     public function handle($request, Closure $next)
     {
-        logger('bootstarp api');
         config(['auth.defaults' => [
             'guard' => 'miniProgram',
             'password' => 'users'

@@ -75,7 +75,7 @@ class MiniProgramGuard implements Guard
 
         $token = $this->getTokenForRequest();
         $time = time();
-        logger('user login', config('auth.defaults'));
+
         $token = Token::token($token, $time);
         if (!!$token && ! empty($token)) {
             $user = User::find($token['user_id']);

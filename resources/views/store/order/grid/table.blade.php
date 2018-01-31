@@ -112,11 +112,11 @@
                 }
             });
         });
-
+        let refundBox ="<span>是否拒绝此笔退款申请？</span>";
         $('.refund-refuse').unbind('click').bind('click', function (e) {
             bootbox.confirm({
                 title:'<span class = "text-danger">退款</span>',
-                message:'是否拒绝此笔退款申请？',
+                message: refundBox,
                 buttons:{
                     cancel: {
                         label:'取消',
@@ -128,6 +128,7 @@
                     }
                 },
                 callback: function () {
+                    bootbox.co
 
                 }
             });

@@ -24,8 +24,8 @@ class CreateRefund extends Migration
             $table->unsignedInteger('buyer_user_id')->comment('买家id');
             $table->unsignedInteger('merchandise_id')->comment('商品id');
             $table->string('merchandise_code', 20)->comment('产品编号');
-            $table->unsignedInteger('product_id')->nullable()->comment('产品id');
-            $table->string('product_code', 20)->nullable()->comment('产品编号');
+            $table->unsignedInteger('product_id')->nullable()->default(null)->comment('产品id');
+            $table->string('product_code', 20)->nullable()->default(null)->comment('产品编号');
             $table->unsignedInteger('order_item_id')->comment('订单子项id');
             $table->string('order_item_code', 20)->comment('订单子项编号');
             $table->string('refund_reason', 512)->nullable()->default(null)->comment('退款理由');
@@ -49,9 +49,9 @@ class CreateRefund extends Migration
             $table->enum('cash_fee_type', ['CNY', 'USD', 'TWD', 'HKD',
                 'JPY', 'AUD', 'CAD', 'FKP', 'MOP', 'NZD', 'GBP', 'EUR', 'SGD',
                 'VND', 'TRY', 'THB', 'SEK', 'MXN', 'NOK', 'CHF', 'CZK', 'DKK',
-                'DJK', 'EGP', 'COP', 'HUF', 'IDR'])->default('CNY')->comment('现金支付币种');
+                'DJK', 'EGP', 'COP', 'HUF', 'IDR'])->nullable()->default('CNY')->comment('现金支付币种');
             $table->string('error_code', 30)->nullable()->default(null)->comment('错误码');
-            $table->enum('coupon_type', ['CASH', 'NO_CASH'])->default('CASH')->comment('代金券类型');
+            $table->enum('coupon_type', ['CASH', 'NO_CASH'])->nullable()->default('NO_CASH')->comment('代金券类型');
 
             $table->float('coupon_refund_fee')->default(0)->comment('代金券退款总金额');
             $table->text('coupon_refund')->nullable()->comment('代金券退款{id:XX,fee:XX}');

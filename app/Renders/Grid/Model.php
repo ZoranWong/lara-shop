@@ -195,6 +195,7 @@ class Model extends \Encore\Admin\Grid\Model
     public function buildData($toArray = true)
     {
         if (empty($this->data)) {
+
             $collection = $this->get();
 
             if ($this->collectionCallback) {

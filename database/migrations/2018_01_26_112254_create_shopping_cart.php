@@ -25,8 +25,8 @@ class CreateShoppingCart extends Migration
             $table->unsignedInteger('product_id')->nullable()->comment('规格商品id');
             $table->string('product_code', 20)->nullable()->comment('规格商品code');
             $table->string('name', 50)->comment('商品名称');
-            $table->string('merchandise_main_image_url', 255)->comment('商品图片');
-            $table->string('sku_properties_name')->comment('SKU的值，即：商品的规格 例如：颜色:黑色;尺码:XL;材料:毛绒XL');
+            $table->string('merchandise_main_image_url', 255)->nullable()->default(null)->comment('商品图片');
+            $table->string('sku_properties_name')->nullable()->default(null)->comment('SKU的值，即：商品的规格 例如：颜色:黑色;尺码:XL;材料:毛绒XL');
             $table->float('total_fee')->comment('总价');
             $table->float('price')->comment('单价');
             $table->unsignedInteger('num')->comment('商品数量');
