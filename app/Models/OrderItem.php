@@ -73,6 +73,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Refund $refund
  * @property-read \App\Models\Product|null $product
+ * @method static bool|null forceDelete()
  */
 class OrderItem extends Model
 {

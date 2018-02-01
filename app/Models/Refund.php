@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
@@ -89,6 +90,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefuseReason($value)
  * @property int $refund_product 是否退货
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefundProduct($value)
+ * @property-read \App\Models\Order $order
  */
 class Refund extends Model
 {
@@ -134,5 +136,10 @@ class Refund extends Model
         static::creating(function (Refund $refund){
             $refund->code = uniqueCode();
         });
+    }
+
+    public function order() : BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 }

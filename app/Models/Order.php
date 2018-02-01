@@ -252,31 +252,28 @@ class Order extends Model
       $order->status = self::STATUS['CANCEL'];
       $order->cancel = $cancel;//取消人
       $order->save();
-      $this->backStockNum($order->id);
+      $this->backStockNum();
       return  $order;
     }
 
-    public static function backStockNum($orderId)
+    public  function backStockNum()
     {
-        if(!is_array($orderId)){
-            $orderId = [$orderId];
-        }
-        $orderItems = OrderItem::with(['merchandise', 'product'])->whereIn('order_id',$orderId)->get();
+        $orderItems = $this->orderItems;
         if($orderItems){
-            foreach($orderItems as $item){
-                if($item['product']){
-                    $product = $item['product'];
+            $orderItems->map(function (OrderItem $orderItem){
+                if($orderItem->product){
+                    $product = $orderItem->product;
                     if($product){
-                        $product->stock_num += $item['num'];
+                        $product->stock_num += $orderItem->num;
                         $product->save();
                     }
                 }
-                $merchandise = $item['merchandise'];
+                $merchandise = $orderItem->merchandise;
                 if($merchandise){
-                    $merchandise->stock_num += $item['num'];
+                    $merchandise->stock_num += $orderItem->num;
                     $merchandise->save();
                 }
-            }
+            });
         }
     }
 

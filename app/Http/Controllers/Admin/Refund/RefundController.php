@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Refund;
 
+use App\Jobs\Jobs\RefundAgree;
+use App\Jobs\Jobs\RefundRefuse;
 use App\Models\Refund;
 use EasyWeChat\Payment\Application as PaymentApplication;
 use \EasyWeChat\MiniProgram\Application as MiniProgramApplication;
@@ -51,6 +53,7 @@ class RefundController extends Controller
                 if($result['result_code'] == 'SUCCESS'){
                     $refund->status = Refund::STATUS['REFUNDED'];
                     $refund->save();
+                    $this->dispatch(new RefundAgree($refund->order));
                 }else{
                     $refund->error_code = $result['err_code'];
                     $refund->save();
@@ -75,6 +78,7 @@ class RefundController extends Controller
             $refund->status = Refund::STATUS['REFUSED'];
             $refund->refuse_reason = $refuseReason;
             $result = $refund->save();
+            $this->dispatch(new RefundRefuse($refund->order));
             if($result){
                 return response()->api('退款成功');
             }else{
