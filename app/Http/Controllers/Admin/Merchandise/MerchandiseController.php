@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Store;
 use App\Renders\Form;
 use App\Services\StoreService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 
 class MerchandiseController extends Controller
@@ -57,21 +58,8 @@ class MerchandiseController extends Controller
         $productsModels = collect();
         $merchandiseData = Input::all();
         $merchandiseData['store_code'] = $store['code'];
-//        $merchandiseData['code'] = uniqueCode('ZM-');
         if($products){
-            $merchandiseData['max_price'] = 0;
-            $merchandiseData['min_price'] = 0;
-            foreach ($products as &$product){
-                if($merchandiseData['min_price'] == 0 || $merchandiseData['min_price'] > $product['sell_price']){
-                    $merchandiseData['min_price'] = $product['sell_price'];
-                }
-
-                if($merchandiseData['max_price'] == 0 || $merchandiseData['max_price'] < $product['sell_price']){
-                    $merchandiseData['max_price'] = $product['sell_price'];
-                }
-//                $product['code'] = uniqueCode('ZMP-');
-                $productsModels->push(new Product($product));
-            }
+            $this->fetchProducts($products, $merchandiseData, $productsModels);
         }
         \DB::beginTransaction();
         try{
@@ -88,6 +76,53 @@ class MerchandiseController extends Controller
         }
     }
 
+    protected function fetchProducts(array $products,array &$data, Collection &$productsModels){
+
+        if(is_array( $products ) && !empty($products)){
+            $priceArray = [];
+            foreach ($products as $key => $product) {
+                $product['code'] = isset($product['code']) && !!$product['code'] ? $product['code'] :
+                    null;
+                $productsModels->push(new Product($product));
+                $productsModels->push(new Product($product));
+                array_push($priceArray, $product['sell_price'] ? $product['sell_price'] : 0);
+            }
+
+            $data['spec_array']     =   $this->buildSelectedSku($products);
+            $data['max_price']      =   max($priceArray);
+            $data['min_price']      =   min($priceArray);
+        } else {
+            $data['max_price']      =   $data['sell_price'];
+            $data['min_price']      =   $data['sell_price'];
+        }
+    }
+
+    protected function buildSelectedSku($products){
+        $result = [];
+        foreach ($products as $product){
+            if($product['spec_array']){
+                foreach ($product['spec_array'] as $item){
+                    $id = $item['id'];
+                    if(!isset($result[$id]) || $result[$id] == null){
+                        $result[$item['id']] = [];
+                    }
+
+                    $result[$id]['name'] = $item['name'];
+                    $result[$id]['id'] = $item['id'];
+                    if(!isset($result[$id]['value']) || $result[$id]['value'] == null)
+                        $result[$id]['value'] = [];
+                    $result[$id]['value'][$item['tip']] = $item['value'];
+                }
+            }
+        }
+        $tmp = [];
+        foreach ($result as $item){
+            $tmp[] = $item;
+        }
+        $result = $tmp;
+        return $result;
+    }
+
     public function ajaxUpdate(Request $request, int $id): \Symfony\Component\HttpFoundation\Response
     {
         $products = app('request')['products'];
@@ -95,18 +130,7 @@ class MerchandiseController extends Controller
         $productsModels = collect();
         $merchandiseData = Input::all();
         if($products){
-            $merchandiseData['max_price'] = 0;
-            $merchandiseData['min_price'] = 0;
-            foreach ($products as &$product){
-                if($merchandiseData['min_price'] == 0 || $merchandiseData['min_price'] > $product['sell_price']){
-                    $merchandiseData['min_price'] = $product['sell_price'];
-                }
-                if($merchandiseData['max_price'] == 0 || $merchandiseData['max_price'] < $product['sell_price']){
-                    $merchandiseData['max_price'] = $product['sell_price'];
-                }
-                $product['code'] = isset($product['code']) && !!$product['code'] ? $product['code'] : uniqueCode('ZMP-');
-                $productsModels->push(new Product($product));
-            }
+            $this->fetchProducts($products, $merchandiseData, $productsModels);
         }
         \DB::beginTransaction();
         try{

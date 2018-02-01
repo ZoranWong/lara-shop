@@ -57,8 +57,30 @@ class ShoppingCartController extends Controller
         if($productId){
             $where['product_id'] = $productId;
         }
+        $merchandise = Merchandise::find($merchandiseId);
+        if(!$merchandise){
+            return response()->errorApi('购买产品不存在！');
+        }
+
+        if($merchandise->products()->count() > 0 && !$productId){
+            return response()->errorApi('请选择规格产品！');
+        }
+        $price = $merchandise->sell_price;
+        $product = null;
+        if($productId)
+        {
+            $product = $merchandise->products()->find($productId);
+            if(!$product){
+                return response()->errorApi('购买的规格产品不存在');
+            }elseif ($product->stock_num < $num){
+                return response()->errorApi('规格产品库存不足');
+            }
+        }
         $shoppingCart = ShoppingCart::searchBy($where)->first();
         if($shoppingCart){
+            if($merchandise->stock_num < $num){
+                return response()->errorApi('商品库存不足');
+            }
             $shoppingCart->num += $num;
             $shoppingCart->total_fee += $shoppingCart->price * $num;
             $result = $shoppingCart->save();
@@ -69,32 +91,23 @@ class ShoppingCartController extends Controller
             }
 
         }
-        $merchandise = Merchandise::find($merchandiseId);
-        if(!$merchandise){
-            return response()->errorApi('购买产品不存在！');
-        }
-        $price = $merchandise->sell_price;
-        if($merchandise->products()->count() > 0 && !$productId){
-            return response()->errorApi('请选择规格产品！');
-        }
+
+
+
         $data['store_id'] = $merchandise->store_id;
         $data['store_code'] = $merchandise->store_code;
         $data['name'] = $merchandise->name;
         $data['merchandise_main_image_url'] = $merchandise->main_image_url;
-        if($productId)
-        {
-            $product = $merchandise->products()->find($productId);
-            if($product){
-                $data['product_id']   = $productId;
-                $data['product_code'] = $product['code'];
-                if($product['spec_array']){
-                    $data['sku_properties_name'] = '';
-                    foreach ($product['spec_array'] as $item){
-                        $data['sku_properties_name'] .= "{$item['name']}:{$item['value']};";
-                    }
+        if($product){
+            $data['product_id']   = $productId;
+            $data['product_code'] = $product['code'];
+            if($product['spec_array']){
+                $data['sku_properties_name'] = '';
+                foreach ($product['spec_array'] as $item){
+                    $data['sku_properties_name'] .= "{$item['name']}:{$item['value']};";
                 }
-                $price = $product['sell_price'];
             }
+            $price = $product['sell_price'];
         }
         $totalFee = $price * $num;
         $data['merchandise_id']   = $merchandise['id'];

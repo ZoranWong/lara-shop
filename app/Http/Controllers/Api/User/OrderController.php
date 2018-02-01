@@ -155,7 +155,7 @@ class OrderController extends Controller
         return $this->valid($order, [
             'merchandise_id' => 'required|integer|exists:merchandise,id',
             'product_id' => 'integer|exists:product,id',
-            'num'        => 'integer|min:1',
+            'num'        => 'integer|min:1|order_num_limit',
             'receiver_name' => 'required',
             'receiver_mobile' => 'required|mobile',
             'receiver_city'   => 'required',
@@ -170,6 +170,7 @@ class OrderController extends Controller
             'product_id.exists' => '规格产品不存在',
             'num.integer'       => '缺少购买数量',
             'num.min'           => '购买数量必须大于1',
+            'num.order_num_limit' => '购买数量不能大于库存',
             'receiver_name.required' => '缺少收货人',
             'receiver_mobile.required' => '缺少收货人手机号',
             'receiver_mobile.mobile'   => '收货人手机号格式不对',

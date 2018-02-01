@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Auth\AuthManager;
+use App\Models\Merchandise;
+use App\Models\Product;
 use App\Models\ShoppingCart;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\ServiceProvider;
@@ -97,6 +99,24 @@ class AppServiceProvider extends ServiceProvider
             return ShoppingCart::whereIn('id', $value)->count() == count($value);
         });
 
+        \Validator::extend('order_num_limit', function($attribute, $value, $parameters, $validator){
+            $merchandise = Merchandise::find($attribute['merchandise_id']);
+            $product = null;
+            if(isset($attribute['product_id'])){
+                $product = Product::find($attribute['product_id']);
+            }
+
+            if($product){
+                if($product->stock_num < $value || $merchandise->stock_num < $value){
+                    return false;
+                }
+            }
+            if($merchandise->stock_num < $value){
+                return false;
+            }
+
+            return true;
+        });
         \DB::listen(function (QueryExecuted $executed){
             \Log::debug($executed->sql, $executed->bindings);
         });

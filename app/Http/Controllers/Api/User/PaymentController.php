@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Jobs\Jobs\PayNotify\PayNotify;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Store;
@@ -100,11 +101,7 @@ class PaymentController extends Controller
                 if (array_get($message, 'result_code') === 'SUCCESS') {
                     $order->paid_at = time(); // 更新支付时间为当前时间
                     $order->status = Order::STATUS['PAID'];
-                    $order->orderItems->map(function(OrderItem $orderItem){
-                        $store = Store::find($orderItem->store_id);
-                        $store->amount += $orderItem->total_fee;
-                        $store->save();
-                    });
+                    dispatch(new PayNotify($order));
                     // 用户支付失败
                 } elseif (array_get($message, 'result_code') === 'FAIL') {
                     $order->error_code = array_get($message, 'err_code');
@@ -112,9 +109,7 @@ class PaymentController extends Controller
             } else {
                 return $fail('通信失败，请稍后再通知我');
             }
-
             $order->save(); // 保存订单
-
             return true; // 返回处理完成
         });
         return $response->send();

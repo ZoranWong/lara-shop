@@ -87,6 +87,8 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $refuse_reason 拒绝理由
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefundReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefuseReason($value)
+ * @property int $refund_product 是否退货
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefundProduct($value)
  */
 class Refund extends Model
 {

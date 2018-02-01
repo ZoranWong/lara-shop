@@ -101,6 +101,8 @@ use Laravel\Scout\Searchable;
  * @property string|null $form_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Refund[] $refunds
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereFormId($value)
+ * @property string $name 商品标题作为此标题的值
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereName($value)
  */
 class Order extends Model
 {

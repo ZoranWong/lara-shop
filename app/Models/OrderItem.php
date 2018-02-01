@@ -31,11 +31,9 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \App\Models\Merchandise $merchandise
  * @property-read \App\Models\Order $order
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem deleteByIds($ids)
- * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\OrderItem onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem search($where)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem store()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem updateById($id, $data)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereBuyerUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereCancel($value)
@@ -74,6 +72,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \App\Models\Store $store
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Refund $refund
+ * @property-read \App\Models\Product|null $product
  */
 class OrderItem extends Model
 {
@@ -178,6 +177,11 @@ class OrderItem extends Model
     public function merchandise() : BelongsTo
     {
         return $this->belongsTo(Merchandise::class,'merchandise_id','id');
+    }
+
+    public function product() : BelongsTo
+    {
+        return $this->belongsTo(Product::class,'product_id','id');
     }
 
     public function order() : BelongsTo

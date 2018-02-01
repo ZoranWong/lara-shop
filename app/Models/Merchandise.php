@@ -175,7 +175,9 @@ class Merchandise extends Model
     {
         $updateOrAddProduct=[];
         $list =  $products->map(function (Product $product) use(&$key, &$updateOrAddProduct){
-            $model = Product::where('merchandise_id', $this->id)->where($key, $product[$key])->first();
+            $model = null;
+            if($product[$key])
+                $model = Product::where('merchandise_id', $this->id)->where($key, $product[$key])->first();
             if($model){
                 $data = $product->toArray();
                 unset($data[$key]);
