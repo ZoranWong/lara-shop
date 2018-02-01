@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Jobs;
+namespace App\Jobs;
 
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -10,37 +10,33 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class RefundRefuse implements ShouldQueue
+class RefundAgree implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Order
+     * @var OrderItem
      * */
-    protected $order = null;
+    protected $orderItem = null;
     /**
      * Create a new job instance.
-     *
      * @param Order $order
      */
-    public function __construct(Order $order)
+    public function __construct(OrderItem $orderItem)
     {
         //
-        $this->order = $order;
+        $this->orderItem = $orderItem;
     }
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
         //
-        $this->order->orderItems->map(function(OrderItem $orderItem){
-            $store = $orderItem->store;
-            $store->amount += $orderItem->total_fee;
-            $store->save();
-        });
+        $this->orderItem->status = OrderItem::STATUS['CANCEL'];
+        $this->orderItem->cancel = OrderItem::CANCEL_TYPE[0];
+        $this->orderItem->save();
+        $this->orderItem->backStockNum();
     }
 }

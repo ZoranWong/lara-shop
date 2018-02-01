@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Refund;
 
-use App\Jobs\Jobs\RefundAgree;
-use App\Jobs\Jobs\RefundRefuse;
+use App\Jobs\RefundAgree;
+use App\Jobs\RefundRefuse;
 use App\Models\Refund;
 use EasyWeChat\Payment\Application as PaymentApplication;
 use \EasyWeChat\MiniProgram\Application as MiniProgramApplication;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Jobs\Jobs\RefundRefuse;
+use App\Jobs\RefundRefuse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Refund;

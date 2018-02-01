@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Jobs\PayNotify;
+namespace App\Jobs;
 
 use App\Models\Order;
 use App\Models\OrderItem;

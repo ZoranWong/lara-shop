@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Jobs\Jobs\PayNotify\PayNotify;
+use App\Jobs\PayNotify;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Store;
