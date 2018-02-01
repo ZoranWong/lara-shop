@@ -32,6 +32,8 @@ Route::group(['prefix' =>'user', 'middleware' => ['user.auth:miniProgram'] ], fu
 
     $router->put('/order/refund/{id}/close', 'User\RefundController@close');
 
+    $router->put('/order/sign/{orderId}', 'User\OrderController@sign');
+
     $router->get('/order/{orderId}/pay', 'User\PaymentController@pay');
 
     $router->post('/order/{orderId}/pay/notify', 'User\PaymentController@notify');

@@ -213,4 +213,32 @@ class OrderController extends Controller
             'post_code.required'         => '缺少邮编'
         ]);
     }
+
+    public function sign($orderId)
+    {
+        $order = Order::find($orderId);
+
+        if($order){
+            return response()->errorApi('签收的订单不存在');
+        }
+
+        if($order->status != Order::STATUS['SEND']){
+            return response()->errorApi('订单未发货无法签收');
+        }
+        \DB::beginTransaction();
+        try{
+            $order->status = Order::STATUS['COMPLETED'];
+            $order->completed_at = time();
+            $order->orderItems->map(function (OrderItem $orderItem){
+                $orderItem->status = OrderItem::STATUS['COMPLETED'];
+                $orderItem->save();
+            });
+            $order->save();
+            \DB::commit();
+        }catch (\Exception $exception){
+            \DB::rollBack();
+            throw  $exception;
+        }
+        return response()->api('签收成功');
+    }
 }

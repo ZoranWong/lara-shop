@@ -210,6 +210,7 @@ class Order extends Model
             'completed_at',
             'send_at',
             'error_code',
+            'closed',
             'deleted_at'
     ];
     /**

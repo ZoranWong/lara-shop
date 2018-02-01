@@ -3,6 +3,7 @@
 namespace App\Jobs\Jobs;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -33,6 +34,10 @@ class RefundAgree implements ShouldQueue
     public function handle()
     {
         //
+        $this->order->orderItems->map(function (OrderItem $orderItem){
+            $orderItem->status = OrderItem::STATUS['CANCEL'];
+            $orderItem->cancel = OrderItem::CANCEL_TYPE[0];
+        });
         $this->order->backStockNum();
     }
 }

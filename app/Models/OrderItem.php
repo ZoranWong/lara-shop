@@ -145,6 +145,7 @@ class OrderItem extends Model
         'order_code',
         'product_id',
         'product_code',
+        'closed',
         'name',
         'sku_properties_name',
         'merchandise_code',

@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands\Order;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 
 class OverDate extends Command
 {
@@ -11,15 +14,16 @@ class OverDate extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'order:closed';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '订单完成后一定时间后不能在退款';
 
+    protected $date = null;
     /**
      * Create a new command instance.
      *
@@ -27,6 +31,7 @@ class OverDate extends Command
      */
     public function __construct()
     {
+        $this->date = date('Y-m-d h:i:s', strtotime(config('order.over_date')));
         parent::__construct();
     }
 
@@ -38,5 +43,19 @@ class OverDate extends Command
     public function handle()
     {
         //
+        Order::where('created_at', '<', $this->date)->where('status', Order::STATUS['SEND'])
+            ->chunk(100, function (Collection $orders){
+                $orders->map(function (Order $order){
+                    $order->status = Order::STATUS['CANCEL'];
+                    $order->cancel = Order::CANCEL_TYPE[2];
+                    $order->save();
+                    $order->orderItems->map(function (OrderItem $orderItem){
+                        $orderItem->status = OrderItem::STATUS['CANCEL'];
+                        $orderItem->cancel = OrderItem::CANCEL_TYPE[2];
+                        $orderItem->save();
+                    });
+                });
+            });
+        return true;
     }
 }

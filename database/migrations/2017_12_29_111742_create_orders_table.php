@@ -47,6 +47,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('completed_at')->nullable()->default(null)->comment('签收时间或者订单完成时间');
             $table->unsignedInteger('send_at')->nullable()->default(null)->comment('发货时间');
             $table->string('error_code', 30)->nullable()->default(null)->comment('错误码');
+            $table->boolean('closed')->default(false)->comment('订单是否关闭关闭后不能坐其他操作');
             $table->enum('fee_type', ['CNY', 'USD', 'TWD', 'HKD',
                 'JPY', 'AUD', 'CAD', 'FKP', 'MOP', 'NZD', 'GBP', 'EUR', 'SGD',
                 'VND', 'TRY', 'THB', 'SEK', 'MXN', 'NOK', 'CHF', 'CZK', 'DKK',
@@ -78,6 +79,7 @@ class CreateOrdersTable extends Migration
             $table->string('merchandise_main_image_url')->nullable()->default(null)->comment('商品主图片缩略图地址');
             $table->string('sku_properties_name', 255)->nullable()->default(null)->comment('SKU的值，即：商品的规格 例如：颜色:黑色;尺码:XL;材料:毛绒XL');
             $table->float('total_fee')->comment('总价');
+            $table->boolean('closed')->default(false)->comment('订单是否关闭关闭后不能坐其他操作');
             $table->float('post_fee')->nullable()->default(0)->comment('邮费');
             $table->float('price')->comment('价格');
             $table->unsignedInteger('num')->default(1)->comment('购买数量');
