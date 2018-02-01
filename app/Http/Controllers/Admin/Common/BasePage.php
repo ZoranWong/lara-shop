@@ -134,6 +134,7 @@ abstract class BasePage implements Renderable
         return $this;
     }
 
+
     public function showTabs()
     {
         $this->box->content($this->tab());

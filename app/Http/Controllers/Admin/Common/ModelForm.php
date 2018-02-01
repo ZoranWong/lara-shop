@@ -59,7 +59,7 @@ CSS;
     public function show($id) : \Symfony\Component\HttpFoundation\Response
     {
         //
-        return redirect()->route('role.edit', ['id' => $id]);
+        return redirect('/');
     }
 
     /**

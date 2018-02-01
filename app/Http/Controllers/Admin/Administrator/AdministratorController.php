@@ -38,4 +38,17 @@ class AdministratorController extends Controller
             return $conditions;
         });
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function show($id) : \Symfony\Component\HttpFoundation\Response
+    {
+        //
+        return redirect('/admins');
+    }
+
 }
