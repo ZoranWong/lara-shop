@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Jobs\Jobs\RefundRefuse;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Refund;
@@ -91,7 +92,7 @@ class RefundController extends Controller
         }
         $refund->status = Refund::STATUS['CLOSED'];
         $result = $refund->save();
-
+        dispatch(new RefundRefuse($refund->order));
         if($result){
             return response()->api('关闭退款申请');
         }else{

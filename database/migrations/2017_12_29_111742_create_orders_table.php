@@ -78,6 +78,7 @@ class CreateOrdersTable extends Migration
             $table->string('merchandise_main_image_url')->nullable()->default(null)->comment('商品主图片缩略图地址');
             $table->string('sku_properties_name', 255)->nullable()->default(null)->comment('SKU的值，即：商品的规格 例如：颜色:黑色;尺码:XL;材料:毛绒XL');
             $table->float('total_fee')->comment('总价');
+            $table->float('post_fee')->nullable()->default(0)->comment('邮费');
             $table->float('price')->comment('价格');
             $table->unsignedInteger('num')->default(1)->comment('购买数量');
             $table->enum('status', ['WAIT', 'CANCEL', 'PAID', 'SEND', 'COMPLETED'])

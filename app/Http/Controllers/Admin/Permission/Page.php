@@ -31,7 +31,9 @@ class Page extends BasePage
     {
         $grid->id('ID')->sortable();
         $grid->name('标识');
-        $grid->display_name('名称');
+        $grid->column('display_name', '名称')->display(function ($value, $data){
+            return ($data['menu'] ? '菜单-':'').$value;
+        });
         $grid->roles('授权角色')->display(function ($roles){
             $roleStr = '';
             if($roles){

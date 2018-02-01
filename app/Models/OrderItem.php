@@ -150,6 +150,7 @@ class OrderItem extends Model
         'merchandise_code',
         'merchandise_id',
         'price',
+        'post_fee',
         'num',
         'merchandise_main_image_url',
         'total_fee',

@@ -13,5 +13,10 @@ class PermissionController extends Controller
         $this->page = $page;
 
         $this->page->setModel(Permission::class);
+        parent::__construct(function (){
+           return [
+               ['with' => ['menu']]
+           ];
+        });
     }
 }

@@ -57,6 +57,8 @@ class OrderController extends Controller
                 if(isset($orderData['product_id'])){
                     $product = Product::find($orderData['product_id']);
                 }
+                $orderData['post_fee'] = 0;
+                $orderData['discount_fee'] = 0;
                 $orderItem = $this->createOrderItem($merchandise, $product, $orderData['num']);
                 $order = $this->createOrder($orderData, $orderItem);
                 $orderItem->order_code = $order->code;
@@ -73,6 +75,8 @@ class OrderController extends Controller
                 $orderData['receiver_address'] = $shoppingCarts['receiver_address'];
                 $orderData['post_code'] = $shoppingCarts['post_code'];
                 $orderData['total_fee'] = 0;
+                $orderData['discount_fee'] = 0;
+                $orderData['post_fee'] = 0;
                 $orderData['num'] = 0;
                 $orderData['payment_fee'] = 0;
                 $orderData['status'] = Order::STATUS['WAIT'];
@@ -82,10 +86,14 @@ class OrderController extends Controller
                     $shoppingCart = ShoppingCart::find($id);
                     $orderItem = $shoppingCart->buildOrderItem();
                     $orderItem->order_code = $order->code;
+                    $orderItem['post_fee'] = 0;
                     $items[] = $orderItem;
                     $order->total_fee += $orderItem->total_fee;
+                    $order->post_fee += $orderItem->post_fee;
+
                     $order->num += $orderItem->num;
                 }
+                $order->payment_fee = $order->post_fee + $order->total_fee - $order->discount_fee;
                 $order->save();
 
                 $order->orderItems()->saveMany($items);
@@ -106,8 +114,9 @@ class OrderController extends Controller
 
     protected function createOrder($order, $orderItem)
     {
-        $data['total_fee'] = $orderItem['total_fee'];
-        $data['payment_fee'] = $orderItem['total_fee'];//可以加上post_fee
+        $data['post_fee'] = $orderItem['post_fee'];
+        $data['total_fee'] = $orderItem['total_fee'] ;
+        $data['payment_fee'] = $orderItem['total_fee'] + $data['post_fee'] - $order['discount_fee'];//可以加上post_fee
         $data['buyer_user_id'] = $this->user()->id;
         $data['num'] = $order['num'];
         $data['receiver_name'] = $order['receiver_name'];
@@ -147,6 +156,7 @@ class OrderController extends Controller
                 $data['sku_properties_name'] .= "{$item['name']}:{$item['value']};";
             }
         }
+        $data['post_fee'] = 0;
         return new OrderItem($data);
     }
 
