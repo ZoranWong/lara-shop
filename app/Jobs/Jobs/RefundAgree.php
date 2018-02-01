@@ -15,17 +15,17 @@ class RefundAgree implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * @var Order
+     * @var OrderItem
      * */
-    protected $order = null;
+    protected $orderItem = null;
     /**
      * Create a new job instance.
      * @param Order $order
      */
-    public function __construct(Order $order)
+    public function __construct(OrderItem $orderItem)
     {
         //
-        $this->order = $order;
+        $this->orderItem = $orderItem;
     }
 
     /**
@@ -34,10 +34,9 @@ class RefundAgree implements ShouldQueue
     public function handle()
     {
         //
-        $this->order->orderItems->map(function (OrderItem $orderItem){
-            $orderItem->status = OrderItem::STATUS['CANCEL'];
-            $orderItem->cancel = OrderItem::CANCEL_TYPE[0];
-        });
-        $this->order->backStockNum();
+        $this->orderItem->status = OrderItem::STATUS['CANCEL'];
+        $this->orderItem->cancel = OrderItem::CANCEL_TYPE[0];
+        $this->orderItem->save();
+        $this->orderItem->backStockNum();
     }
 }

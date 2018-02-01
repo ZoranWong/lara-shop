@@ -208,4 +208,21 @@ class OrderItem extends Model
         return $this->belongsTo('App\Models\Store', 'buyer_user_id', 'id');
     }
 
+    public  function backStockNum()
+    {
+        if($this->product){
+            $product = $this->product;
+            if($product){
+                $product->stock_num += $this->num;
+                $product->save();
+            }
+        }
+
+        $merchandise = $this->merchandise;
+        if($merchandise){
+            $merchandise->stock_num += $this->num;
+            $merchandise->save();
+        }
+    }
+
 }
