@@ -19,8 +19,7 @@ class ValidateErrorMiddleware
         try{
             $response = $next($request);
         }catch (ValidationException $exception){
-            throw  $exception;
-           // $response = back()->withInput()->withErrors($exception->errors());
+            $response = back()->withInput()->withErrors($exception->errors());
         }
         return $response;
     }

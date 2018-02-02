@@ -48,7 +48,7 @@ class AdministratorController extends Controller
     public function show($id) : \Symfony\Component\HttpFoundation\Response
     {
         //
-        return redirect('/admins');
+        return redirect("/admins/{$id}/edit");
     }
 
 }

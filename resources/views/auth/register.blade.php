@@ -43,13 +43,13 @@
                 </div>
                 -->
 
-                <div class="form-group has-feedback {{ $errors->has('nick_name') ? 'has-error' : '' }}">
-                    <input type="text" name="nick_name" class="form-control" value="{{ old('name') }}"
+                <div class="form-group has-feedback {{ $errors->has('nickname') ? 'has-error' : '' }}">
+                    <input type="text" name="nickname" class="form-control" value="{{ old('name') }}"
                            placeholder="{{ trans('user.full_name') }}">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    @if ($errors->has('nick_name'))
+                    @if ($errors->has('nickname'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('nick_name') }}</strong>
+                            <strong>{{ $errors->first('nickname') }}</strong>
                         </span>
                     @endif
                 </div>

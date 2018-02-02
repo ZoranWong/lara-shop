@@ -65,19 +65,24 @@ IMAGE;
     {
         SectionContent::link(asset('/vue/css/app.css'));
         SectionContent::jsLoad(asset('/vue/js/app.js'));
+        if(!Input::input('password', null)){
+            unset(app('request')['password']);
+        }
         if($id){
             $form->display('id', 'ID');
         }
         $form->text('nickname', '昵称')->rules('required');
         $form->mobile('mobile', '手机号码')->rules('required');
         $form->vueUpload('head_image_url', '头像')->attribute(['url' => '/ajax/user/avatar', 'id' => 'app'])->rules('required');
-        $form->password('password', trans('admin.password'))->rules('required|confirmed');
-        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
+        $form->password('password', trans('admin.password'))->rules($id ? 'confirmed' : 'required|confirmed');
+        if(!$id){
+            $form->password('password_confirmation', trans('admin.password_confirmation'))->rules($id ? '' : 'required')
+                ->default(function ($form) {
+                    return $form->model()->password;
+                });
 
-        $form->ignore(['password_confirmation']);
+            $form->ignore(['password_confirmation']);
+        }
 
         $form->multipleSelect('roles', trans('admin.roles'))->options(Role::where('name', '!=', Role::SUPER)->where('name', '!=', Role::USER)
             ->get()->pluck('display_name', 'id'));
