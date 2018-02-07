@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\GroupOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,14 +13,16 @@ class GroupOrderOverDate implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $id = null;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
         //
+        $this->id = $id;
     }
 
     /**
@@ -30,5 +33,10 @@ class GroupOrderOverDate implements ShouldQueue
     public function handle()
     {
         //
+
+        $groupOrder = GroupOrder::find($this->id);
+        if($groupOrder->auto_cancel_at < time()){
+            $groupOrder->overDate();
+        }
     }
 }
