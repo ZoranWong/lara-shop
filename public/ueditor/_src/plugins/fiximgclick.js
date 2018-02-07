@@ -113,7 +113,7 @@ UE.plugins["fiximgclick"] = (function() {
               me.prePos.x = e.clientX;
               me.prePos.y = e.clientY;
               elementUpdated = true;
-              me.updateTargetElement();
+              me.updateTargetElement(true);
             }
             break;
           case "mouseup":
@@ -122,7 +122,7 @@ UE.plugins["fiximgclick"] = (function() {
                 x: e.clientX - me.prePos.x,
                 y: e.clientY - me.prePos.y
               });
-              me.updateTargetElement();
+              me.updateTargetElement(false);
               if (me.target.parentNode) me.attachTo(me.target);
               me.dragId = -1;
             }
@@ -132,30 +132,29 @@ UE.plugins["fiximgclick"] = (function() {
               elementUpdated = false;
               me.editor.fireEvent("contentchange");
             }
-
             break;
           default:
             break;
         }
       },
-      updateTargetElement: function() {
+      updateTargetElement: function(draging) {
         var me = this;
         var height = this.editor.options.IMAGE_HEIGHT;
         var width = this.editor.options.IMAGE_WIDTH;
-        if(width == '%'){
+        if(width == '%' && !draging){
             width = (parseInt(me.resizer.style.width)/me.editor.container.offsetWidth) * 100 + '%';
             me.target.width = width;
-        }else if(width == 'px'){
+        }else if(width != 'auto'){
             width = me.resizer.style.width;
             me.target.width = parseInt(width);
         }else{
             me.target.width = width;
         }
 
-        if(height == '%'){
+        if(height == '%' && !draging){
             height = (parseInt(me.resizer.style.height)/me.editor.container.offsetHeight) * 100 + '%';
             me.target.height = height;
-        }else if(height == 'px'){
+        }else if(height != 'auto'){
             height = me.resizer.style.height;
             me.target.height = parseInt(height);
         }else{
@@ -254,7 +253,8 @@ UE.plugins["fiximgclick"] = (function() {
         var me = this;
         me.hideCover();
         me.resizer.style.display = "none";
-
+        var range = me.editor.selection.getRange();
+        range.collapsed = true;
         domUtils.un(me.resizer, "mousedown", me.proxy(me._eventHandler, me));
         domUtils.un(me.doc, "mouseup", me.proxy(me._eventHandler, me));
         me.editor.fireEvent("afterscalehide", me);

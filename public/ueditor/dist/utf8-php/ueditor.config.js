@@ -26,11 +26,12 @@
   window.UEDITOR_CONFIG = {
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
+    //单位% px auto
     IMAGE_WIDTH : '%',
     IMAGE_HEIGHT : 'auto',
 
     // 服务器统一请求接口路径
-    serverUrl: HOST + "php/controller.php",
+    serverUrl: HOST + "/laravel-u-editor-server/server",
 
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
