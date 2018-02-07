@@ -26,6 +26,7 @@
   window.UEDITOR_CONFIG = {
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
+    //单位% px auto
     IMAGE_WIDTH : '%',
     IMAGE_HEIGHT : 'auto',
 
