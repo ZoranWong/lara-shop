@@ -170,6 +170,14 @@ class GroupCoupon extends Model
         }
     }
 
+    public function start()
+    {
+        if($this->status == GroupCoupon::STATUS['WAIT']){
+            $this->status = GroupCoupon::STATUS['RUNNING'];
+            $this->save();
+        }
+    }
+
     public function store() : BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id', 'id');

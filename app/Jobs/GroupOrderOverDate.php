@@ -36,7 +36,7 @@ class GroupOrderOverDate implements ShouldQueue
 
         $groupOrder = GroupOrder::find($this->id);
         if($groupOrder->auto_cancel_at < time()){
-            $groupOrder->overDate();
+            $groupOrder->cancel(GroupOrder::CANCEL_TYPE['AUTO_CANCEL']);
         }
     }
 }

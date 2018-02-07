@@ -35,8 +35,7 @@ class GroupCouponStart implements ShouldQueue
         //
         $groupCoupon = GroupCoupon::find($this->id);
         if($groupCoupon->start_time <= time()){
-            $groupCoupon->status = GroupCoupon::STATUS['RUNNING'];
-            $groupCoupon->save();
+            $groupCoupon->start();
         }
     }
 }

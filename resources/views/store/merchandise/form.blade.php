@@ -1,9 +1,12 @@
 {{--@include('UEditor::head')--}}
+<script>
+    window.HOST = "{{$host}}";
+</script>
 <script type="text/javascript" src="/ueditor/dist/utf8-php/ueditor.config.js"></script>
 <!-- 编辑器源码文件 -->
 <script type="text/javascript" src="/ueditor/dist/utf8-php/ueditor.all.js"></script>
+<script src="{!!asset($UeditorLangFile)!!}"></script>
 <script>
-    window.UEDITOR_HOME_URL = "{{$host}}";
     window.categories = {!! $categories ? $categories : []!!};
     window.stores = {!! $stores ? $stores : []!!};
     window.storeId = {!! $storeId ? $storeId : 0!!};

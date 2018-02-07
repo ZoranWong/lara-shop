@@ -35,8 +35,7 @@ class GroupCouponOverDate implements ShouldQueue
         //
         $groupCoupon = GroupCoupon::find($this->id);
         if($groupCoupon->end_time <= time()){
-            $groupCoupon->status = GroupCoupon::STATUS['OVER_DATE'];
-            $groupCoupon->save();
+            $groupCoupon->overDate();
         }
     }
 }
