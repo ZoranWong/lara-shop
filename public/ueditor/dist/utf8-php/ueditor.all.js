@@ -1,7 +1,7 @@
 /*!
  * ueditor
  * version: 2.0.0
- * build: Wed Feb 07 2018 10:03:11 GMT+0800 (CST)
+ * build: Wed Feb 07 2018 14:56:43 GMT+0800 (CST)
  */
 
 (function(){
@@ -18764,12 +18764,31 @@ UE.plugins["fiximgclick"] = (function() {
       },
       updateTargetElement: function() {
         var me = this;
+        var height = this.editor.options.IMAGE_HEIGHT;
+        var width = this.editor.options.IMAGE_WIDTH;
+        if(width == '%'){
+            width = (parseInt(me.resizer.style.width)/me.editor.container.offsetWidth) * 100 + '%';
+            me.target.width = width;
+        }else if(width == 'px'){
+            width = me.resizer.style.width;
+            me.target.width = parseInt(width);
+        }else{
+            me.target.width = width;
+        }
+
+        if(height == '%'){
+            height = (parseInt(me.resizer.style.height)/me.editor.container.offsetHeight) * 100 + '%';
+            me.target.height = height;
+        }else if(height == 'px'){
+            height = me.resizer.style.height;
+            me.target.height = parseInt(height);
+        }else{
+            me.target.height = height;
+        }
         domUtils.setStyles(me.target, {
-          width: me.resizer.style.width,
-          height: me.resizer.style.height
+          width: width,
+          height: height
         });
-        me.target.width = parseInt(me.resizer.style.width);
-        me.target.height = parseInt(me.resizer.style.height);
         me.attachTo(me.target);
       },
       updateContainerStyle: function(dir, offset) {

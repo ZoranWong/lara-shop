@@ -19,16 +19,18 @@
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
   var URL = window.UEDITOR_HOME_URL || getUEBasePath();
-
+  var HOST = window.HOST || getBasePath();
   /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
   window.UEDITOR_CONFIG = {
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
+    IMAGE_WIDTH : '%',
+    IMAGE_HEIGHT : 'auto',
 
     // 服务器统一请求接口路径
-    serverUrl: URL + "php/controller.php",
+    serverUrl: HOST + "php/controller.php",
 
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
