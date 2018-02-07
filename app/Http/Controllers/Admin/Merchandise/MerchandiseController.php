@@ -25,10 +25,10 @@ class MerchandiseController extends Controller
         });
     }
 
-    public function products($goodId)
+    public function products($merchandiseId)
     {
-        if ($goodId) {
-            $data = Product::where('merchandise_id',$goodId)->get()->toArray();
+        if ($merchandiseId) {
+            $data = Product::where('merchandise_id',$merchandiseId)->get()->toArray();
             return response()->ajax($data);
         }
         return response()->errorAjax('没有数据');
@@ -183,5 +183,19 @@ class MerchandiseController extends Controller
         }else{
             return response()->ajax(['message' => '下架失败！']);
         }
+    }
+
+    public function ajaxList(\Illuminate\Http\Request $request)
+    {
+        $merchandises = Merchandise::with('products')->where('status', $request->input('status', Merchandise::STATUS['ON_SHELVES']))->paginate();
+        $merchandises->map(function (Merchandise $merchandise){
+            $merchandise->products->map(function (Product $product){
+                $sku = collect($product->spec_array)->map(function ($item){
+                    return "{$item['name']}:{$item['value']}";
+                });
+                $product['sku'] = implode(",", $sku->all());
+            });
+        });
+        return response()->ajax($merchandises);
     }
 }

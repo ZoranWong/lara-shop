@@ -103,6 +103,8 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereFormId($value)
  * @property string $name 商品标题作为此标题的值
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereName($value)
+ * @property int|null $closed
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClosed($value)
  */
 class Order extends Model
 {

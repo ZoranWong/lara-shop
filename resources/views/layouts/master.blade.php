@@ -89,7 +89,7 @@
 <script src="{{ asset('bower_components/bootstrap-table/dist/extensions/multiple-search/bootstrap-table-multiple-search.min.js') }}"></script>
 <script src="{{ asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('bower_components/jquery-inputlist/jquery.inputlist.js') }}"></script>
-<script src="{{ asset('bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>
+<script src="{{ asset('bower_components/bootstrap-validator/dist/validator.js') }}"></script>
 <script src="{{ asset('bower_components/bootbox.js/bootbox.js') }}"></script>
 <script src="{{ asset('bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap-switch/dist/js/bootstrap-switch.js') }}"></script>
@@ -98,7 +98,7 @@
 <script src="{{ asset('bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js') }}"></script>
 <script src="{{ asset('bower_components/dropzone/dist/min/dropzone.min.js') }}"></script>
 <script src="{{ asset('bower_components/select2/dist/js/select2.min.js') }}"></script>
-<script src="{{ asset('bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>
+{{--<script src="{{ asset('bower_components/bootstrap-validator/dist/validator.min.js') }}"></script>--}}
 <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('bower_components/js-md5/build/md5.min.js') }}"></script>
 @if(config('adminlte.plugins.select2'))

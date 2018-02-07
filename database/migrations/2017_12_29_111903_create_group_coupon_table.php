@@ -97,7 +97,7 @@ class CreateGroupCouponTable extends Migration
             $table->collation = 'utf8_persian_ci';
             $table->increments('id');
             $table->string('code', 32)->unique()->comment('团购订单编号');
-            $table->unsignedInteger('leader_user_id')->comment('团长用户id');
+            $table->unsignedInteger('buyer_user_id')->comment('团长用户id');
             $table->unsignedInteger('store_id')->comment('店铺id');
             $table->string('store_code', 32)->comment('店铺编号');
             $table->unsignedInteger('group_coupon_id')->comment('团购活动ID');

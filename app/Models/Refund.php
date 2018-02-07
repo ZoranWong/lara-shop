@@ -91,6 +91,7 @@ use Illuminate\Notifications\Notifiable;
  * @property int $refund_product 是否退货
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Refund whereRefundProduct($value)
  * @property-read \App\Models\Order $order
+ * @property-read \App\Models\OrderItem $orderItem
  */
 class Refund extends Model
 {

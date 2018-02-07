@@ -74,6 +74,8 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \App\Models\Refund $refund
  * @property-read \App\Models\Product|null $product
  * @method static bool|null forceDelete()
+ * @property int|null $closed
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereClosed($value)
  */
 class OrderItem extends Model
 {

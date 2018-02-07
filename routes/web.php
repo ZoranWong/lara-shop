@@ -22,6 +22,7 @@ Route::group([],function(){
     Route::resource('users', 'User\UserController');
     Route::resource('categories', 'Category\CategoryController');
     Route::resource('merchandises', 'Merchandise\MerchandiseController');
+    Route::resource('group/coupons', 'GroupCoupon\GroupCouponController');
 });
 
 
@@ -37,10 +38,12 @@ Route::group(['prefix' => 'ajax'],function(){
     Route::post('/merchandise/image', 'FileController@merchandiseImage');
     Route::post('/merchandise', 'Merchandise\MerchandiseController@ajaxStore');
     Route::put('/merchandise/{id}', 'Merchandise\MerchandiseController@ajaxUpdate');
-    Route::get('/merchandise/{goodId}/products', 'Merchandise\MerchandiseController@products');
+    Route::get('/merchandise/{merchandiseId}/products', 'Merchandise\MerchandiseController@products');
     Route::put('/merchandise/on/{ids}', 'Merchandise\MerchandiseController@onShelves');
     Route::put('/merchandise/off/{ids}', 'Merchandise\MerchandiseController@takenOff');
+    Route::get('/merchandises', 'Merchandise\MerchandiseController@ajaxList');
     Route::put('/order/{id}/send/merchandise', 'Order\OrderController@sendMerchandise');
     Route::put('/refund/{id}/agree', 'Refund\RefundController@agree');
     Route::put('/refund/{id}/refuse', 'Refund\RefundController@refuse');
+    Route::post('/group/coupon/save', 'GroupCoupon\GroupCouponController@ajaxStore');
 });
