@@ -1,0 +1,115 @@
+[
+    {
+        "name": "qiniu/php-sdk",
+        "version": "v7.2.2",
+        "version_normalized": "7.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/qiniu/php-sdk.git",
+            "reference": "79290fd9cb5d72cc2feef779008b3aaeeac49eb9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/qiniu/php-sdk/79290fd9cb5d72cc2feef779008b3aaeeac49eb9.zip",
+            "reference": "79290fd9cb5d72cc2feef779008b3aaeeac49eb9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.3"
+        },
+        "time": "2017-11-07T06:12:11+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Qiniu\\": "src/Qiniu"
+            },
+            "files": [
+                "src/Qiniu/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Qiniu",
+                "email": "sdk@qiniu.com",
+                "homepage": "http://www.qiniu.com"
+            }
+        ],
+        "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+        "homepage": "http://developer.qiniu.com/",
+        "keywords": [
+            "cloud",
+            "qiniu",
+            "sdk",
+            "storage"
+        ]
+    },
+    {
+        "name": "itbdw/laravel-storage-qiniu",
+        "version": "v1.0.9",
+        "version_normalized": "1.0.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/itbdw/laravel-storage-qiniu.git",
+            "reference": "0e7ff5204311baca059688b00c794758af73522d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/itbdw/laravel-storage-qiniu/0e7ff5204311baca059688b00c794758af73522d.zip",
+            "reference": "0e7ff5204311baca059688b00c794758af73522d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "qiniu/php-sdk": "^7.2.1"
+        },
+        "time": "2017-09-07T19:20:39+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "itbdw\\QiniuStorage\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "zgldh",
+                "email": "zgldh@hotmail.com",
+                "role": "Original Developer"
+            },
+            {
+                "name": "itbdw",
+                "email": "itbudaoweng@gmail.com",
+                "homepage": "http://github.com/itbdw",
+                "role": "Developer"
+            },
+            {
+                "name": "popfeng",
+                "email": "popfeng@yeah.net",
+                "homepage": "http://github.com/popfeng",
+                "role": "Developer"
+            }
+        ],
+        "description": "A storage library for laravel5 and qiniu sdk",
+        "keywords": [
+            "cloud",
+            "laravel",
+            "laravel5",
+            "qiniu",
+            "sdk",
+            "storage"
+        ]
+    }
+]

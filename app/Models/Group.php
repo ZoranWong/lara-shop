@@ -83,7 +83,7 @@ class Group extends Model
 
     protected $table = "group";
 
-    protected $oldStatus = '';
+    public $oldStatus = '';
 
     protected $fillable = [
         'group_coupon_id',

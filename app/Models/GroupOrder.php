@@ -77,7 +77,7 @@ class GroupOrder extends Model
 
     protected $table = "group_order";
 
-    protected $oldStatus = "";
+    public $oldStatus = "";
 
     protected $fillable = [
         'group_coupon_id',
@@ -103,6 +103,18 @@ class GroupOrder extends Model
                 ->delay($groupOrder->auto_cancel_at - time())
                 ->onQueue('group-coupon'));
         });
+        static::retrieved(function (GroupOrder $groupOrder){
+            $groupOrder->oldStatus = $groupOrder->status;
+        });
+
+        static::updated(function (GroupOrder $groupOrder){
+
+        });
+    }
+
+    protected function statusChanged()
+    {
+
     }
 
     public function cancel($type)

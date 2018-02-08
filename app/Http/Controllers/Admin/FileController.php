@@ -33,7 +33,7 @@ class FileController extends Controller
     public function merchandiseImage(Request $request)
     {
         $imageDir = 'merchandise/images/' . date('Ym');
-        $imageUrl = $this->uploadImage($request->file('image'),$imageDir);
+        $imageUrl = $this->uploadImage($request->file('image'), $imageDir);
 
         return response()->ajax($imageUrl);
     }

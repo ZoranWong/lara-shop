@@ -103,7 +103,8 @@ class GroupCoupon extends Model
         'products_array' => 'array'
     ];
 
-    protected $oldStatus = '';
+    public $oldStatus = '';
+
     protected $fillable = [
         'store_id',
         'store_code',

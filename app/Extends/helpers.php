@@ -8,7 +8,9 @@ if (! function_exists('getImageUrl')) {
      */
     function getImageUrl($path)
     {
-        return  Storage::cloud()->path($path);
+        $driver = Storage::cloud();
+
+        return   $driver->getUrl($path);
     }
 }
 
