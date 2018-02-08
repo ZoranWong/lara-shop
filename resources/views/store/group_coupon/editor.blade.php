@@ -209,10 +209,14 @@
                 return $.post('/ajax/group/coupon/save', data);
             },
             updateGroupCoupon : function (id, data) {
-                return $.put('/ajax/group/coupon/${id}', data);
+                return $.ajax({
+                    url: `/ajax/group/coupon/${id}`,
+                    type: 'DELETE',
+                    data: data
+                });
             },
             getGroupCouponInfo : function (id) {
-                return $.get('/ajax/group/coupon/${id}');
+                return $.get(`/ajax/group/coupon/${id}`);
             }
         };
         let GroupCouponController = function (id) {

@@ -47,7 +47,9 @@ class Editor extends Form implements Renderable
                 $tmp['id'] = $product->id;
                 $products[] = $tmp;
             });
-        }elseif($groupCoupon){
+        }
+
+        if($groupCoupon){
             $groupCoupon['merchandise']['price'] = sprintf('%.2f', $groupCoupon->price);
             $groupCoupon['merchandise']['sell_price'] = sprintf('%.2f', $groupCoupon['merchandise']['sell_price']);
         }
