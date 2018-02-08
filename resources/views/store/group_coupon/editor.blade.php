@@ -211,7 +211,7 @@
             updateGroupCoupon : function (id, data) {
                 return $.ajax({
                     url: `/ajax/group/coupon/${id}`,
-                    type: 'DELETE',
+                    type: 'PUT',
                     data: data
                 });
             },
@@ -366,12 +366,17 @@
                     'price' : this.$data['price'],
                 };
                 data = $.extend(tmp, data);
-                this.$data['id'] ? Services.updateGroupCoupon(this.$data['id'], data) :
-                    Services.saveGroupCoupon(data).then(function (res) {
-                        if(res.success){
+                let response = this.$data['id'] ? Services.updateGroupCoupon(this.$data['id'], data) :
+                    Services.saveGroupCoupon(data);
+                response.then(function (res) {
+                    if(res.success){
+                        bootbox.alert('团购创建或者更新成功', function () {
                             window.location.href = "/group/coupons"
-                        }
-                    });
+                        })
+                    }else{
+                        bootbox.alert(res.error);
+                    }
+                });
             },
             watch : function () {
                 let self = this;

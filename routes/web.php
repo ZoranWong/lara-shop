@@ -46,4 +46,5 @@ Route::group(['prefix' => 'ajax'],function(){
     Route::put('/refund/{id}/agree', 'Refund\RefundController@agree');
     Route::put('/refund/{id}/refuse', 'Refund\RefundController@refuse');
     Route::post('/group/coupon/save', 'GroupCoupon\GroupCouponController@ajaxStore');
+    Route::put('/group/coupon/{id}', 'GroupCoupon\GroupCouponController@ajaxUpdate');
 });

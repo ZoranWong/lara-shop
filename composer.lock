@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe3a2f1a69d4b406b4e2537d17ae904a",
+    "content-hash": "244a0952f605eba5de8e4f0c6f38cc12",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1801,16 +1801,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.41",
+            "version": "1.0.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f400aa98912c561ba625ea4065031b7a41e5a155"
+                "reference": "09eabc54e199950041aef258a85847676496fe8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f400aa98912c561ba625ea4065031b7a41e5a155",
-                "reference": "f400aa98912c561ba625ea4065031b7a41e5a155",
+                "url": "https://files.phpcomposer.com/files/thephpleague/flysystem/09eabc54e199950041aef258a85847676496fe8e.zip",
+                "reference": "09eabc54e199950041aef258a85847676496fe8e",
                 "shasum": ""
             },
             "require": {
@@ -1821,12 +1821,13 @@
             },
             "require-dev": {
                 "ext-fileinfo": "*",
-                "mockery/mockery": "~0.9",
-                "phpspec/phpspec": "^2.2",
-                "phpunit/phpunit": "~4.8"
+                "phpspec/phpspec": "^3.4",
+                "phpunit/phpunit": "^5.7"
             },
             "suggest": {
                 "ext-fileinfo": "Required for MimeType",
+                "ext-ftp": "Allows you to use FTP server storage",
+                "ext-openssl": "Allows you to use FTPS server storage",
                 "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
                 "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
                 "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
@@ -1880,7 +1881,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-08-06T17:41:04+00:00"
+            "time": "2018-01-27T16:03:56+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -4812,65 +4813,6 @@
                 "environment"
             ],
             "time": "2016-09-01T10:05:43+00:00"
-        },
-        {
-            "name": "zgldh/qiniu-laravel-storage",
-            "version": "0.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zgldh/qiniu-laravel-storage.git",
-                "reference": "06392b37654e8710216153106254a24a2d3e330e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/zgldh/qiniu-laravel-storage/06392b37654e8710216153106254a24a2d3e330e.zip",
-                "reference": "06392b37654e8710216153106254a24a2d3e330e",
-                "shasum": ""
-            },
-            "require": {
-                "league/flysystem": "^1.0",
-                "php": ">=5.3.3",
-                "qiniu/php-sdk": "^7.2"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "zgldh\\QiniuStorage\\QiniuFilesystemServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "zgldh\\QiniuStorage\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "zgldh",
-                    "email": "zgldh@hotmail.com",
-                    "role": "Original Developer"
-                },
-                {
-                    "name": "abcsun",
-                    "email": "chenglongsun_nj@163.com",
-                    "homepage": "http://github.com/abcsun",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Qiniu Resource (Cloud) Storage SDK for Laravel 5",
-            "keywords": [
-                "cloud",
-                "laravel",
-                "qiniu",
-                "sdk",
-                "storage"
-            ],
-            "time": "2017-11-25T14:07:17+00:00"
         },
         {
             "name": "zizaco/entrust",
