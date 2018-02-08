@@ -92,7 +92,7 @@
     }
 </style>
 <div id = "group-coupon-edit" class = "row">
-    <h2 class = "opt-title"></h2>
+    <h2 class = "opt-title">{{$title}}</h2>
     <div class="form-box pull-right col-md-10">
         <form role = "form" data-toggle="validator" class="form-horizontal group-coupon-form" onsubmit="return false;" >
             <div class="form-group select-merchandise-group-coupon" >
