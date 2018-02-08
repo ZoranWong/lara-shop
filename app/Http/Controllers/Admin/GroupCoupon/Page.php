@@ -60,6 +60,19 @@ class Page extends BasePage
         $grid->column('leader_price', '团长价格')->display(function ($value){
             return $value > 0 ? sprintf('%.2f', $value) : '--';
         });
+
+        $grid->column('member_num', '团购人数')->display(function ($value){
+            return $value ;
+        });
+
+        $grid->column('auto_patch', '自动拼团')->display(function ($value){
+            return $value ? "开启" : "未开启";
+        });
+
+        $grid->column('buy_limit_num', '限购')->display(function ($value){
+            return $value ? $value : "--";
+        });
+
         $grid->column('groups', '团购成团数量')->display(function ($value){
             return collect($value)->where('status', Group::STATUS['PATCHED'])->count();
         });

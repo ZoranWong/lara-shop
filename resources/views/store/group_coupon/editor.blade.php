@@ -312,10 +312,12 @@
                 $('.buy-limit-num-checkbox').click(function (event) {
                     self.$data['buy_limit'] = !self.$data['buy_limit'];
                     if(self.$data['buy_limit']){
-                       self.$data['buy_limit_num'] =  $('.buy-limit-num').attr('required', true).val();
+                        $('.buy-limit-label').removeClass('hidden');
+                        self.$data['buy_limit_num'] =  $('.buy-limit-num').attr('required', true).val();
                     }else{
-                       $('.buy-limit-num').removeAttr('required');
-                       self.$data['buy_limit_num'] =  0;
+                        $('.buy-limit-label').addClass('hidden');
+                        $('.buy-limit-num').removeAttr('required');
+                        self.$data['buy_limit_num'] =  0;
                     }
                 });
 

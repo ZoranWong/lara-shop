@@ -187,7 +187,11 @@ class MerchandiseController extends Controller
 
     public function ajaxList(\Illuminate\Http\Request $request)
     {
-        $merchandises = Merchandise::with('products')->where('status', $request->input('status', Merchandise::STATUS['ON_SHELVES']))->paginate();
+        $storeId = StoreService::getCurrentID();
+        $query = Merchandise::with('products');
+        if($storeId)
+            $query->where('store_id', $storeId);
+        $merchandises = $query->where('status', $request->input('status', Merchandise::STATUS['ON_SHELVES']))->paginate();
         $merchandises->map(function (Merchandise $merchandise){
             $merchandise->products->map(function (Product $product){
                 $sku = collect($product->spec_array)->map(function ($item){
