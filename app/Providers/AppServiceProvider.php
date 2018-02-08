@@ -120,6 +120,14 @@ class AppServiceProvider extends ServiceProvider
         \DB::listen(function (QueryExecuted $executed){
             \Log::debug($executed->sql, $executed->bindings);
         });
+
+        $qiNiu = \Storage::disk('qiniu');
+        $qiNiu->getPathPrefix = function (){
+            if(!$this->pathPrefix()){
+                $this->setPathPrefix($this->domain);
+            }
+            return $this->pathPrefix;
+        };
     }
 
     /**

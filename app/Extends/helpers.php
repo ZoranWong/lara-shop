@@ -9,7 +9,10 @@ if (! function_exists('getImageUrl')) {
     function getImageUrl($path)
     {
         $driver = Storage::cloud();
-
+        if(!$driver->getDriver()->getAdapter()->getPathPrefix()){
+            $cloud = config('filesystems.cloud');
+            $driver->getDriver()->getAdapter()->setPathPrefix(config("filesystems.disks.{$cloud}.domain"));
+        }
         return   $driver->path($path);
     }
 }
