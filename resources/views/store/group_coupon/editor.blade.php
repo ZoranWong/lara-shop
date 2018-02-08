@@ -92,23 +92,24 @@
     }
 </style>
 <div id = "group-coupon-edit" class = "row">
-    <h2 class = "opt-title">{{$title}}</h2>
     <div class="form-box pull-right col-md-10">
         <form role = "form" data-toggle="validator" class="form-horizontal group-coupon-form" onsubmit="return false;" >
             <div class="form-group select-merchandise-group-coupon" >
                 <label class="col-sm-2 control-label required" for="platform_title">选择商品：</label>
                 <div class="col-sm-5 ">
-                    <input class="form-control v-hidden merchandise-id" type = "text" data-bind-model = "merchandise_id" name="merchandise_id" value=""  required/>
-                    <input class="form-control v-hidden merchandise-code" type = "text" data-bind-model = "merchandise_code" name="merchandise_code" value=""  required/>
+                    <input class="form-control v-hidden merchandise-id" type = "text" data-bind-model = "merchandise_id"
+                           name="merchandise_id" value="{{$groupCoupon && $groupCoupon->merchandise ? $groupCoupon->merchandise->id : ''}}"  required/>
+                    <input class="form-control v-hidden merchandise-code" type = "text" data-bind-model = "merchandise_code"
+                           name="merchandise_code" value="{{$groupCoupon && $groupCoupon->merchandise ? $groupCoupon->merchandise->code : ''}}"  required/>
                     <div class="merchandise">
-                        <div class = "group-coupon-merchandise-add-btn">
+                        <div class = "group-coupon-merchandise-add-btn {{$groupCoupon && $groupCoupon->merchandise ? 'hidden' : ''}}">
                             <div  >
                                 <i class="fa fa-plus-circle"  aria-hidden="true"></i>
                             </div>
                         </div>
-                        <div class = "img-box merchandise-image-box hidden">
+                        <div class = "img-box merchandise-image-box {{$groupCoupon && $groupCoupon->merchandise ? '' : 'hidden'}}">
                             <i class="fa fa-close" aria-hidden="true" ></i>
-                            <img  src="">
+                            <img  src="{{$groupCoupon && $groupCoupon->merchandise ? $groupCoupon->merchandise->main_image_url : ''}}">
                         </div>
                     </div>
                 </div>
@@ -116,7 +117,8 @@
             <div class="form-group group-coupon-name-group">
                 <label class="col-sm-2 control-label required" for="platform_title">活动名称：</label>
                 <div class="col-sm-5 ">
-                    <input type="text" class="form-control group-coupon-name" data-bind-model = "name" name="name" value="" placeholder="团购活动名称" required/>
+                    <input type="text" class="form-control group-coupon-name" data-bind-model = "name" name="name"
+                           value="{{$groupCoupon ? $groupCoupon->name : ''}}" placeholder="团购活动名称" required/>
                 </div>
             </div>
             <div class="form-group date-time-group" >
@@ -125,12 +127,12 @@
                     <div  class = "group-coupon-date">
                         <div class = "date-start">
                             <input type="datetime" class="form-control  start-date-picker" data-bind-model = "start_time" name="start_time"
-                                   placeholder="团购活动开始时间" required>
+                                   value="{{$groupCoupon ? date('Y-m-d h:i:s', $groupCoupon->start_time) : date('Y-m-d h:i:s')}}"  placeholder="团购活动开始时间" required>
                         </div>
                         <div class = "date-gap">至</div>
                         <div class="date-end">
                             <input type="datetime"  class="form-control end-date-picker" data-bind-model = "end_time" name="end_time"
-                                   placeholder="团购活动结束时间" required>
+                                   value="{{$groupCoupon ? date('Y-m-d h:i:s', $groupCoupon->end_time) : date('Y-m-d h:i:s', strtotime("+7 days"))}}"  placeholder="团购活动结束时间" required>
                         </div>
                     </div>
                     <span class = "tips text-warning">开始时间必须大于当前时间，结束时间不得小于开始时间。</span>
@@ -139,8 +141,8 @@
             <div class="form-group group-coupon-member-group">
                 <label class="col-sm-2 control-label required" for="platform_title">参团人数：</label>
                 <div class="col-sm-5 ">
-                    <input type="number" min ='2' max="100" step = "1" class="form-control " data-bind-model = "member_num" name="member_num" value=""
-                           placeholder="参加团购的人数" required/>
+                    <input type="number" min ='2' max="100" step = "1" class="form-control " data-bind-model = "member_num" name="member_num"
+                           value="{{$groupCoupon ? $groupCoupon->member_num : ''}}"  placeholder="参加团购的人数" required/>
                     <span class = "tips text-warning">请填写2-100之间的数字哦</span>
                 </div>
             </div>
@@ -148,11 +150,11 @@
                 <label class="col-sm-2 control-label " for="platform_title">商品限制：</label>
                 <div class="col-sm-5">
                     <label class="control-label" for="platform_title">
-                        <input class ="buy-limit-num-checkbox" type="checkbox" >开启限购
+                        <input class ="buy-limit-num-checkbox" type="checkbox" {{$groupCoupon && $groupCoupon->buy_limit_num > 0 ? "checked" : ""}}>开启限购
                     </label>
-                    <label class = "buy-limit-label">
-                        <input type="number" min = "1" step="1" class="form-control buy-limit-num" data-bind-model = "buy_limit_num" name="buy_limit_num" value="1"
-                               placeholder="" />
+                    <label class = "buy-limit-label {{$groupCoupon && $groupCoupon->buy_limit_num > 0 ? "" : "hidden"}}" >
+                        <input type="number" min = "0" step="1" class="form-control buy-limit-num" data-bind-model = "buy_limit_num" name="buy_limit_num"
+                              value = "{{$groupCoupon ? $groupCoupon->buy_limit_num : "1"}}" placeholder="" />
                         <label class = "buy-limit-unit">个／人</label>
                     </label>
                 </div>
@@ -161,7 +163,8 @@
                 <label class="col-sm-2 control-label" for="platform_title">凑团设置：</label>
                 <div class="col-sm-5" >
                     <label class="control-label" for="platform_title">
-                        <input class = "auto-patch-checkbox" data-bind-model = "auto_patch" name = "auto_patch" type="checkbox" checked>开启凑团
+                        <input class = "auto-patch-checkbox" data-bind-model = "auto_patch" name = "auto_patch" type="checkbox"
+                                {{!$groupCoupon || $groupCoupon->auto_patch == 1 ? "checked" : ""}}>开启凑团
                     </label>
                     <br>
                     <span class = "tips text-warning">
@@ -173,13 +176,14 @@
                 <label class="col-sm-2 control-label" for="platform_title">团长优惠：</label>
                 <div class="col-sm-5" >
                     <label class="control-label" for="platform_title">
-                        <input name = "leader_prefer" data-bind-model = "leader_prefer" class = "leader-prefer-checkbox" type="checkbox">团长享受优惠价
+                        <input name = "leader_prefer" data-bind-model = "leader_prefer" class = "leader-prefer-checkbox" type="checkbox"
+                                {{$groupCoupon && $groupCoupon->leader_prefer == 1 ? "checked" : ""}}>团长享受优惠价
                     </label>
                     <br>
                     <span class = "tips text-warning">开启团长(开团人)优惠后，团长将享受更优惠价格，有助于提高开团率和成团率。</span>
                 </div>
             </div>
-            <div class="form-group group-coupon-price-group hidden" >
+            <div class="form-group group-coupon-price-group {{$groupCoupon ? '' : 'hidden'}}" >
                 <label class="col-sm-2 control-label price-label-title required" for="platform_title">优惠设置：</label>
                 <div class="col-sm-10 group-coupon-product-price-box">
 
@@ -215,11 +219,7 @@
             let merchandiseListController = new MerchandiseListController();
             let self = this;
             if( id != undefined && id ){
-                Services.getGroupCouponInfo(id).then(function (res) {
-                    
-                }, function (error) {
-                    
-                }); 
+                self.refreshProductGroupPrice(self.productsTable(self.$data.products, self.$data.merchandise, self.$data.leader_prefer));
             }else{
                 merchandiseListController.bindEvents('selectedMerchandise', function (data) {
                     self.$data['merchandise'] = data;
@@ -241,14 +241,22 @@
         GroupCouponController.prototype = {
             $data: {
                 id : '{{$id}}',
-                leader_prefer : 0,
-                buy_limit: 0,
-                price : 0,
-                min_price : 0,
-                max_price : 0,
-                leader_price : 0,
-                min_leader_price : 0,
-                max_leader_price : 0
+                leader_prefer : {!! $groupCoupon ? $groupCoupon->leader_prefer : 0 !!},
+                buy_limit: {!! $groupCoupon && $groupCoupon->buy_limit_num > 0 ? 1 : 0 !!},
+                price : {!! $groupCoupon ? $groupCoupon->price : 0 !!},
+                min_price : {!! $groupCoupon ? $groupCoupon->min_price : 0 !!},
+                max_price : {!! $groupCoupon ? $groupCoupon->max_price : 0 !!},
+                leader_price : {!! $groupCoupon ? $groupCoupon->min_leader_price : 0 !!},
+                min_leader_price : {!! $groupCoupon ? $groupCoupon->min_leader_price : 0 !!},
+                max_leader_price : {!! $groupCoupon ? $groupCoupon->max_leader_price : 0 !!},
+                merchandise: {!! $merchandise !!},
+                products: {!! $products !!},
+                start_time: {{$groupCoupon ? $groupCoupon->start_time : time()}},
+                end_time: {{$groupCoupon ? $groupCoupon->end_time : strtotime('+7 days')}},
+                name: '{{$groupCoupon['name']}}',
+                member_num: {!! $groupCoupon ? $groupCoupon->member_num : 1 !!},
+                buy_limit_num : {!! $groupCoupon ? $groupCoupon->buy_limit_num : 0 !!},
+                auto_patch : {!! $groupCoupon ? $groupCoupon->auto_patch : 0 !!},
             },
             refreshProductGroupPrice: function (table) {
               $('.group-coupon-product-price-box').html(table);
@@ -281,7 +289,8 @@
                 });
                 let $startOptions = {
                     format: 'YYYY-MM-DD HH:mm:ss',
-                    locale: '{{config('app.locale')}}'
+                    locale: '{{config('app.locale')}}',
+                    minDate: '{{$groupCoupon ? date('Y-m-d h:i:s', $groupCoupon->start_time) : date('Y-m-d h:i:s')}}'
                 };
                 $('.start-date-picker').datetimepicker($startOptions).on("dp.change", function (e) {
                     $('.end-date-picker').data("DateTimePicker").minDate(e.date);
@@ -289,7 +298,8 @@
                 });
                 let $endOptions = {
                     format: 'YYYY-MM-DD HH:mm:ss',
-                    locale: '{{config('app.locale')}}'
+                    locale: '{{config('app.locale')}}',
+                    minDate: '{{date('Y-m-d h:i:s', $groupCoupon ? $groupCoupon->end_time : strtotime('+7 days'))}}'
                 };
                 $('.end-date-picker').datetimepicker($endOptions).on("dp.change", function (e) {
                     $('.start-date-picker').data("DateTimePicker").maxDate(e.date);
@@ -298,8 +308,7 @@
                 $('.buy-limit-num-checkbox').click(function (event) {
                     self.$data['buy_limit'] = !self.$data['buy_limit'];
                     if(self.$data['buy_limit']){
-                       $('.buy-limit-num').attr('required', true);
-                       self.$data['buy_limit_num'] =  $('.buy-limit-num').val();
+                       self.$data['buy_limit_num'] =  $('.buy-limit-num').attr('required', true).val();
                     }else{
                        $('.buy-limit-num').removeAttr('required');
                        self.$data['buy_limit_num'] =  0;
@@ -457,6 +466,6 @@
                          </tr>`;
             }
         };
-        let edit = new GroupCouponController();
+        let edit = new GroupCouponController({!! $id !!});
     };
 </script>

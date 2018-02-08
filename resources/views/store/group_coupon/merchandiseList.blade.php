@@ -21,7 +21,7 @@
             .merchandise-select-list-box .page-list{
                 display: none;
             }
-        </style>
+        <\/style>
         <div class = "merchandise-select-list-box">
             <div class="merchandise-select-box">
                 <div class="merchandise-select-box-body">
@@ -39,12 +39,12 @@
                            data-page-list="[10]"
                            data-show-footer="false"
                            data-side-pagination="server"
-                           data-url="/ajax/merchandises"
+                           data-url="\/ajax\/merchandises"
                            data-response-handler="responseHandler">
-                    </table>
-                </div>
-            </div>
-        </div>`;
+                    <\/table>
+                <\/div>
+            <\/div>
+        <\/div>`;
 
     let MerchandiseListController = function () {
 
@@ -129,7 +129,7 @@
         },
         optFormat : function (value, row, index) {
             let button = `<button data-bb-handler="Cancel" class = "btn btn-default" type = "button" ${row['group_coupon_count'] ? 'disabled="true"' : ''}>
-            ${row['group_coupon_count'] ? '团购中' : '选取' }</button>`;
+            ${row['group_coupon_count'] ? '团购中' : '选取' }<\/button>`;
             console.log(row);
             (function (row) {
                 let merchandise = row;
@@ -150,11 +150,11 @@
             return `<div style="display: flex;">
                         <div class = "title-image-merchandise" >
                             <img src="${row['main_image_url']}">
-                        </div>
+                        <\/div>
                         <div style="text-align: center;padding: 16px 8px;">
-                            <span>${row['name']}</span>
-                        </div>
-                    </div>`;
+                            <span>${row['name']}<\/span>
+                        <\/div>
+                    <\/div>`;
         },
         queryParams:function (params) {
             let queryParams = {};

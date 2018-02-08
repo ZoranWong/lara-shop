@@ -52,6 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $joined_at 参团时间
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereBuyerUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereJoinedAt($value)
+ * @method static bool|null forceDelete()
  */
 class GroupOrder extends Model
 {
