@@ -40,11 +40,6 @@ class CreateStoreTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
-
             $table->primary(['store_id', 'user_id']);
         });
 
@@ -56,11 +51,6 @@ class CreateStoreTable extends Migration
             $table->unsignedInteger('user_id')->comment('店铺管理者用户id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary(['store_id', 'user_id']);
         });

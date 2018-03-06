@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Jobs\GroupOverDate;
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -49,6 +50,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Group withoutTrashed()
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GroupOrder[] $groupOrders
+ * @property-read \App\Models\GroupCoupon $groupCoupon
+ * @property int $store_id 店铺id
+ * @property string $store_code 店铺编号
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Group whereStoreCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Group whereStoreId($value)
  */
 class Group extends Model
 {
@@ -156,6 +162,11 @@ class Group extends Model
             $this->status = Group::STATUS['INVALID'];
             $this->save();
         }
+    }
+
+    public function groupCoupon() : BelongsTo
+    {
+        return $this->belongsTo(GroupCoupon::class, 'group_coupon_id', 'id');
     }
 
     public function groupOrders() : HasMany

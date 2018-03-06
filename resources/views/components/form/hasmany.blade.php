@@ -4,7 +4,7 @@
     <div class="{{$viewClass['field']}}"></div>
 </div>
 
-<hr style="margin-top: 0px;">
+<hr style="margin-top:0;">
 
 <div id="has-many-{{$column}}" class="has-many-{{$column}}">
 

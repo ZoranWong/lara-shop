@@ -32,14 +32,6 @@ class CreateShoppingCart extends Migration
             $table->unsignedInteger('num')->comment('商品数量');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('buyer_user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('merchandise_id')->references('id')->on('merchandise')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('product')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\ShoppingCart;
+use function foo\func;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
@@ -30,89 +31,101 @@ class OrderController extends Controller
                $query->where('status', Order::STATUS[$status]);
            });
        }elseif ($status != null){
-           return response()->errorApi('订单状态无效');
+           return \Response::errorApi('订单状态无效');
        }
-       return response()->api($this->buildList($query));
+       return \Response::api($this->buildList($query));
     }
 
-    public function detail($id)
+    public function detail(int $id)
     {
         $data = Order::with('orderItems')->find($id);
-        return response()->api($data);
+        return \Response::api($data);
     }
 
+    public function createOrderFromRequest(array  $orderData) : Order
+    {
+        $this->validateOrder($orderData);
+        $merchandise = Merchandise::find($orderData['merchandise_id']);
+        $product = null;
+        if(isset($orderData['product_id'])){
+            $product = Product::find($orderData['product_id']);
+        }
+        $orderData['post_fee'] = 0;
+        $orderData['discount_fee'] = 0;
+        $orderItem = $this->createOrderItem($merchandise, $product, $orderData['num']);
+        $order = $this->createOrder($orderData, $orderItem);
+        $orderItem->order_code = $order->code;
+        $order->orderItems()->save($orderItem);
+        return $order;
+    }
+
+    public function createOrderFromShoppingCart(array $shoppingCarts)
+    {
+        $this->validateShoppingCarts($shoppingCarts);
+        $items = [];
+        $orderData = [];
+        $ids = array_unique($shoppingCarts['ids']);
+        $orderData['receiver_name'] = $shoppingCarts['receiver_name'];
+        $orderData['receiver_mobile'] = $shoppingCarts['receiver_mobile'];
+        $orderData['receiver_city'] = $shoppingCarts['receiver_city'];
+        $orderData['receiver_district'] = $shoppingCarts['receiver_district'];
+        $orderData['receiver_address'] = $shoppingCarts['receiver_address'];
+        $orderData['post_code'] = $shoppingCarts['post_code'];
+        $orderData['total_fee'] = 0;
+        $orderData['discount_fee'] = 0;
+        $orderData['post_fee'] = 0;
+        $orderData['num'] = 0;
+        $orderData['payment_fee'] = 0;
+        $orderData['status'] = Order::STATUS['WAIT'];
+        $orderData['buyer_user_id'] = $this->user()->id;
+        $order = Order::create($orderData);
+        foreach ($ids as $id){
+            $shoppingCart = ShoppingCart::find($id);
+            $orderItem = $shoppingCart->buildOrderItem();
+            $orderItem->order_code = $order->code;
+            $orderItem['post_fee'] = 0;
+            $items[] = $orderItem;
+            $order->total_fee += $orderItem->total_fee;
+            $order->post_fee += $orderItem->post_fee;
+
+            $order->num += $orderItem->num;
+        }
+        $order->payment_fee = $order->post_fee + $order->total_fee - $order->discount_fee;
+        $order->save();
+
+        $order->orderItems()->saveMany($items);
+        ShoppingCart::destroy($ids);
+        return $order;
+    }
+    /**
+     * @throws
+     * */
     public function create(Request $request)
     {
         $orderData = $request->input('order', null);
         $shoppingCarts = $request->input('shopping_carts', null);
 
-
-        \DB::beginTransaction();
-        try{
+        return dbTransaction(function () use(&$orderData, &$shoppingCarts){
             $order = null;
             if($orderData) {
-                $this->validateOrder($orderData);
-                $merchandise = Merchandise::find($orderData['merchandise_id']);
-                $product = null;
-                if(isset($orderData['product_id'])){
-                    $product = Product::find($orderData['product_id']);
-                }
-                $orderData['post_fee'] = 0;
-                $orderData['discount_fee'] = 0;
-                $orderItem = $this->createOrderItem($merchandise, $product, $orderData['num']);
-                $order = $this->createOrder($orderData, $orderItem);
-                $orderItem->order_code = $order->code;
-                $order->orderItems()->save($orderItem);
+                $order = $this->createOrderFromRequest($orderData);
             }else if ($shoppingCarts){
-                $this->validateShoppingCarts($shoppingCarts);
-                $items = [];
-                $orderData = [];
-                $ids = array_unique($shoppingCarts['ids']);
-                $orderData['receiver_name'] = $shoppingCarts['receiver_name'];
-                $orderData['receiver_mobile'] = $shoppingCarts['receiver_mobile'];
-                $orderData['receiver_city'] = $shoppingCarts['receiver_city'];
-                $orderData['receiver_district'] = $shoppingCarts['receiver_district'];
-                $orderData['receiver_address'] = $shoppingCarts['receiver_address'];
-                $orderData['post_code'] = $shoppingCarts['post_code'];
-                $orderData['total_fee'] = 0;
-                $orderData['discount_fee'] = 0;
-                $orderData['post_fee'] = 0;
-                $orderData['num'] = 0;
-                $orderData['payment_fee'] = 0;
-                $orderData['status'] = Order::STATUS['WAIT'];
-                $orderData['buyer_user_id'] = $this->user()->id;
-                $order = Order::create($orderData);
-                foreach ($ids as $id){
-                    $shoppingCart = ShoppingCart::find($id);
-                    $orderItem = $shoppingCart->buildOrderItem();
-                    $orderItem->order_code = $order->code;
-                    $orderItem['post_fee'] = 0;
-                    $items[] = $orderItem;
-                    $order->total_fee += $orderItem->total_fee;
-                    $order->post_fee += $orderItem->post_fee;
-
-                    $order->num += $orderItem->num;
-                }
-                $order->payment_fee = $order->post_fee + $order->total_fee - $order->discount_fee;
-                $order->save();
-
-                $order->orderItems()->saveMany($items);
-                ShoppingCart::destroy($ids);
+                $order = $this->createOrderFromShoppingCart($shoppingCarts);
             }else{
-                return response()->errorApi('缺少订单信息');
+                return \Response::errorApi('缺少订单信息');
             }
             \DB::commit();
-            return response()->api($order);
-        }catch (\Exception $exception){
+            return \Response::api($order);
+        }, function ($exception){
             \DB::rollBack();
             if($exception instanceof ValidationException){
-                return response()->errorApi($exception->errors());
+                return \Response::errorApi($exception->errors());
             }
-            return response()->exceptionApi($exception);
-        }
+            return \Response::exceptionApi($exception);
+        });
     }
 
-    protected function createOrder($order, $orderItem)
+    protected function createOrder(array $order, OrderItem $orderItem) : Order
     {
         $data['post_fee'] = $orderItem['post_fee'];
         $data['total_fee'] = $orderItem['total_fee'] ;
@@ -129,7 +142,7 @@ class OrderController extends Controller
         return Order::create($data);
     }
 
-    protected function createOrderItem($merchandise, $product, $num)
+    protected function createOrderItem(Merchandise $merchandise, Product $product, int $num) : OrderItem
     {
         $data['store_id'] = $merchandise['store_id'];
         $data['store_code'] = $merchandise['store_code'];
@@ -219,11 +232,11 @@ class OrderController extends Controller
         $order = Order::find($orderId);
 
         if($order){
-            return response()->errorApi('签收的订单不存在');
+            return \Response::errorApi('签收的订单不存在');
         }
 
         if($order->status != Order::STATUS['SEND']){
-            return response()->errorApi('订单未发货无法签收');
+            return \Response::errorApi('订单未发货无法签收');
         }
         \DB::beginTransaction();
         try{
@@ -239,6 +252,6 @@ class OrderController extends Controller
             \DB::rollBack();
             throw  $exception;
         }
-        return response()->api('签收成功');
+        return \Response::api('签收成功');
     }
 }

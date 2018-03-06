@@ -64,10 +64,7 @@ class CreateMerchandisesTable extends Migration
             $table->enum('status', ['SELL_OUT','ON_SHELVES','TAKEN_OFF'])->default('ON_SHELVES')->comment('货物状态:ON_SHELVES=上架，TAKEN_OFF=下架');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('category')
-                ->onUpdate('cascade')->onDelete('cascade');
+
             $table->index('category_id');
             $table->index('store_id');
             $table->index('code');
@@ -88,8 +85,6 @@ class CreateMerchandisesTable extends Migration
             $table->unsignedInteger('stock_num')->default(0)->comment('库存');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('merchandise_id')->references('id')->on('merchandise')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->index('merchandise_id');
             $table->index('merchandise_code');

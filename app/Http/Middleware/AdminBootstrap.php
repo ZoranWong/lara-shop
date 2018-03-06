@@ -15,10 +15,9 @@ class AdminBootstrap
      */
     public function handle($request, Closure $next) : mixed
     {
-        config(['auth.defaults' => [
-            'guard' => 'admin',
-            'password' => 'users'
-        ]]);
+        $request->setUserResolver(function (){
+            return \Auth::guard('admin')->user();
+        });
         return $next($request);
     }
 }

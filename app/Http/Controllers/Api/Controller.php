@@ -37,9 +37,11 @@ class Controller extends ApiController
 
     /**
      * @param Builder|HasMany|Model $query
+     * @param bool $search
+     * @param array $columns
      * @return array
      * */
-    protected function buildList($query, $search = null, $columns = ['*'])
+    protected function buildList($query,bool $search = null, $columns = ['*'])
     {
         $page = Input::get('page', 1);
         $perPage = Input::get('per_page', 10);

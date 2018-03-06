@@ -51,7 +51,7 @@ class WechatAuthController extends Controller
             }
             \Auth::guard()->login($user);
             $token = $user->getToken();
-            return response()->api(['token' => $token, 'expire_in' => $expireIn]);
+            return \Response::api(['token' => $token, 'expire_in' => $expireIn]);
         }catch (\Exception $exception){
             throw $exception;
         }
@@ -95,7 +95,7 @@ class WechatAuthController extends Controller
             }
             \Auth::guard()->login($user);
             $token = $user->getToken();
-            return response()->api(['token' => $token, 'expire_in' => $expireIn]);
+            return \Response::api(['token' => $token, 'expire_in' => $expireIn]);
         }catch (\Exception $exception){
             throw $exception;
         }

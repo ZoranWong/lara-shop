@@ -43,17 +43,19 @@ class Closed extends Command
     public function handle()
     {
         //
-        Order::where('completed_at', '<', $this->date)->where('status', Order::STATUS['COMPLETED'])
+        Order::where('completed_at', '<', $this->date)
+            ->where('status', Order::STATUS['COMPLETED'])
             ->chunk(100, function (Collection $orders){
-            $orders->map(function (Order $order){
-                $order->closed = true;
-                $order->save();
-                $order->orderItems->map(function (OrderItem $orderItem){
-                    $orderItem->closed = true;
-                    $orderItem->save();
+                $orders->map(function (Order $order){
+                    $order->closed = true;
+                    $order->save();
+                    $order->orderItems->map(function (OrderItem $orderItem){
+                        $orderItem->closed = true;
+                        $orderItem->save();
+                    });
                 });
             });
-        });
+
         return true;
     }
 }

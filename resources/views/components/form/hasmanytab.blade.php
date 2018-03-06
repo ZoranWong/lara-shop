@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <hr style="margin-top: 0px;">
+    <hr style="margin-top:0;">
 
     <ul class="nav nav-tabs">
         @foreach($forms as $pk => $form)

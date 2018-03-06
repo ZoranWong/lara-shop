@@ -31,8 +31,7 @@ class CreateOrderCount extends Migration
             $table->float('last_week_sales',10, 2)->comment('前七天销售金额');
             $table->unsignedInteger('today_sales')->comment('今日销量');
             $table->timestamps();
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 

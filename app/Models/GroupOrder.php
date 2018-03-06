@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Jobs\GroupOrderOverDate;
 use App\Models\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -53,6 +54,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereBuyerUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereJoinedAt($value)
  * @method static bool|null forceDelete()
+ * @property-read \App\Models\Order $order
+ * @property string $code 团购订单编号
+ * @property int $store_id 店铺id
+ * @property string $store_code 店铺编号
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereStoreCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupOrder whereStoreId($value)
  */
 class GroupOrder extends Model
 {
@@ -144,5 +152,10 @@ class GroupOrder extends Model
             $this->status = GroupOrder::STATUS['INVALID'];
             $this->save();
         }
+    }
+
+    public function order() : BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 }

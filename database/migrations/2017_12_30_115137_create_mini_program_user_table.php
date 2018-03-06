@@ -25,8 +25,6 @@ class CreateMiniProgramUserTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary('user_id');
         });

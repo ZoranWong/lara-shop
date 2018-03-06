@@ -55,12 +55,12 @@ class OrderController extends Controller
                $orderItem->store->save();
            });
            if(!$result){
-               return response()->errorAjax('发货失败');
+               return \Response::errorAjax('发货失败');
            }else{
-               return response()->ajax('发货成功');
+               return \Response::ajax('发货成功');
            }
         }else{
-            return response()->errorAjax('参数错误'.json_encode(Input::json()));
+            return \Response::errorAjax('参数错误'.json_encode(Input::json()));
         }
     }
 }

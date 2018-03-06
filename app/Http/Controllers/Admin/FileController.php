@@ -21,7 +21,7 @@ class FileController extends Controller
         $imageDir = 'user/avatar/' . date('Ym');
         $imageUrl = $this->uploadImage($request->file('image'),$imageDir);
 
-        return response()->ajax($imageUrl);
+        return \Response::ajax($imageUrl);
     }
 
     /**
@@ -35,7 +35,7 @@ class FileController extends Controller
         $imageDir = 'merchandise/images/' . date('Ym');
         $imageUrl = $this->uploadImage($request->file('image'), $imageDir);
 
-        return response()->ajax($imageUrl);
+        return \Response::ajax($imageUrl);
     }
 
     private function uploadImage(UploadedFile $file,$imageDir)

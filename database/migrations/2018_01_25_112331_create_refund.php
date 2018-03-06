@@ -59,23 +59,6 @@ class CreateRefund extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('buyer_user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('merchandise_id')->references('id')->on('merchandise')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('order_id')->references('id')->on('order')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('product_id')->references('id')->on('product')
-                ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->foreign('order_item_id')->references('id')->on('order_item')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

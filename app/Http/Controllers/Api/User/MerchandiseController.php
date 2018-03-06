@@ -14,7 +14,7 @@ class MerchandiseController extends Controller
     {
         $categoryId = $request->input('category_id', null);
         $search = $request->input('search', null);
-        $query = Merchandise::newModelInstance();
+        $query = new Merchandise();
         if($search){
             $query = $query->search($search);
             $query->where('status', array_search('ON_SHELVES', Merchandise::STATUS_SYNC_SEARCH));
@@ -24,12 +24,12 @@ class MerchandiseController extends Controller
         if($categoryId){
             $query->where('category_id', $categoryId);
         }
-        return response()->api($this->buildList($query, $search));
+        return \Response::api($this->buildList($query, !!$search));
     }
 
-    public function detail($id)
+    public function detail(int $id)
     {
         $merchandise = Merchandise::where('status', Merchandise::STATUS['ON_SHELVES'])->find($id);
-        return response()->api($merchandise);
+        return \Response::api($merchandise);
     }
 }

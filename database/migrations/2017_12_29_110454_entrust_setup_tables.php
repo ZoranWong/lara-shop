@@ -32,11 +32,6 @@ class EntrustSetupTables extends Migration
             $table->integer('role_id')->unsigned('角色id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('role')
-                ->onUpdate('cascade')->onDelete('cascade');
-
             $table->primary(['user_id', 'role_id']);
         });
 
@@ -51,9 +46,6 @@ class EntrustSetupTables extends Migration
             $table->string('display_name')->nullable()->default(null)->comment('权限显示名称');
             $table->string('description')->nullable()->default(null)->comment('权限描述');
             $table->timestamps();
-
-            $table->foreign('parent_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Create table for associating permissions to role (Many-to-Many)
@@ -64,11 +56,6 @@ class EntrustSetupTables extends Migration
             $table->integer('permission_id')->unsigned()->comment('权限id');
             $table->integer('role_id')->unsigned()->comment('角色id');
             $table->timestamps();
-
-            $table->foreign('permission_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('role')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary(['permission_id', 'role_id']);
         });
@@ -81,11 +68,6 @@ class EntrustSetupTables extends Migration
             $table->integer('user_id')->unsigned()->comment('用户id');
             $table->boolean('forbidden')->default(false)->commit('是否禁用');
             $table->timestamps();
-
-            $table->foreign('permission_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->primary(['permission_id', 'user_id']);
         });
@@ -105,13 +87,6 @@ class EntrustSetupTables extends Migration
             $table->boolean('visible')->default(true)->comment('是否visible');
             $table->tinyInteger('order')->default(0)->comment('排序');
             $table->timestamps();
-            $table->foreign('parent_id')->references('id')->on('menu')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('parent_permission_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
-            //$table->primary(['permission_id']);
         });
 
         Schema::create('endpoint', function (Blueprint $table){
@@ -127,8 +102,6 @@ class EntrustSetupTables extends Migration
             $table->boolean('disable')->default(false)->comment('是否无效');
             $table->timestamps();
 
-            $table->foreign('permission_id')->references('id')->on('permission')
-                ->onUpdate('cascade')->onDelete('cascade');
             $table->primary(['permission_id']);
         });
     }

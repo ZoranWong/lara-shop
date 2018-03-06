@@ -34,7 +34,7 @@ class RefundController extends Controller
         $refund = Refund::find($id);
 
         if(!$refund){
-            return response()->errorApi('没有退款申请记录');
+            return \Response::errorApi('没有退款申请记录');
         }else{
             $result = $this->paymentApp->refund->byOutTradeNumber(
                 $refund->order_code,
@@ -62,17 +62,17 @@ class RefundController extends Controller
             }elseif($result['return_code'] == 'FAIL'){
                 $refund->error_code = "SIGN_ERROR";
                 $refund->save();
-                return response()->errorApi('签名失败');
+                return \Response::errorApi('签名失败');
             }
         }
-        return response()->api('退款成功');
+        return \Response::api('退款成功');
     }
 
     public function refuse($id, Request $request)
     {
         $refund = Refund::find($id);
         if(!$refund){
-            return response()->errorApi('没有退款申请记录');
+            return \Response::errorApi('没有退款申请记录');
         }else {
             $refuseReason = $request->input('refuse_reason', '');
             $refund->status = Refund::STATUS['REFUSED'];
@@ -80,9 +80,9 @@ class RefundController extends Controller
             $result = $refund->save();
             $this->dispatch(new RefundRefuse($refund->order));
             if($result){
-                return response()->api('退款成功');
+                return \Response::api('退款成功');
             }else{
-                return response()->errorApi('拒绝失败');
+                return \Response::errorApi('拒绝失败');
             }
         }
     }

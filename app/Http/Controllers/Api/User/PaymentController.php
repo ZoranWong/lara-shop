@@ -30,22 +30,22 @@ class PaymentController extends Controller
     public function pay(Request $request, int $orderId)
     {
         if(!$orderId){
-            return response()->errorApi();
+            return \Response::errorApi();
         }
         $order = Order::find($orderId);
         if($order->status != Order::STATUS['WAIT']){
-            return response()->errorApi();
+            return \Response::errorApi();
         }else{
             try {
                 $user  = $this->user();
                 $miniProgramUser = $user->miniProgramUser;
                 if(! $miniProgramUser){
-                    return response()->errorApi('小程序未登录');
+                    return \Response::errorApi('小程序未登录');
                 }
                 $openid = $miniProgramUser->open_id;
                 $order = Order::with(['orderItems'])->find($orderId);
                 if(!$order){
-                    return response()->errorApi('订单不存在');
+                    return \Response::errorApi('订单不存在');
                 }
                 $detail = '';
                 foreach ($order->orderItems as $item){
@@ -68,17 +68,17 @@ class PaymentController extends Controller
                     //保存form_id
                     $order->form_id = $prepayId;
                     $config = $this->jssdk->sdkConfig($prepayId);
-                    return response()->api($config);
+                    return \Response::api($config);
                 } else {
                     if($result->return_code == 'SUCCESS'){
-                        return response()->errorApi('统一下单错误:'.$result->err_code_des);
+                        return \Response::errorApi('统一下单错误:'.$result->err_code_des);
                     }else{
-                        return response()->errorApi('统一下单错误:'.$result->return_msg);
+                        return \Response::errorApi('统一下单错误:'.$result->return_msg);
                     }
 
                 }
             } catch (\Exception $e) {
-                return response()->errorApi('支付错误：'.$e->getMessage());
+                return \Response::errorApi('支付错误：'.$e->getMessage());
             }
         }
     }

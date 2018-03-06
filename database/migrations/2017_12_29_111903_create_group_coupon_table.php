@@ -43,11 +43,6 @@ class CreateGroupCouponTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('merchandise_id')->references('id')->on('merchandise')
-                ->onUpdate('cascade')->onDelete('cascade');
             $table->index('code');
             $table->index('merchandise_code');
             $table->index('store_code');
@@ -79,12 +74,6 @@ class CreateGroupCouponTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('group_coupon_id')->references('id')->on('group_coupon')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('leader_user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->index('code');
             $table->index('store_code');
@@ -118,17 +107,6 @@ class CreateGroupCouponTable extends Migration
                 ->comment('关闭状态：AUTO_CANCEL 拼团过期 BUYER_REFUND 买家退款 SELLER_CANCEL 卖家主动取消拼团');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('store_id')->references('id')->on('store')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('group_coupon_id')->references('id')->on('group_coupon')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('leader_user_id')->references('id')->on('user')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('group_id')->references('id')->on('group')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('order_id')->references('id')->on('order')
-                ->onUpdate('cascade')->onDelete('cascade');
 
             $table->index('code');
             $table->index('store_code');

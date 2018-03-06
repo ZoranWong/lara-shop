@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Home\Store\Page;
 use App\Http\Controllers\Admin\BaseController as Controller;
 use App\Models\Order;
 use App\Models\OrderCount;
+use App\Models\Store;
 use App\Services\StoreService;
 
 class HomeController extends Controller
@@ -19,7 +20,7 @@ class HomeController extends Controller
     protected $page = null;
 
     /**
-     * @var array $store
+     * @var Store $store
      * */
     protected $store = null;
 
@@ -39,6 +40,10 @@ class HomeController extends Controller
             ." {$todayMoneySum} as today_pay_fee");
         $this->data = collect($result[0]);
         $this->page = $page;
+
+        parent::__construct(function (){
+
+        });
     }
 
     protected function taskAndWxAuth(int $waitPayNum, int $waitSendNum, int $waitReceiveNum, int $completeNum)

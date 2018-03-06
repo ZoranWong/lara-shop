@@ -4,7 +4,7 @@
         height: 64px;
         border: 1px solid #e0e0e0;
     }
-    .group-coupon-edit{
+    #group-coupon-edit{
         margin-bottom: 36px;
     }
     .group-coupon-merchandise-add-btn{
@@ -66,7 +66,7 @@
     }
 
     .group-coupon-limit-group .buy-limit-num{
-        padding: 0px 10px;
+        padding:0 10px;
         width: 72px;
         margin-left: 8px;
         height: 28px;
@@ -97,9 +97,9 @@
             <div class="form-group select-merchandise-group-coupon" >
                 <label class="col-sm-2 control-label required" for="platform_title">选择商品：</label>
                 <div class="col-sm-5 ">
-                    <input class="form-control v-hidden merchandise-id" type = "text" data-bind-model = "merchandise_id"
+                    <input class="form-control hidden v-hidden merchandise-id" type = "hidden" data-bind-model = "merchandise_id"
                            name="merchandise_id" value="{{$groupCoupon && $groupCoupon->merchandise ? $groupCoupon->merchandise->id : ''}}"  required/>
-                    <input class="form-control v-hidden merchandise-code" type = "text" data-bind-model = "merchandise_code"
+                    <input class="form-control hidden v-hidden merchandise-code" type = "hidden" data-bind-model = "merchandise_code"
                            name="merchandise_code" value="{{$groupCoupon && $groupCoupon->merchandise ? $groupCoupon->merchandise->code : ''}}"  required/>
                     <div class="merchandise">
                         <div class = "group-coupon-merchandise-add-btn {{$groupCoupon && $groupCoupon->merchandise ? 'hidden' : ''}}">
@@ -126,12 +126,12 @@
                 <div class = "col-sm-5">
                     <div  class = "group-coupon-date">
                         <div class = "date-start">
-                            <input type="datetime" class="form-control  start-date-picker" data-bind-model = "start_time" name="start_time"
+                            <input type="text" class="form-control  start-date-picker" data-bind-model = "start_time" name="start_time"
                                    value="{{$groupCoupon ? date('Y-m-d h:i:s', $groupCoupon->start_time) : date('Y-m-d h:i:s')}}"  placeholder="团购活动开始时间" required>
                         </div>
                         <div class = "date-gap">至</div>
                         <div class="date-end">
-                            <input type="datetime"  class="form-control end-date-picker" data-bind-model = "end_time" name="end_time"
+                            <input type="text"  class="form-control end-date-picker" data-bind-model = "end_time" name="end_time"
                                    value="{{$groupCoupon ? date('Y-m-d h:i:s', $groupCoupon->end_time) : date('Y-m-d h:i:s', strtotime("+7 days"))}}"  placeholder="团购活动结束时间" required>
                         </div>
                     </div>
@@ -202,7 +202,6 @@
 </div>
 @include('store.group_coupon.merchandiseList')
 <script type="application/javascript">
-
     window.pageInit = function () {
         let Services = {
             saveGroupCoupon : function (data) {
@@ -216,13 +215,16 @@
                 });
             },
             getGroupCouponInfo : function (id) {
-                return $.get(`/ajax/group/coupon/${id}`);
+                return $.ajax({
+                    url: `/ajax/group/coupon/${id}`,
+                    type: 'GET'
+                });
             }
         };
         let GroupCouponController = function (id) {
             let merchandiseListController = new MerchandiseListController();
             let self = this;
-            if( id != undefined && id ){
+            if( id !== undefined && id ){
                 self.refreshProductGroupPrice(self.productsTable(self.$data.products, self.$data.merchandise, self.$data.leader_prefer));
             }else{
                 merchandiseListController.bindEvents('selectedMerchandise', function (data) {
@@ -269,25 +271,22 @@
                 //图片
                 $('.merchandise-image-box img').attr('src', groupCoupon.merchandise.main_image_url);
             },
-            setProducts : function (products) {
-
-            },
             bindEvents : function () {
                 let self = this;
-                $('.merchandise-image-box').mouseover(function (event) {
+                $('.merchandise-image-box').mouseover(function () {
                     $('.merchandise-image-box>i').show();
-                }).mouseout(function (event) {
+                }).mouseout(function () {
                     $('.merchandise-image-box>i').hide();
-                }).on('click', '.fa-close', function(event){
+                }).on('click', '.fa-close', function(){
                     self.$data['merchandise'] = null;
                     $('.merchandise-image-box img').attr('src', null);
                     $('.merchandise-image-box').addClass('hidden');
                     $('.group-coupon-merchandise-add-btn').removeClass('hidden');
                     self.refreshProductGroupPrice('');
                 });
-                $('.leader-prefer-checkbox').on('click', function (event) {
+                $('.leader-prefer-checkbox').on('click', function () {
                     self.$data['leader_prefer'] = !self.$data['leader_prefer'];
-                    if(self.$data['merchandise'] != undefined) {
+                    if(self.$data['merchandise'] !== undefined) {
                         self.refreshProductGroupPrice(self.productsTable(self.$data['merchandise']['products'], self.$data['merchandise'], self.$data['leader_prefer']));
                     }
                 });
@@ -309,7 +308,7 @@
                     $('.start-date-picker').data("DateTimePicker").maxDate(e.date);
                     self.$data['end_time'] = e.date._d.getTime() / 1000;
                 });
-                $('.buy-limit-num-checkbox').click(function (event) {
+                $('.buy-limit-num-checkbox').click(function () {
                     self.$data['buy_limit'] = !self.$data['buy_limit'];
                     if(self.$data['buy_limit']){
                         $('.buy-limit-label').removeClass('hidden');
@@ -321,7 +320,7 @@
                     }
                 });
 
-                $('.group-coupon-form').validator().unbind('submit').bind('submit', function (e) {
+                $('.group-coupon-form').validator().unbind('submit').bind('submit', function () {
                      self.validateGroupPrice();
                      if($(this).children('.has-error.has-danger').length){
                          return ;
@@ -331,15 +330,15 @@
                 self.watch();
             },
             popupMerchandise : function (merchandiseListController) {
-                $('.group-coupon-merchandise-add-btn').unbind('click').bind('click', function (event) {
+                $('.group-coupon-merchandise-add-btn').unbind('click').bind('click', function () {
                     merchandiseListController.open();
                 });
             },
             validateGroupPrice : function () {
                 let self = this;
-                if(self.$data['price'] == undefined){
+                if(self.$data['price'] === undefined){
                     $('.group-coupon-price-group').addClass('has-error has-danger');
-                }else if(self.$data['leader_prefer'] && self.$data['leader_price'] == undefined){
+                }else if(self.$data['leader_prefer'] && self.$data['leader_price'] === undefined){
                     $('.group-coupon-price-group').addClass('has-error has-danger');
                 } else{
                     $('.group-coupon-price-group').removeClass('has-error has-danger');
@@ -371,12 +370,12 @@
                 let response = this.$data['id'] ? Services.updateGroupCoupon(this.$data['id'], data) :
                     Services.saveGroupCoupon(data);
                 response.then(function (res) {
-                    if(res.success){
+                    if (!res.success) {
+                        bootbox.alert(res.error);
+                    } else {
                         bootbox.alert('团购创建或者更新成功', function () {
                             window.location.href = "/group/coupons"
                         })
-                    }else{
-                        bootbox.alert(res.error);
                     }
                 });
             },
@@ -384,13 +383,13 @@
                 let self = this;
                 $('form').on('input propertychange', 'input', function () {
                     let key = $(this).data('bind-model'), value = $(this).val();
-                    if(key != undefined)
+                    if(key !== undefined)
                         self.$data[key] = value;
 
                     let name = $(this).data('name');
-                    if(name == 'price'){
+                    if(name === 'price'){
                         self.$data['price'] = parseFloat(value);
-                    }else if(name == 'leader_price'){
+                    }else if(name === 'leader_price'){
                         self.$data['leader_price'] = parseFloat(value);
                     }
                 });
@@ -420,10 +419,10 @@
                 return table;
             },
              productTr : function(product, leaderPrefer, index) {
-                if(typeof  product['price'] == 'undefined'){
+                if(typeof  product['price'] === 'undefined'){
                     product['price'] = '';
                 }
-                if(typeof  product['leader_price'] == 'undefined'){
+                if(typeof  product['leader_price'] === 'undefined'){
                     product['leader_price'] = '';
                 }
                 let td =
@@ -433,26 +432,25 @@
                         data-index="${index}" data-id ="${product['id']}" value = "${product['leader_price']}" min ="0.01" step="0.01"
                         max="${product['sell_price']}" required>
                      </td>`;
-                let tr =
-                    `<tr>
-                        <td class = "sku">${ product['sku'] }</td>
-                        <td class = "origin-price">${ product['sell_price'] }</td>
-                        <td class = "groupon-price">
-                            <input type="hidden" data-bind-model = "products_array[${index}][id]" name = "products_array[${index}][id]" value="${product['id']}" hidden/>
-                            <input type="number" data-bind-model = "products_array[${index}][price]" name = "products_array[${index}][price]"  class = "form-control  group-price-input
-                            products-price-${product['id']}" data-name = "price" data-type = "products" data-index="${index}" data-id ="${product['id']}"
-                            value = "${product['price']}"  min ="0.01" step="0.01" max="${product['sell_price']}" required>
-                        </td>
-                        ${leaderPrefer ? td : ''}
-                        <td class = "stock-num">${product['stock_num']}</td>
-                    </tr>`;
-                return tr;
+
+                 return `<tr>
+                            <td class = "sku">${ product['sku'] }</td>
+                            <td class = "origin-price">${ product['sell_price'] }</td>
+                            <td class = "groupon-price">
+                                <input type="hidden" data-bind-model = "products_array[${index}][id]" name = "products_array[${index}][id]" value="${product['id']}" hidden/>
+                                <input type="number" data-bind-model = "products_array[${index}][price]" name = "products_array[${index}][price]"  class = "form-control  group-price-input
+                                products-price-${product['id']}" data-name = "price" data-type = "products" data-index="${index}" data-id ="${product['id']}"
+                                value = "${product['price']}"  min ="0.01" step="0.01" max="${product['sell_price']}" required>
+                            </td>
+                            ${leaderPrefer ? td : ''}
+                            <td class = "stock-num">${product['stock_num']}</td>
+                        </tr>`;
             },
             merchandiseTr: function(merchandise, leaderPrefer) {
-                if(typeof  merchandise['price'] == 'undefined'){
+                if(typeof  merchandise['price'] === 'undefined'){
                     merchandise['price'] = '';
                 }
-                if(typeof  merchandise['leader_price'] == 'undefined'){
+                if(typeof  merchandise['leader_price'] === 'undefined'){
                     merchandise['leader_price'] = '';
                 }
                 let leaderTd =
@@ -477,6 +475,6 @@
                          </tr>`;
             }
         };
-        let edit = new GroupCouponController({!! $id !!});
+        new GroupCouponController({!! $id !!});
     };
 </script>

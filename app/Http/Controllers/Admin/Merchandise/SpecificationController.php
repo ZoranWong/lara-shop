@@ -13,18 +13,18 @@ class SpecificationController extends Controller
     public function index()
     {
         $list = Specification::all();
-        return response()->ajax($list);
+        return \Response::ajax($list);
     }
 
     public function store(Request $request)
     {
         $data = Specification::create($request->all());
-        return response()->ajax($data);
+        return \Response::ajax($data);
     }
 
     public function update(Request $request, $id)
     {
         $data = Specification::updateById($id, $request->all());
-        return response()->ajax($data);
+        return \Response::ajax($data);
     }
 }

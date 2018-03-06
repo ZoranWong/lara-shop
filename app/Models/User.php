@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Distribution\Member;
 use App\Models\Traits\ModelTrait;
 use App\Renders\Traits\AdminBuilder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;

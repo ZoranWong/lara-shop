@@ -6,7 +6,7 @@
         font-weight: 100;
         display: block;
         text-align: center;
-        margin: 20px 0 10px 0px;
+        margin: 20px 0 10px0;
     }
 
     .links {

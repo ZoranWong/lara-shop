@@ -29,9 +29,9 @@ class MerchandiseController extends Controller
     {
         if ($merchandiseId) {
             $data = Product::where('merchandise_id',$merchandiseId)->get()->toArray();
-            return response()->ajax($data);
+            return \Response::ajax($data);
         }
-        return response()->errorAjax('没有数据');
+        return \Response::errorAjax('没有数据');
     }
 
     public function create(): BasePage
@@ -69,10 +69,10 @@ class MerchandiseController extends Controller
                 $merchandise->saveProducts($productsModels);
             }
             \DB::commit();
-            return response()->ajax($merchandise);
+            return \Response::ajax($merchandise);
         }catch (\Exception $exception){
             \DB::rollBack();
-            return response()->errorAjax($exception->getMessage());
+            return \Response::errorAjax($exception->getMessage());
         }
     }
 
@@ -139,10 +139,10 @@ class MerchandiseController extends Controller
 
             $merchandise->saveProducts($productsModels, 'code');
             \DB::commit();
-            return response()->ajax($merchandise);
+            return \Response::ajax($merchandise);
         }catch (\Exception $exception){
             \DB::rollBack();
-            return response()->errorAjax($exception->getMessage());
+            return \Response::errorAjax($exception->getMessage());
         }
     }
 
@@ -153,15 +153,15 @@ class MerchandiseController extends Controller
         $count = Merchandise::where('status', Merchandise::STATUS['ON_SHELVES'])->whereIn('id', $ids)->count();
 
         if($count > 0){
-            return response()->errorAjax(['message' => '上架商品中包含已经上架商品！']);
+            return \Response::errorAjax(['message' => '上架商品中包含已经上架商品！']);
         }
 
         $result = Merchandise::whereIn('id', $ids)->update(['status'=> Merchandise::STATUS['ON_SHELVES']]);
 
         if($result > 0){
-            return response()->ajax(['message' => '成功上架所选商品！']);
+            return \Response::ajax(['message' => '成功上架所选商品！']);
         }else{
-            return response()->ajax(['message' => '上架失败！']);
+            return \Response::ajax(['message' => '上架失败！']);
         }
     }
 
@@ -173,15 +173,15 @@ class MerchandiseController extends Controller
         $count = Merchandise::where('status', Merchandise::STATUS['TAKEN_OFF'])->whereIn('id', $ids)->count();
 
         if($count > 0){
-            return response()->errorAjax(['message' => '下架商品中包含已经下架商品！']);
+            return \Response::errorAjax(['message' => '下架商品中包含已经下架商品！']);
         }
 
         $result = Merchandise::whereIn('id', $ids)->update(['status'=> Merchandise::STATUS['TAKEN_OFF']]);
 
         if($result > 0){
-            return response()->ajax(['message' => '成功下架所选商品！']);
+            return \Response::ajax(['message' => '成功下架所选商品！']);
         }else{
-            return response()->ajax(['message' => '下架失败！']);
+            return \Response::ajax(['message' => '下架失败！']);
         }
     }
 
@@ -200,6 +200,6 @@ class MerchandiseController extends Controller
                 $product['sku'] = implode(",", $sku->all());
             });
         });
-        return response()->ajax($merchandises);
+        return \Response::ajax($merchandises);
     }
 }

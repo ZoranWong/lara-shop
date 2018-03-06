@@ -32,6 +32,10 @@ class Content extends \Encore\Admin\Layout\Content
     protected $id = null;
 
     /**
+     * @var array
+     * */
+    protected $with = [];
+    /**
      * Content constructor.
      *
      * @param Closure|null $callback
@@ -41,6 +45,8 @@ class Content extends \Encore\Admin\Layout\Content
         if ($callback instanceof Closure) {
             $callback($this);
         }
+
+        parent::__construct();
     }
 
     /**
@@ -154,10 +160,17 @@ class Content extends \Encore\Admin\Layout\Content
         return $this;
     }
 
+    public function with(array $data)
+    {
+        $this->with = $data;
+        return $this;
+    }
+
     /**
      * Render this content.
      *
      * @return string
+     * @throws
      */
     public function render()
     {
@@ -166,6 +179,7 @@ class Content extends \Encore\Admin\Layout\Content
             'content'     => $this->build(),
         ];
 
+        $items = array_merge($items, $this->with);
         return view('layouts.content', $items)->render();
     }
 

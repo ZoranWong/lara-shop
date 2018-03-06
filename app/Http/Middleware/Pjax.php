@@ -28,7 +28,9 @@ class Pjax
         '/admins/create',
         '/admins/*/edit',
         '/merchandises/create',
-        '/merchandises/*/edit'
+        '/merchandises/*/edit',
+        '/distribution/setting/commission',
+        'distribution/member'
     ];
     /**
      * Handle an incoming request.

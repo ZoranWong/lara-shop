@@ -48,7 +48,7 @@ class GroupCouponController extends Controller
             $data['products_array'] = [];
         }
         $groupCoupon = GroupCoupon::create($data);
-        return response()->ajax($groupCoupon);
+        return \Response::ajax($groupCoupon);
     }
 
     public function ajaxUpdate($id , Request $request)
@@ -80,6 +80,6 @@ class GroupCouponController extends Controller
         }
         $groupCoupon = GroupCoupon::find($id);
         $groupCoupon->update($data);
-        return response()->ajax($groupCoupon);
+        return \Response::ajax($groupCoupon);
     }
 }

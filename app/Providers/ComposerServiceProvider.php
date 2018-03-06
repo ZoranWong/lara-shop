@@ -26,7 +26,7 @@ class ComposerServiceProvider extends ServiceProvider
 
         View::composer('layouts.page', function (\Illuminate\View\View $view) use ($config,$events){
 
-            $view->with('storeInfo', StoreService::getCurrentStore());
+            $view->with('storeInfo', StoreService::getCurrentStore()->toArray());
             $adminLte = new AdminLte(
                 $config['adminlte.filters'],
                 $events,

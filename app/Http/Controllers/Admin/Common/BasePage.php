@@ -38,6 +38,12 @@ abstract class BasePage implements Renderable
 
     }
 
+    public function with(array $data)
+    {
+        $this->content->with($data);
+        return $this;
+    }
+
     public function conditions(\Closure $callback)
     {
         $this->conditionCallback = $callback;

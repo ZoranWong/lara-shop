@@ -32,7 +32,7 @@ class StoreController extends Controller
        if($store){
            $store->status = Store::STATUS['PASS'];
            $store->save();
-           return response()->ajax([
+           return \Response::ajax([
                'message' => '店铺申请已通过'
            ]);
        }else{
@@ -51,7 +51,7 @@ class StoreController extends Controller
         if($store){
             $store->status = Store::STATUS['REFUSE'];
             $store->save();
-            return response()->ajax([
+            return \Response::ajax([
                 'message' => '已拒绝店铺申请'
             ]);
         }else{

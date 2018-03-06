@@ -76,6 +76,8 @@ use Illuminate\Notifications\Notifiable;
  * @method static bool|null forceDelete()
  * @property int|null $closed
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereClosed($value)
+ * @property float|null $post_fee 邮费
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem wherePostFee($value)
  */
 class OrderItem extends Model
 {

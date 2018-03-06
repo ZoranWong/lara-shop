@@ -4,7 +4,7 @@
     <div class="{{$viewClass['field']}}"></div>
 </div>
 
-<hr style="margin-top: 0px;">
+<hr style="margin-top:0;">
 
 <div id="embed-{{$column}}" class="embed-{{$column}}">
 
@@ -20,4 +20,4 @@
     </div>
 </div>
 
-<hr style="margin-top: 0px;">
+<hr style="margin-top:0;">

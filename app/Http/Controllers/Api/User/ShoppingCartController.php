@@ -14,7 +14,7 @@ class ShoppingCartController extends Controller
     public function list()
     {
         $query = ShoppingCart::with(['merchandise', 'product']);
-        return response()->api($this->buildList($query));
+        return \Response::api($this->buildList($query));
     }
 
     public function setNum(int $id, int $num){
@@ -24,17 +24,17 @@ class ShoppingCartController extends Controller
                 $shoppingCart->num += $num;
                 $result = $shoppingCart->save();
                 if($result){
-                    return response()->api('购买数量修改成功');
+                    return \Response::api('购买数量修改成功');
                 }else{
-                    return response()->errorApi('购买数量修改失败');
+                    return \Response::errorApi('购买数量修改失败');
                 }
 
             }else{
-                return response()->errorApi('购物车没有对于的产品');
+                return \Response::errorApi('购物车没有对于的产品');
             }
 
         }else{
-            return response()->errorApi('购买数量必须大于0');
+            return \Response::errorApi('购买数量必须大于0');
         }
     }
 
@@ -46,11 +46,11 @@ class ShoppingCartController extends Controller
 
         $data['buyer_user_id'] = $this->user()->id;
         if($num <= 0){
-            return response()->errorApi('请填写购买数量！');
+            return \Response::errorApi('请填写购买数量！');
         }
         if(!$merchandiseId)
         {
-            return response()->errorApi('此商品不存在！');
+            return \Response::errorApi('此商品不存在！');
         }
 
         $where['merchandise_id'] = $merchandiseId;
@@ -59,11 +59,11 @@ class ShoppingCartController extends Controller
         }
         $merchandise = Merchandise::find($merchandiseId);
         if(!$merchandise){
-            return response()->errorApi('购买产品不存在！');
+            return \Response::errorApi('购买产品不存在！');
         }
 
         if($merchandise->products()->count() > 0 && !$productId){
-            return response()->errorApi('请选择规格产品！');
+            return \Response::errorApi('请选择规格产品！');
         }
         $price = $merchandise->sell_price;
         $product = null;
@@ -71,23 +71,23 @@ class ShoppingCartController extends Controller
         {
             $product = $merchandise->products()->find($productId);
             if(!$product){
-                return response()->errorApi('购买的规格产品不存在');
+                return \Response::errorApi('购买的规格产品不存在');
             }elseif ($product->stock_num < $num){
-                return response()->errorApi('规格产品库存不足');
+                return \Response::errorApi('规格产品库存不足');
             }
         }
         $shoppingCart = ShoppingCart::searchBy($where)->first();
         if($shoppingCart){
             if($merchandise->stock_num < $num){
-                return response()->errorApi('商品库存不足');
+                return \Response::errorApi('商品库存不足');
             }
             $shoppingCart->num += $num;
             $shoppingCart->total_fee += $shoppingCart->price * $num;
             $result = $shoppingCart->save();
             if(!$result){
-                return response()->errorApi('购物车商品添加失败');
+                return \Response::errorApi('购物车商品添加失败');
             }else{
-                return response()->api($shoppingCart);
+                return \Response::api($shoppingCart);
             }
 
         }
@@ -116,7 +116,7 @@ class ShoppingCartController extends Controller
         $data['num'] = $num;
         $data['total_fee'] = $totalFee;
         $shoppingCart = ShoppingCart::create($data);
-        return response()->api($shoppingCart);
+        return \Response::api($shoppingCart);
     }
 
     public function remove($ids)
@@ -126,10 +126,10 @@ class ShoppingCartController extends Controller
         try{
             ShoppingCart::destroy($ids);
             \DB::commit();
-            return response()->api('删除成功');
+            return \Response::api('删除成功');
         }catch (\Exception $exception){
             \DB::rollBack();
-            return response()->errorApi('删除失败');
+            return \Response::errorApi('删除失败');
         }
     }
 }

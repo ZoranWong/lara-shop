@@ -35,20 +35,20 @@ class RefundController extends Controller
             $orderItemId = $request->input('order_item_id', null);
             $refundFee = $request->input('refund_fee', 0);
             if(Refund::where('order_id', $orderId)->where('order_item_id', $orderItemId)->count() > 0){
-                return response()->errorApi('已经申请退款');
+                return \Response::errorApi('已经申请退款');
             }
             $userId = $this->user()->id;
             if($orderItemId && $orderId && $refundFee > 0){
                 $order = Order::with('orderItems')->where('buyer_user_id', $userId)->find($orderId);
                 $orderItem = $order->orderItems->where('id', $orderItemId)->where('buyer_user_id', $userId)->first();
                 if(!$orderItem || !$order){
-                    return response()->errorApi('订单错误');
+                    return \Response::errorApi('订单错误');
                 }
                 if(array_search($orderItem['status'], array_except(OrderItem::STATUS, ['WAIT', 'CANCEL']))){
-                    return response()->errorApi('订单未付款无法退款');
+                    return \Response::errorApi('订单未付款无法退款');
                 }
                 if($refundFee > $orderItem->total_fee){
-                    return response()->errorApi('退款金额超出订单总金额！');
+                    return \Response::errorApi('退款金额超出订单总金额！');
                 }
                 $store =  $orderItem->store;
                 $store->amount -= $orderItem->total_fee;
@@ -72,15 +72,15 @@ class RefundController extends Controller
                     'refund_reason'    => $request->input('refund_reason', null)
                 ];
                 $refund = Refund::create($data);
-                return response()->api($refund);
+                return \Response::api($refund);
             }else{
-                return response()->errorApi('退款申请失败');
+                return \Response::errorApi('退款申请失败');
             }
         }catch (\Exception $exception){
             if($exception instanceof ValidationException){
-                return response()->errorApi($exception->errors());
+                return \Response::errorApi($exception->errors());
             }
-            return response()->exceptionApi($exception);
+            return \Response::exceptionApi($exception);
         }
     }
 
@@ -88,15 +88,15 @@ class RefundController extends Controller
     {
         $refund = Refund::find($id);
         if(!$refund){
-            return response()->errorApi('退款申请不存在');
+            return \Response::errorApi('退款申请不存在');
         }
         $refund->status = Refund::STATUS['CLOSED'];
         $result = $refund->save();
         dispatch(new RefundRefuse($refund->order));
         if($result){
-            return response()->api('关闭退款申请');
+            return \Response::api('关闭退款申请');
         }else{
-            return response()->errorApi('关闭退款申请失败');
+            return \Response::errorApi('关闭退款申请失败');
         }
     }
 }

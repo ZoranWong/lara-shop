@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Models\Traits\ModelTrait;
 use App\Models\Traits\StoreTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Distribution\Order as DistributionOrder;
 use Laravel\Scout\Searchable;
 
 /**
@@ -105,6 +108,7 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereName($value)
  * @property int|null $closed
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Order whereClosed($value)
+ * @property-read \App\Models\Distribution\Order $distributionOrder
  */
 class Order extends Model
 {
@@ -235,7 +239,21 @@ class Order extends Model
         });
 
         static::updated(function(Order $order){
+            if($order->status === self::STATUS['COMPLETED']){
+                $order->orderItems()->where('status', OrderItem::STATUS['SEND'])
+                    ->update(['status' => OrderItem::STATUS['COMPLETED']]);
+            }
 
+            if($order->status === self::STATUS['CANCEL']){
+                $order->orderItems()->where('status', OrderItem::STATUS['WAIT'])->chunk(100, function (Collection $orderItems){
+                    $orderItems->map(function (OrderItem $orderItem){
+                        $orderItem->backStockNum();
+                        $orderItem->status = OrderItem::STATUS['CANCEL'];
+                        $orderItem->cancel = OrderItem::CANCEL_TYPE['AUTO'];
+                        $orderItem->save();
+                    });
+                });
+            }
         });
     }
 
@@ -327,5 +345,10 @@ class Order extends Model
     public static function buildFromShoppingCart($ids = [])
     {
 
+    }
+
+    public function distributionOrder() : HasOne
+    {
+        return $this->hasOne(DistributionOrder::class, 'order_id', 'id');
     }
 }

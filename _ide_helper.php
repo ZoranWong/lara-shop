@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.28 on 2018-01-18.
+ * Generated for Laravel 5.5.31 on 2018-02-08.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1487,6 +1487,16 @@ namespace Illuminate\Support\Facades {
     class Auth {
         
         /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function createMiniProgramDriver($name, $config)
+        {
+            return \App\Auth\AuthManager::createMiniProgramDriver($name, $config);
+        }
+        
+        /**
          * Attempt to get the guard from the local cache.
          *
          * @param string $name
@@ -1495,7 +1505,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function guard($name = null)
         {
-            return \Illuminate\Auth\AuthManager::guard($name);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::guard($name);
         }
         
         /**
@@ -1508,7 +1519,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function createSessionDriver($name, $config)
         {
-            return \Illuminate\Auth\AuthManager::createSessionDriver($name, $config);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::createSessionDriver($name, $config);
         }
         
         /**
@@ -1521,7 +1533,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function createTokenDriver($name, $config)
         {
-            return \Illuminate\Auth\AuthManager::createTokenDriver($name, $config);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::createTokenDriver($name, $config);
         }
         
         /**
@@ -1532,7 +1545,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getDefaultDriver()
         {
-            return \Illuminate\Auth\AuthManager::getDefaultDriver();
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::getDefaultDriver();
         }
         
         /**
@@ -1544,7 +1558,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function shouldUse($name)
         {
-            \Illuminate\Auth\AuthManager::shouldUse($name);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            \App\Auth\AuthManager::shouldUse($name);
         }
         
         /**
@@ -1556,7 +1571,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setDefaultDriver($name)
         {
-            \Illuminate\Auth\AuthManager::setDefaultDriver($name);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            \App\Auth\AuthManager::setDefaultDriver($name);
         }
         
         /**
@@ -1569,7 +1585,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function viaRequest($driver, $callback)
         {
-            return \Illuminate\Auth\AuthManager::viaRequest($driver, $callback);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::viaRequest($driver, $callback);
         }
         
         /**
@@ -1580,7 +1597,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function userResolver()
         {
-            return \Illuminate\Auth\AuthManager::userResolver();
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::userResolver();
         }
         
         /**
@@ -1592,7 +1610,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function resolveUsersUsing($userResolver)
         {
-            return \Illuminate\Auth\AuthManager::resolveUsersUsing($userResolver);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::resolveUsersUsing($userResolver);
         }
         
         /**
@@ -1605,7 +1624,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function extend($driver, $callback)
         {
-            return \Illuminate\Auth\AuthManager::extend($driver, $callback);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::extend($driver, $callback);
         }
         
         /**
@@ -1618,7 +1638,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function provider($name, $callback)
         {
-            return \Illuminate\Auth\AuthManager::provider($name, $callback);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::provider($name, $callback);
         }
         
         /**
@@ -1631,7 +1652,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function createUserProvider($provider = null)
         {
-            return \Illuminate\Auth\AuthManager::createUserProvider($provider);
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::createUserProvider($provider);
         }
         
         /**
@@ -1642,7 +1664,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getDefaultUserProvider()
         {
-            return \Illuminate\Auth\AuthManager::getDefaultUserProvider();
+            //Method inherited from \Illuminate\Auth\AuthManager            
+            return \App\Auth\AuthManager::getDefaultUserProvider();
         }
         
         /**
@@ -2179,6 +2202,17 @@ namespace Illuminate\Support\Facades {
         public static function setEchoFormat($format)
         {
             \Illuminate\View\Compilers\BladeCompiler::setEchoFormat($format);
+        }
+        
+        /**
+         * Set the echo format to double encode entities.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function doubleEncode()
+        {
+            \Illuminate\View\Compilers\BladeCompiler::doubleEncode();
         }
         
         /**
@@ -5833,7 +5867,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|array $view
          * @param array $data
-         * @return \Illuminate\View\View 
+         * @return string 
          * @static 
          */ 
         public static function render($view, $data = array())
@@ -8981,6 +9015,66 @@ namespace Illuminate\Support\Facades {
         {
             return \Illuminate\Routing\ResponseFactory::hasMacro($name);
         }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function ajax($mContent = array(), $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::ajax($mContent, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function exceptionAjax($mContent, $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::exceptionAjax($mContent, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function errorAjax($error, $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::errorAjax($error, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function api($mContent = array(), $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::api($mContent, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function errorApi($error, $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::errorApi($error, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function exceptionApi($mContent, $iAjaxStatus = 200, $iStatus = 200, $aHeaders = array(), $iOptions = 0)
+        {
+            return \Illuminate\Routing\ResponseFactory::exceptionApi($mContent, $iAjaxStatus, $iStatus, $aHeaders, $iOptions);
+        }
          
     }
 
@@ -11310,6 +11404,17 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get the default named parameters used by the URL generator.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDefaultParameters()
+        {
+            return \Illuminate\Routing\UrlGenerator::getDefaultParameters();
+        }
+        
+        /**
          * Force the scheme for URLs.
          *
          * @param string $schema
@@ -12361,6 +12466,192 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace Encore\Admin\Facades { 
+
+    class Admin {
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \Encore\Admin\Grid 
+         * @static 
+         */ 
+        public static function grid($model, $callable)
+        {
+            return \Encore\Admin\Admin::grid($model, $callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @param \Closure $callable
+         * @return \Encore\Admin\Form 
+         * @static 
+         */ 
+        public static function form($model, $callable)
+        {
+            return \Encore\Admin\Admin::form($model, $callable);
+        }
+        
+        /**
+         * Build a tree.
+         *
+         * @param $model
+         * @return \Encore\Admin\Tree 
+         * @static 
+         */ 
+        public static function tree($model, $callable = null)
+        {
+            return \Encore\Admin\Admin::tree($model, $callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Closure $callable
+         * @return \Encore\Admin\Layout\Content 
+         * @static 
+         */ 
+        public static function content($callable = null)
+        {
+            return \Encore\Admin\Admin::content($callable);
+        }
+        
+        /**
+         * 
+         *
+         * @param $model
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getModel($model)
+        {
+            return \Encore\Admin\Admin::getModel($model);
+        }
+        
+        /**
+         * Add css or get all css.
+         *
+         * @param null $css
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function css($css = null)
+        {
+            return \Encore\Admin\Admin::css($css);
+        }
+        
+        /**
+         * Add js or get all js.
+         *
+         * @param null $js
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function js($js = null)
+        {
+            return \Encore\Admin\Admin::js($js);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $script
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
+         * @static 
+         */ 
+        public static function script($script = '')
+        {
+            return \Encore\Admin\Admin::script($script);
+        }
+        
+        /**
+         * Left sider-bar menu.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function menu()
+        {
+            return \Encore\Admin\Admin::menu();
+        }
+        
+        /**
+         * Get admin title.
+         *
+         * @return \Config 
+         * @static 
+         */ 
+        public static function title()
+        {
+            return \Encore\Admin\Admin::title();
+        }
+        
+        /**
+         * Get current login user.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function user()
+        {
+            return \Encore\Admin\Admin::user();
+        }
+        
+        /**
+         * Set navbar.
+         *
+         * @param \Closure|null $builder
+         * @return \Encore\Admin\Navbar 
+         * @static 
+         */ 
+        public static function navbar($builder = null)
+        {
+            return \Encore\Admin\Admin::navbar($builder);
+        }
+        
+        /**
+         * Get navbar object.
+         *
+         * @return \Encore\Admin\Widgets\Navbar 
+         * @static 
+         */ 
+        public static function getNavbar()
+        {
+            return \Encore\Admin\Admin::getNavbar();
+        }
+        
+        /**
+         * Register the auth routes.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function registerAuthRoutes()
+        {
+            \Encore\Admin\Admin::registerAuthRoutes();
+        }
+        
+        /**
+         * Extend a extension.
+         *
+         * @param string $name
+         * @param string $class
+         * @return void 
+         * @static 
+         */ 
+        public static function extend($name, $class)
+        {
+            \Encore\Admin\Admin::extend($name, $class);
+        }
+         
+    }
+ 
+}
+
 namespace Intervention\Image\Facades { 
 
     class Image {
@@ -12421,9 +12712,7 @@ namespace Intervention\Image\Facades {
  
 }
 
-namespace Maatwebsite\Excel\Facades {
-
-    use Maatwebsite\Excel\Writers\LaravelExcelWriter;
+namespace Maatwebsite\Excel\Facades { 
 
     class Excel {
         
@@ -12432,7 +12721,7 @@ namespace Maatwebsite\Excel\Facades {
          *
          * @param $filename
          * @param callable|null $callback
-         * @return LaravelExcelWriter
+         * @return \Maatwebsite\Excel\Writers\LaravelExcelWriter
          * @static 
          */ 
         public static function create($filename, $callback = null)
@@ -12738,192 +13027,6 @@ namespace Overtrue\LaravelWeChat {
         {
             //Method inherited from \Pimple\Container            
             return \EasyWeChat\OfficialAccount\Application::register($provider, $values);
-        }
-         
-    }
- 
-}
-
-namespace Encore\Admin\Facades { 
-
-    class Admin {
-        
-        /**
-         * 
-         *
-         * @param $model
-         * @param \Closure $callable
-         * @return \Encore\Admin\Grid 
-         * @static 
-         */ 
-        public static function grid($model, $callable)
-        {
-            return \Encore\Admin\Admin::grid($model, $callable);
-        }
-        
-        /**
-         * 
-         *
-         * @param $model
-         * @param \Closure $callable
-         * @return \Encore\Admin\Form 
-         * @static 
-         */ 
-        public static function form($model, $callable)
-        {
-            return \Encore\Admin\Admin::form($model, $callable);
-        }
-        
-        /**
-         * Build a tree.
-         *
-         * @param $model
-         * @return \Encore\Admin\Tree 
-         * @static 
-         */ 
-        public static function tree($model, $callable = null)
-        {
-            return \Encore\Admin\Admin::tree($model, $callable);
-        }
-        
-        /**
-         * 
-         *
-         * @param \Closure $callable
-         * @return \Encore\Admin\Layout\Content 
-         * @static 
-         */ 
-        public static function content($callable = null)
-        {
-            return \Encore\Admin\Admin::content($callable);
-        }
-        
-        /**
-         * 
-         *
-         * @param $model
-         * @return mixed 
-         * @static 
-         */ 
-        public static function getModel($model)
-        {
-            return \Encore\Admin\Admin::getModel($model);
-        }
-        
-        /**
-         * Add css or get all css.
-         *
-         * @param null $css
-         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
-         * @static 
-         */ 
-        public static function css($css = null)
-        {
-            return \Encore\Admin\Admin::css($css);
-        }
-        
-        /**
-         * Add js or get all js.
-         *
-         * @param null $js
-         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
-         * @static 
-         */ 
-        public static function js($js = null)
-        {
-            return \Encore\Admin\Admin::js($js);
-        }
-        
-        /**
-         * 
-         *
-         * @param string $script
-         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void 
-         * @static 
-         */ 
-        public static function script($script = '')
-        {
-            return \Encore\Admin\Admin::script($script);
-        }
-        
-        /**
-         * Left sider-bar menu.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function menu()
-        {
-            return \Encore\Admin\Admin::menu();
-        }
-        
-        /**
-         * Get admin title.
-         *
-         * @return \Config 
-         * @static 
-         */ 
-        public static function title()
-        {
-            return \Encore\Admin\Admin::title();
-        }
-        
-        /**
-         * Get current login user.
-         *
-         * @return mixed 
-         * @static 
-         */ 
-        public static function user()
-        {
-            return \Encore\Admin\Admin::user();
-        }
-        
-        /**
-         * Set navbar.
-         *
-         * @param \Closure|null $builder
-         * @return \Encore\Admin\Navbar 
-         * @static 
-         */ 
-        public static function navbar($builder = null)
-        {
-            return \Encore\Admin\Admin::navbar($builder);
-        }
-        
-        /**
-         * Get navbar object.
-         *
-         * @return \Encore\Admin\Widgets\Navbar 
-         * @static 
-         */ 
-        public static function getNavbar()
-        {
-            return \Encore\Admin\Admin::getNavbar();
-        }
-        
-        /**
-         * Register the auth routes.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function registerAuthRoutes()
-        {
-            \Encore\Admin\Admin::registerAuthRoutes();
-        }
-        
-        /**
-         * Extend a extension.
-         *
-         * @param string $name
-         * @param string $class
-         * @return void 
-         * @static 
-         */ 
-        public static function extend($name, $class)
-        {
-            \Encore\Admin\Admin::extend($name, $class);
         }
          
     }
@@ -15045,13 +15148,13 @@ namespace  {
 
     class View extends \Illuminate\Support\Facades\View {}
 
+    class Admin extends \Encore\Admin\Facades\Admin {}
+
     class Image extends \Intervention\Image\Facades\Image {}
 
     class Excel extends \Maatwebsite\Excel\Facades\Excel {}
 
     class EasyWeChat extends \Overtrue\LaravelWeChat\Facade {}
-
-    class Admin extends \Encore\Admin\Facades\Admin {}
  
 }
 

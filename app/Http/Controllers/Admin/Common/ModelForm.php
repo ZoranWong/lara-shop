@@ -93,12 +93,12 @@ CSS;
     {
         //
         if ($this->page->form()->destroy($id)) {
-            return response()->json([
+            return \Response::json([
                 'status'  => true,
                 'message' => trans('admin.delete_succeeded'),
             ]);
         } else {
-            return response()->json([
+            return \Response::json([
                 'status'  => false,
                 'message' => trans('admin.delete_failed'),
             ]);

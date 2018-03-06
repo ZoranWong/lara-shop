@@ -23,6 +23,13 @@ Route::group([],function(){
     Route::resource('categories', 'Category\CategoryController');
     Route::resource('merchandises', 'Merchandise\MerchandiseController');
     Route::resource('group/coupons', 'GroupCoupon\GroupCouponController');
+    Route::get('distribution', 'Distribution\DistributionController@index');
+    Route::get('distribution/setting', 'Distribution\DistributionController@setting');
+    Route::get('distribution/setting/cash', 'Distribution\DistributionController@settingCash');
+    Route::get('distribution/setting/commission', 'Distribution\DistributionController@settingCommission');
+    Route::get('distribution/cash', 'Distribution\DistributionController@cash');
+    Route::get('distribution/member', 'Distribution\DistributionController@member');
+    Route::get('distribution/member/apply', 'Distribution\DistributionController@memberApply');
 });
 
 
@@ -47,4 +54,13 @@ Route::group(['prefix' => 'ajax'],function(){
     Route::put('/refund/{id}/refuse', 'Refund\RefundController@refuse');
     Route::post('/group/coupon/save', 'GroupCoupon\GroupCouponController@ajaxStore');
     Route::put('/group/coupon/{id}', 'GroupCoupon\GroupCouponController@ajaxUpdate');
+    Route::get('/distribution/order/statics', 'Distribution\OrderController@chartDaily');
+    Route::post('/distribution/commission/level/edit', 'Distribution\CommissionController@distributionCommissionLevelEdit');
+    Route::post('/distribution/commission/level/save', 'Distribution\CommissionController@saveCommissionLevel');
+    Route::get('/distribution/commission/level/list', 'Distribution\CommissionController@commissionLevelList');
+    Route::post('/distribution/setting/basic', 'Distribution\SettingController@basic');
+    Route::get('/distribution/commission/cash/setting', 'Distribution\CashController@setting');
+    Route::post('/distribution/commission/cash/setting', 'Distribution\CashController@setting');
+    Route::get('distribution/member/list', 'Distribution\MemberController@membersList');
+    Route::get('distribution/cash/list', 'Distribution\CashController@cashList');
 });
