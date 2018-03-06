@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AdminBootstrap
 {
@@ -11,13 +13,14 @@ class AdminBootstrap
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @return mixed
+     * @return Response
      */
-    public function handle($request, Closure $next) : mixed
+    public function handle(Request $request, Closure $next) : Response
     {
         $request->setUserResolver(function (){
             return \Auth::guard('admin')->user();
         });
+        \Log::info('bootstrap admin web site', [$request->user()]);
         return $next($request);
     }
 }

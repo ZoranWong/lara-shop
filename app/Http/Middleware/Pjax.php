@@ -43,7 +43,6 @@ class Pjax
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-
         if (!$request->pjax() || $response->isRedirection() || Auth::guest() || $this->inExceptArray($request)) {
             return $response;
         }

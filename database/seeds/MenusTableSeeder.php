@@ -23,7 +23,7 @@ class MenusTableSeeder extends Seeder
             ['id' => 12, 'name' => 'orders', 'display_name' => '订单管理', 'description' => '店铺订单管理'],
             ['id' => 13, 'name' => 'group-coupons', 'display_name' => '团购管理', 'description' => '团购活动管理'],
             ['id' => 14, 'name' => 'setting', 'display_name' => '店铺设置', 'description' => '店主设置店铺信息'],
-            ['id' => 15, 'name' => 'distribution', 'display_name' => '分销管理', 'description' => '商品分销管理']
+//            ['id' => 15, 'name' => 'distribution', 'display_name' => '分销管理', 'description' => '商品分销管理']
         ]);
         \App\Models\Menu::insert([
             ['permission_id' => 5, 'text' => '首页', 'icon' => 'fa-tachometer', 'url' => '/', 'visible' => true, 'is_active' => true],
