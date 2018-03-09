@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use App\Models\Distribution\Member;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -78,6 +79,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem whereClosed($value)
  * @property float|null $post_fee 邮费
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OrderItem wherePostFee($value)
+ * @property-read \App\Models\Distribution\Order $distributionOrder
  */
 class OrderItem extends Model
 {
@@ -179,6 +181,43 @@ class OrderItem extends Model
         static::creating(function (OrderItem $orderItem){
             $orderItem->code = uniqueCode();
         });
+
+        static::created(function ( OrderItem $orderItem) {
+            $userId = \Request::input('distribution_user_id');
+            $member = Member::with('level')->whereUserId($userId)->first();
+            if ($userId && $member) {
+                $distributionOrder = new \App\Models\Distribution\Order();
+                $distributionOrder->buyer_user_id = $orderItem->buyer_user_id;
+                $distributionOrder->payment_fee = $orderItem->total_fee;
+                $distributionOrder->father_id = $member->father_id;
+                $distributionOrder->grand_father_id = $member->grand_father_id;
+                $distributionOrder->great_grand_father_id = $member->great_grand_father_id;
+                $distributionOrder->commission = $member->level->commission * $orderItem->total_fee;
+                $distributionOrder->father_commission = $member->level->father_commission * $orderItem->total_fee;
+                $distributionOrder->grand_father_commission = $member->level->grand_father_commission * $orderItem->total_fee;
+                $distributionOrder->great_grand_father_commission = $member->level->great_grand_father_commission * $orderItem->total_fee;
+                $distributionOrder->total_commission = ($distributionOrder->commission + $distributionOrder->father_commission +
+                    $distributionOrder->grand_father_commission + $distributionOrder->great_grand_father_commission);
+                $distributionOrder->status = $orderItem->status;
+                $distributionOrder->save();
+            }
+        });
+
+        static::updated(function(OrderItem $order){
+            if($order->status === self::STATUS['PAID'] ) {
+                $order->distributionOrder()->where('status', self::STATUS['WAIT'])
+                    ->update(['status' => self::STATUS['PAID']]);
+            }
+            if($order->status === self::STATUS['COMPLETED']) {
+                $order->distributionOrder()->where('status', self::STATUS['SEND'])
+                    ->update(['status' => self::STATUS['PAID']]);
+            }
+
+            if($order->status === self::STATUS['CANCEL']) {
+                $order->distributionOrder()->where('status', self::STATUS['WAIT'])
+                    ->update(['status' => self::STATUS['PAID']]);
+            }
+        });
     }
 
     public function merchandise() : BelongsTo
@@ -227,6 +266,11 @@ class OrderItem extends Model
             $merchandise->stock_num += $this->num;
             $merchandise->save();
         }
+    }
+
+    public function distributionOrder() : HasOne
+    {
+        return $this->hasOne(\App\Models\Distribution\Order::class, 'order_item_id', 'id');
     }
 
 }

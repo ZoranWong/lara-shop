@@ -9,6 +9,30 @@
 namespace  {
     exit("This file should not be included, only analyzed by your IDE");
 }
+namespace Illuminate\Support{
+   /**
+    * @method Fluent first()
+    * @method Fluent after($column)
+    * @method Fluent change()
+    * @method Fluent nullable()
+    * @method Fluent unsigned()
+    * @method Fluent unique()
+    * @method Fluent index()
+    * @method Fluent primary()
+    * @method Fluent default($value)
+    * @method Fluent onUpdate($value)
+    * @method Fluent onDelete($value)
+    * @method Fluent references($value)
+    * @method Fluent on($value)
+    * @method Fluent comment($comment)
+    * @method Fluent integer($column)
+    * @method Fluent string($column)
+    * @method Fluent unsignedInteger($column)
+    * @method Fluent float($column)
+    */
+    class Fluent {}
+}
+
 
 namespace Illuminate\Support\Facades { 
 

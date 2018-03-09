@@ -18,6 +18,7 @@ class CreateCommissionCashDetail extends Migration
             $table->increments('id');
             $table->unsignedInteger('store_id')->comment('店铺id');
             $table->unsignedInteger('commission_cash_apply_id')->comment('申请单ID');
+            $table->unsignedInteger('distribution_user_id')->comment('分销商user id');
             $table->unsignedInteger('distribution_member_id')->comment('分销商id');
             $table->string('mobile', 11)->comment('电话');
             $table->string('name', 60)->comment('姓名');

@@ -162,70 +162,21 @@ class CashController extends Controller
         }
 
         $info['total']=$cashResult->count();
-        if (!$download) {
-            //  在已打款状态下 按照打款时间排序
-            $orderBy = $status == 2 ? "verify_time" : $orderBy;
-            $info['rows'] = $cashResult->offset($offset)->limit($limit)->orderBy($orderBy, $asc)->get();
-            if ($info['rows']) {
-                foreach ($info['rows'] as $v) {
-                    $v['amount'] = number_format($v['amount'], 2);
-                    if ($v['wait_amount'] > 0 ) {
-                        $v['wait_amount'] = number_format($v['wait_amount'], 2);
-                    }
-                    if ($v['pay_amount'] > 0 ) {
-                        $v['pay_amount'] = number_format($v['pay_amount'], 2);
-                    }
-                    $v['nickname'] = $v['user']['nickname'];
-                    $v['head_image_url'] = $v['user']['head_image_url'];
-                    unset($v['user']);
+        //  在已打款状态下 按照打款时间排序
+        $orderBy = $status == 2 ? "verify_time" : $orderBy;
+        $info['rows'] = $cashResult->offset($offset)->limit($limit)->orderBy($orderBy, $asc)->get();
+        if ($info['rows']) {
+            foreach ($info['rows'] as $v) {
+                $v['amount'] = number_format($v['amount'], 2);
+                if ($v['wait_amount'] > 0 ) {
+                    $v['wait_amount'] = number_format($v['wait_amount'], 2);
                 }
-            }
-        }
-
-        if ($download) {
-            /*url中load=1时 进行下载操作*/
-            if ($download == 1) {
-                /*如果没有记录 则不生成EXCEL*/
-                if ($info['total'] == 0) {
-                    return \Response::errorAjax('没有记录,导出EXCEL失败!');
+                if ($v['pay_amount'] > 0 ) {
+                    $v['pay_amount'] = number_format($v['pay_amount'], 2);
                 }
-                /*EXCEL 标题*/
-                $info['row']=$cashResult->orderBy("id","desc")->get();
-                $ext[] = ['订单号','手机号','联系人','昵称','账号','申请时间','审核时间','金额','提现类型','审核状态'];
-                foreach($info['row'] as $v)
-                {
-                    $v['amount'] = number_format($v['amount'] / 100,2);
-                    $v['nickname'] = $v['user']['nickname'];
-                    $v['head_image_url'] = $v['user']['head_image_url'];
-                    unset($v['user']);
-                    //  0待审核 1待打款 2已打款 3打款中
-                    switch ($status) {
-                        case CommissionCashApply::WAIT_AUDIT:
-                            $v['status'] = "待审核";
-                            break;
-                        case CommissionCashApply::WAIT_PAID:
-                            $v['status'] = "待打款";
-                            break;
-                        case CommissionCashApply::PAY_SUCCESS:
-                            $v['status'] = "已打款";
-                            break;
-                        default:
-                            $v['status'] = "打款中";
-                            break;
-                    }
-
-                    $ext[] =
-                        [
-                            $v['id'],$v['mobile'],$v['name'],$v['nickname'],$v['apply_time'],
-                            $v['verify_time'],$v['amount'],$v['status']
-                        ];
-                    unset($v);
-                }
-                Excel::create('记录表单',function(LaravelExcelWriter $excel) use ($ext) {
-                    $excel->sheet('score', function(LaravelExcelWorksheet $sheet) use ($ext) {
-                        $sheet->rows($ext);
-                    });
-                })->download('xlsx');
+                $v['nickname'] = $v['user']['nickname'];
+                $v['head_image_url'] = $v['user']['head_image_url'];
+                unset($v['user']);
             }
         }
 
@@ -317,29 +268,32 @@ class CashController extends Controller
 
         $info = [];
         /*排除打款成功订单*/
-        $cashInfo = CommissionCashApply::where('store_id', $storeId)->where('id', $cashId)->where('status', '<>', '2')->first();
+        $cashInfo = CommissionCashApply::where('store_id', $storeId)
+            ->where('id', $cashId)->where('status', '<>', '2')
+            ->first();
         if (!$cashInfo) {
             return \Response::errorAjax('该订单不存在或已经完成打款', 400);
         }
-        $fansId = $cashInfo['f_member_id'];
+        $fansId = $cashInfo->distribution_member_id;
         /*status  1:微信,2:支付宝*/
-        if ($status == 1) {
+        if ($status === 1) {
             /*更新提现申请表  订单状态为打款中*/
-            CommissionCashApply::where('id',$cashId)->update(['status'=>'3','verify_time'=>date('Y-m-d H:i:s',time())]);
+            CommissionCashApply::where('id', $cashId)->update([
+                'status'=>'3',
+                'verify_time'=>date('Y-m-d H:i:s',time())
+            ]);
 
-            CommissionCashApply::cashCommission($fansId,$cashId,$storeId);
+            CommissionCashApply::cashCommission($fansId, $cashId, $storeId);
 
             $info['message'] = true;
             $info['content'] = "打款申请已提交,系统自动打款中,请耐心等待.";
             return \Response::ajax($info);
-        } else {
-            $date=date('Y-m-d H:i:s',time());
-            DB::update('UPDATE zsb_fenxiao_commission_cash_detail a,zsb_fenxiao_commission_cash_apply b SET a.payamount=a.amount,a.waitamount=0,a.status=1,a.cash_type=1,a.cash_time= ?,b.payamount=b.amount,b.waitamount=0,b.type=1,b.status=2,b.verify_time= ? WHERE a.payamount=0 AND a.cash_apply_id=b.id AND a.cash_apply_id = ?',[$date,$date,$cashId]);
-            $info['message'] = true;
-            $info['content'] = "支付宝打款.";
+        } else if($status === 2) {
+            //现在不支持
+            $info['message'] = false;
+            $info['content'] = "暂时不支持支付宝打款.";
             return \Response::ajax($info);
         }
-
         $info['message'] = false;
         $info['content'] = "打款申请失败.";
         return \Response::ajax($info);

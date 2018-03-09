@@ -7,7 +7,7 @@
  */
  -->
 <div id="tran-toolbar">
-    <form class="form-horizontal" id="tran-form" action="/ajax/distribution/cash/list">
+    <form class="form-horizontal" id="tran-form" action="/ajax/distribution/cash/list?store_id={{$store_id}}">
         <div class="form-group col-md-3">
             <div class="input-group col-md-12">
                 <div class="input-group-addon">单号</div>
@@ -70,7 +70,7 @@
            data-show-footer="false"
            data-side-pagination="server"
            data-query-params="queryParams"
-           data-url="/ajax/distribution/cash/list?status=2"
+           data-url="/ajax/distribution/cash/list?status=2&store_id={{$store_id}}"
            data-response-handler="responseHandler">
     </table>
 </div>
@@ -86,8 +86,6 @@
         width:960px;
     }
 </style>
-
-<link href="http://vip.fenxiao.zuizan100.com.cn/statics/css/dialog.css" rel="stylesheet" type="text/css">
 <script type="text/template" id="tran_tpl">
     <div class="tran_top_style">
         <div class="tran_per_info">个人信息</div>
@@ -420,7 +418,7 @@
                             valign: 'middle',
                             align: 'center'
                         },{
-                            field: 'headimgurl',
+                            field: 'head_image_url',
                             title: '头像',
                             valign: 'middle',
                             align: 'center'
@@ -439,7 +437,7 @@
                             valign: 'middle',
                             align: 'center'
                         }, {
-                            field: 'payamount',
+                            field: 'pay_amount',
                             title: '打款金额',
                             align: 'center',
                             valign: 'middle'
@@ -472,10 +470,10 @@
                     ree.forEach(function(hj) {
                         tran_alipay_account[parseInt(hj['id'])] = hj['alipay_account'];
                         hj['tran_cash_id']=hj['id'];
-                        if(hj['headimgurl'] != null) {
-                            hj['headimgurl'] = "<img src='"+hj['headimgurl']+"' style='width:30px;height: 30px;' />";
+                        if(hj['head_image_url'] != null) {
+                            hj['head_image_url'] = "<img src='"+hj['head_image_url']+"' style='width:30px;height: 30px;' />";
                         } else {
-                            hj['headimgurl'] = "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAALUlEQVQImWP8DwQMRAAWCPWWYWOeO0PzMWSpGIZ5ZwoY9KA8RmJNZCJGEUkKAXh/DgMb8RMjAAAAAElFTkSuQmCC' style='width:2px;height: 2px;' />";
+                            hj['head_image_url'] = "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAALUlEQVQImWP8DwQMRAAWCPWWYWOeO0PzMWSpGIZ5ZwoY9KA8RmJNZCJGEUkKAXh/DgMb8RMjAAAAAElFTkSuQmCC' style='width:2px;height: 2px;' />";
                         }
                         hj['tran_nickname'] = hj['nickname'];
                         hj['tran_name'] = hj['name'];
@@ -488,7 +486,7 @@
                 /*分页列表 查询*/
                 'queryParams': function(params)
                 {
-                    var arr = ['tran_cash_id','tran_nickname','headimgurl','tran_name','tran_mobile','amount','audit_apply_time','verify_time'];
+                    var arr = ['tran_cash_id','tran_nickname','head_image_url','tran_name','tran_mobile','amount','audit_apply_time','verify_time'];
                     arr.forEach(function(item)
                     {
                         params[item] = $('[name='+item+']').val()
@@ -529,8 +527,8 @@
                 case 4:
                     return "已取消";
                     break;
-                    defaule:
-                            return "";
+                defaule:
+                        return "";
                     break;
             }
         }
@@ -550,7 +548,7 @@
             {
                 var cash_id = $(this).parent().parent().children("td").get(0).innerHTML;
                 var fans = $(this).attr("id");
-                $.post('/ajax/shop/fenxiao/cash/detail?status=2', {'cash_id':cash_id,'fans_id':fans}, function (json)
+                $.post('/ajax/distribution/cash/detail?status=2', {'cash_id':cash_id,'fans_id':fans}, function (json)
                 {
                     var tab;
                     if(json.code=200)
@@ -575,31 +573,31 @@
                             message: productList
                         });
                         /*个人基本详情*/
-                        $(".tran_per_img").attr('src',wechart.headimgurl);
+                        $(".tran_per_img").attr('src',wechart.head_image_url);
                         $(".tran_nickname").append(wechart.nickname);
                         $(".tran_username").append(user.full_name);
                         $(".tran_user_id").append(user.weapp_user_id);
                         $(".tran_phone").append(user.mobile);
                         $(".tran_wechat").append(user.wechat);
-                        if (cash.type == 1) {//  支付宝打款
+                        if (cash.type === 1) {//  支付宝打款
                             $(".tran_alipay_account").append("提现账号: 支付宝 <span id='tran_pay_tel'>"+cash.alipay_account+"<"+"/span>");
                         }
                         $(".tran_one_per").append(data.user_one+"人");
                         $(".tran_two_per").append(data.user_two+"人");
                         $(".tran_thr_per").append(data.user_thr+"人");
                         //  根据分销层级 对应展示相关数据
-                        if (data.level == 2) {
+                        if (data.level === 2) {
                             $(".tran_div_left_thr").empty();
                             $('.tran_thr_com').parent().remove();
                             data.user_thr = 0;
-                        } else if (data.level == 1) {
+                        } else if (data.level === 1) {
                             $(".tran_div_left_two").empty();
                             $(".tran_div_left_thr").empty();
                             $('.tran_thr_com').parent().remove();
                             $('.tran_two_com').parent().remove();
                             data.user_two = 0;
                             data.user_thr = 0;
-                        } else if (data.level == 0) {
+                        } else if (data.level === 0) {
                             $(".tran_div_left_one").empty();
                             $(".tran_div_left_two").empty();
                             $(".tran_div_left_thr").empty();
@@ -610,22 +608,22 @@
                             data.user_two = 0;
                             data.user_thr = 0;
                         }
-                        var tran_total_per = parseInt(data.user_one) +parseInt(data.user_two) +parseInt(data.user_thr);
-                        $(".tran_total_per").append(tran_total_per+"人");
-                        $(".tran_one_com").append(cash.commission_settings['father_commission']+"%");
-                        $(".tran_two_com").append(cash.commission_settings['grand_father_commission']+"%");
-                        $(".tran_thr_com").append(cash.commission_settings['great_grand_father_commission']+"%");
+                        var tran_total_per = parseInt(data.user_one) + parseInt(data.user_two) + parseInt(data.user_thr);
+                        $(".tran_total_per").append(tran_total_per + "人");
+                        $(".tran_one_com").append(cash.commission_settings['father_commission'] + "%");
+                        $(".tran_two_com").append(cash.commission_settings['grand_father_commission'] + "%");
+                        $(".tran_thr_com").append(cash.commission_settings['great_grand_father_commission'] + "%");
                         var user_active = user.is_active;
-                        user_active = user_active == 1 ? "开启" : "关闭";
+                        user_active = (user_active === 1 ? "开启" : "关闭");
                         $(".tran_info_status").append(user_active);
                         $("#tran_pay_id").append(cash.id);
                         var tran_pay_id = $("#tran_pay_id").text();
                         $("#tran_time_start").append(cash.apply_time);
                         $("#tran_amount_apply").append(cash.amount);
                         $("#tran_pay_time").append(cash.verify_time);
-                        $("#tran_wait").append(cash.waitamount);
-                        $("#tran_tran").append(cash.payamount);
-                        if (cash.status == 3) {
+                        $("#tran_wait").append(cash.wait_amount);
+                        $("#tran_tran").append(cash.pay_amount);
+                        if (cash.status === 3) {
                             $(".tran_post_money").remove();
                             $(".tran_detail_info").append('<div class="tran_post_money_false">打款中</div>');
                         }
@@ -640,26 +638,26 @@
                         if (cash_list.length > 0) {
                             /*打款详情列表*/
                             cash_list.forEach(function(item) {
-                                item.cash_time = item.cash_time == null ? " - " : item.cash_time;
+                                item.cash_time = item.cash_time === null ? " - " : item.cash_time;
                                 switch (item.status) {
                                     case 0:item.status = "待打款";break;
                                     case 1:item.status = "已打款";break;
                                     case 2:item.status = "打款中";break;
                                 }
-                                if (item.waitamount == "0.00") {
+                                if (item.wait_amount === "0.00") {
                                     item.status = "已打款";
                                 }
                                 $(".tran_list_rows").append(
-                                        '<li>'+
-                                        '<span>'+
-                                        '<span class="tran_pay_id">'+item.cash_id+'</span>'+
-                                        '<span class="tran_time_start">'+item.apply_time+'</span>'+
-                                        '<span class="tran_amount_apply">'+item.amount+'</span>'+
-                                        '<span class="tran_tran">'+item.payamount+'</span>'+
-                                        '<span class="tran_wait">'+item.waitamount+'</span>'+
-                                        '<span class="tran_pay_time">'+item.cash_time+'</span>'+
-                                        '<span class="tran_pay_status">'+item.status+'</span>'+
-                                        '</span>'+
+                                        '<li>' +
+                                            '<span>' +
+                                                '<span class="tran_pay_id">' + item.cash_id + '</span>' +
+                                                '<span class="tran_time_start">' + item.apply_time + '</span>' +
+                                                '<span class="tran_amount_apply">' + item.amount + '</span>' +
+                                                '<span class="tran_tran">' + item.pay_amount + '</span>' +
+                                                '<span class="tran_wait">' + item.wait_amount + '</span>' +
+                                                '<span class="tran_pay_time">' + item.cash_time + '</span>' +
+                                                '<span class="tran_pay_status">' + item.status + '</span>' +
+                                            '</span>' +
                                         '</li> '
                                 );
                             });

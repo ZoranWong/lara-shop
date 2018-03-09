@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Distribution\Member;
 use App\Models\Traits\ModelTrait;
 use App\Models\Traits\StoreTrait;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Distribution\Order as DistributionOrder;
+use Illuminate\Support\Facades\Input;
 use Laravel\Scout\Searchable;
 
 /**
@@ -234,17 +236,16 @@ class Order extends Model
         static::creating(function (Order $order){
             $order->code = uniqueCode();
         });
-        static::saved(function(Order $order){
-
+        static::created(function(Order $order){
         });
 
         static::updated(function(Order $order){
-            if($order->status === self::STATUS['COMPLETED']){
+            if($order->status === self::STATUS['COMPLETED']) {
                 $order->orderItems()->where('status', OrderItem::STATUS['SEND'])
                     ->update(['status' => OrderItem::STATUS['COMPLETED']]);
             }
 
-            if($order->status === self::STATUS['CANCEL']){
+            if($order->status === self::STATUS['CANCEL']) {
                 $order->orderItems()->where('status', OrderItem::STATUS['WAIT'])->chunk(100, function (Collection $orderItems){
                     $orderItems->map(function (OrderItem $orderItem){
                         $orderItem->backStockNum();
@@ -264,7 +265,7 @@ class Order extends Model
 
     public function user()
     {
-      return $this->belongsTo('App\Models\User','buyer_user_id');
+      return $this->belongsTo(\App\Models\User::class,'buyer_user_id');
     }
 
     public function cancel($cancel='BUYER')

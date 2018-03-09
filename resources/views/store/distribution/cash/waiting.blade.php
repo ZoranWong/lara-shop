@@ -1,13 +1,5 @@
-<!--
-/**
- * Created by PhpStorm.
- * User: Creya
- * Date: 2017/8/24
- * Time: 9:41
- */
- -->
 <div id="wait-toolbar">
-    <form class="form-horizontal" id="wait-form" action="../ajax/shop/fenxiao/cash/list">
+    <form class="form-horizontal" id="wait-form" action="../ajax/distribution/cash/list">
         <div class="form-group col-md-3">
             <div class="input-group col-md-12">
                 <div class="input-group-addon">单号</div>
@@ -70,7 +62,7 @@
            data-show-footer="false"
            data-side-pagination="server"
            data-query-params="queryParams"
-           data-url="/ajax/shop/fenxiao/cash/list?status=1"
+           data-url="/ajax/distribution/cash/list?status=1&store_id={{$store_id}}"
            data-response-handler="responseHandler">
     </table>
 </div>
@@ -86,9 +78,6 @@
         width:960px;
     }
 </style>
-@push('js')
-
-<link href="http://vip.fenxiao.zuizan100.com.cn/statics/css/dialog.css" rel="stylesheet" type="text/css">
 
 <script type="text/template" id="wait_tpl">
     <div class="wait_top_style">
@@ -475,8 +464,8 @@
                 });
             }, 10000);
 
-            $.post('/ajax/shop/fenxiao/cash/pay/member', {'cash_id': wait_pay_cash_id,'fans_id': wait_pay_fans_id,'status': wait_pay_type},function(json) {
-                if (json.code == 200) {
+            $.post('/ajax/distribution/cash/pay/member', {'cash_id': wait_pay_cash_id,'fans_id': wait_pay_fans_id,'status': wait_pay_type},function(json) {
+                if (json.code === 200) {
                     if (wait_pay_timeout) {
                         clearTimeout(wait_pay_timeout);
                         wait_pay_timeout = null;
@@ -556,7 +545,7 @@
                             valign: 'middle',
                             align: 'center'
                         },{
-                            field: 'headimgurl',
+                            field: 'head_image_url',
                             title: '头像',
                             valign: 'middle',
                             align: 'center'
@@ -575,12 +564,12 @@
                             valign: 'middle',
                             align: 'center'
                         }, {
-                            field: 'payamount',
+                            field: 'pay_amount',
                             title: '已打款',
                             valign: 'middle',
                             align: 'center'
                         }, {
-                            field: 'waitamount',
+                            field: 'wait_amount',
                             title: '待打款',
                             valign: 'middle',
                             align: 'center'
@@ -607,10 +596,10 @@
                     var ree = res.data['rows'];
                     ree.forEach(function(hj) {
                         hj['wait_cash_id']=hj['id'];
-                        if(hj['headimgurl'] != null || hj['headimgurl'] != "") {
-                            hj['headimgurl'] = "<img src='"+hj['headimgurl']+"' style='width:30px;height: 30px;' />";
+                        if(hj['head_image_url'] != null || hj['head_image_url'] != "") {
+                            hj['head_image_url'] = "<img src='"+hj['head_image_url']+"' style='width:30px;height: 30px;' />";
                         } else {
-                            hj['headimgurl'] = "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAALUlEQVQImWP8DwQMRAAWCPWWYWOeO0PzMWSpGIZ5ZwoY9KA8RmJNZCJGEUkKAXh/DgMb8RMjAAAAAElFTkSuQmCC' style='width:2px;height: 2px;' />";
+                            hj['head_image_url'] = "<img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAALUlEQVQImWP8DwQMRAAWCPWWYWOeO0PzMWSpGIZ5ZwoY9KA8RmJNZCJGEUkKAXh/DgMb8RMjAAAAAElFTkSuQmCC' style='width:2px;height: 2px;' />";
                         }
                         hj['wait_nickname'] = hj['nickname'];
                         hj['wait_name'] = hj['name'];
@@ -622,7 +611,7 @@
                 /*分页列表 查询*/
                 'queryParams': function(params)
                 {
-                    var arr = ['wait_cash_id','wait_nickname','headimgurl','wait_name','wait_mobile','amount','payamount','waitamount','wait_apply_time'];
+                    var arr = ['wait_cash_id','wait_nickname','head_image_url','wait_name','wait_mobile','amount','pay_amount','wait_amount','wait_apply_time'];
                     arr.forEach(function(item)
                     {
                         params[item] = $('[name='+item+']').val()
@@ -676,12 +665,10 @@
             var status = row.status;
             if (status == 3) {
                 var operateDate = [
-                    '<a class="detail" href="javascript:void(0)" title="详情" id="'+opa+'"> 详情 </a>  ',
                     '<a class="cash_wait" href="javascript:void(0)" title="打款中" style="margin-left: 10px;"  id="'+opa+'"> 打款中 </a>  ',
                 ];
             } else {
                 var operateDate = [
-                    '<a class="detail" href="javascript:void(0)" title="详情" id="'+opa+'"> 详情 </a>  ',
                     '<a class="cash" href="javascript:void(0)" title="打款" style="margin-left: 10px;"  id="'+opa+'"> 打款 </a>  ',
                 ];
             }
@@ -694,17 +681,17 @@
             {
                 var cash_id = $(this).parent().parent().children("td").get(0).innerHTML;
                 var fans = $(this).attr("id");
-                $.post('/ajax/shop/fenxiao/cash/detail?status=1', {'cash_id':cash_id,'fans_id':fans}, function (json)
+                $.post('/ajax/distribution/cash/detail?status=1&store_id={{$store_id}}', {'cash_id':cash_id,'fans_id':fans}, function (json)
                 {
                     var tab;
-                    if(json.code=200)
+                    if( json.code === 200 )
                     {
                         var data=json.data;
                         var cash = data.cash;
-                        if (cash == null) {
+                        if (cash === null) {
                             return false;
                         }
-                        if(cash.commission_settings == null) {
+                        if(cash.commission_settings === null) {
                             cash.commission_settings['father_commission'] = 0;
                             cash.commission_settings['grand_father_commission'] = 0;
                             cash.commission_settings['great_grand_father_commission'] = 0;
@@ -720,7 +707,7 @@
                             message: productList
                         });
                         /*个人基本详情*/
-                        $(".wait_per_img").attr('src',wechart.headimgurl);
+                        $(".wait_per_img").attr('src',wechart.head_image_url);
                         $(".wait_nickname").append(wechart.nickname);
                         $(".wait_username").append(user.full_name);
                         $(".wait_user_id").append(user.fans_id);
@@ -731,15 +718,15 @@
                         $(".wait_two_per").append(data.user_two+"人");
                         $(".wait_thr_per").append(data.user_thr+"人");
                         //  根据分销层级 对应展示相关数据
-                        if (data.level == 2) {
+                        if (data.level === 2) {
                             $(".wait_div_left_thr").empty();
                             data.user_thr = 0;
-                        } else if (data.level == 1) {
+                        } else if (data.level === 1) {
                             $(".wait_div_left_two").empty();
                             $(".wait_div_left_thr").empty();
                             data.user_two = 0;
                             data.user_thr = 0;
-                        } else if (data.level == 0) {
+                        } else if (data.level === 0) {
                             $(".wait_div_left_one").empty();
                             $(".wait_div_left_two").empty();
                             $(".wait_div_left_thr").empty();
@@ -747,21 +734,21 @@
                             data.user_two = 0;
                             data.user_thr = 0;
                         }
-                        var wait_total_per = parseInt(data.user_one) +parseInt(data.user_two) +parseInt(data.user_thr);
+                        var wait_total_per = parseInt(data.user_one) + parseInt(data.user_two) + parseInt(data.user_thr);
                         $(".wait_total_per").append(wait_total_per+"人");
                         $(".wait_one_com").append(cash.commission_settings['father_commission']+"%");
                         $(".wait_two_com").append(cash.commission_settings['grand_father_commission']+"%");
                         $(".wait_thr_com").append(cash.commission_settings['great_grand_father_commission']+"%");
                         var user_active = user.is_active;
-                        user_active = user_active == 1 ? "开启" : "关闭";
+                        user_active = user_active === 1 ? "开启" : "关闭";
                         $(".wait_info_status").append(user_active);
                         $("#wait_pay_id").append(cash.id);
                         var wait_pay_id = $("#wait_pay_id").text();
                         $("#wait_time_start").append(cash.apply_time);
                         $("#wait_amount_apply").append(cash.amount);
-                        $("#wait_wait").append(cash.waitamount);
-                        $("#wait_tran").append(cash.payamount);
-                        if (cash.status == 3) {
+                        $("#wait_wait").append(cash.wait_amount);
+                        $("#wait_tran").append(cash.pay_amount);
+                        if (cash.status === 3) {
                             $(".wait_post_money").remove();
                             $(".wait_detail_info").append('<div class="wait_post_money_false">打款中</div>');
                         }
@@ -776,9 +763,9 @@
                         if (cash_list.length > 0) {
                             /*打款详情列表*/
                             cash_list.forEach(function(item) {
-                                item.cash_time = item.cash_time == null ? " - " : item.cash_time;
-                                item.cash_type = item.cash_type == 2 ? "微信" : "支付宝";
-                                if (item.status != 2 || item.waitamount != "0.00") {
+                                item.cash_time = item.cash_time === null ? " - " : item.cash_time;
+                                item.cash_type = item.cash_type === 2 ? "微信" : "支付宝";
+                                if (item.status !== 2 || item.wait_amount !== "0.00") {
                                     item.cash_type = "-";
                                 }
                                 switch (item.status) {
@@ -786,7 +773,7 @@
                                     case 1:item.status = "已打款";break;
                                     case 2:item.status = "打款中";break;
                                 }
-                                if (item.waitamount == "0.00") {
+                                if (item.wait_amount === "0.00") {
                                     item.status = "已打款";
                                 }
                                 $(".wait_list_rows").append(
@@ -795,8 +782,8 @@
                                     '<span class="wait_pay_id">'+item.cash_id+'</span>'+
                                     '<span class="wait_time_start">'+item.apply_time+'</span>'+
                                     '<span class="wait_amount_apply">'+item.amount+'</span>'+
-                                    '<span class="wait_tran">'+item.payamount+'</span>'+
-                                    '<span class="wait_wait">'+item.waitamount+'</span>'+
+                                    '<span class="wait_tran">'+item.pay_amount+'</span>'+
+                                    '<span class="wait_wait">'+item.wait_amount+'</span>'+
                                     '<span class="wait_pay_time">'+item.cash_time+'</span>'+
                                     '<span class="wait_pay_status">'+item.status+'</span>'+
                                     '<span class="wait_pay_type">'+item.cash_type+'</span>'+
@@ -874,7 +861,7 @@
                 var wait_name = $("input[name='wait_name']").val();
                 var wait_mobile = $("input[name='wait_mobile']").val();
                 var wait_apply_time = $("input[name='wait_apply_time']").val();
-                var url = "http://"+window.location.host+"/ajax/shop/fenxiao/cash/list?order=asc&load=1&status=0&wait_cash_id="+wait_cash_id+"&wait_nickname="+wait_nickname+"&wait_name="+wait_name+"&wait_mobile="+wait_mobile+"&wait_apply_time="+wait_apply_time;
+                var url = "http://"+window.location.host+"/ajax/distribution/cash/list?store_id={{$store_id}}&order=asc&load=1&status=0&wait_cash_id="+wait_cash_id+"&wait_nickname="+wait_nickname+"&wait_name="+wait_name+"&wait_mobile="+wait_mobile+"&wait_apply_time="+wait_apply_time;
                 window.open(url);
             } else {
                 bootbox.alert({
@@ -891,4 +878,3 @@
         });
     });
 </script>
-@endpush

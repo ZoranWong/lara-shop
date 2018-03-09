@@ -30,7 +30,8 @@ class Pjax
         '/merchandises/create',
         '/merchandises/*/edit',
         '/distribution/setting/commission',
-        'distribution/member'
+        '/distribution/member',
+        '/distribution/cash'
     ];
     /**
      * Handle an incoming request.

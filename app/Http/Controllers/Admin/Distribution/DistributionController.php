@@ -52,8 +52,6 @@ class DistributionController extends Controller
         return $this->page->settingCommission();
     }
 
-
-
     public function member() : BasePage
     {
         return $this->page->member();

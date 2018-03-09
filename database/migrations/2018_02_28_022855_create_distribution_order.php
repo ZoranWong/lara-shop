@@ -18,6 +18,8 @@ class CreateDistributionOrder extends Migration
             $table->increments('id');
             $table->unsignedInteger('store_id')->comment('店铺id');
             $table->unsignedInteger('order_id')->comment('订单ID');
+            $table->unsignedInteger('order_item_id')->comment('订单子项ID');
+            $table->unsignedInteger('buyer_user_id')->comment('购买者ID');
             $table->unsignedInteger('father_id')->nullable()->default(null)->comment('分销id');
             $table->unsignedInteger('grand_father_id')->nullable()->default(null)->comment('上上级代理id');
             $table->unsignedInteger('great_grand_father_id')->nullable()->default(null)->comment('grand_father_id父级代理id');

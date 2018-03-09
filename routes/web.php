@@ -61,6 +61,7 @@ Route::group(['prefix' => 'ajax'],function(){
     Route::post('/distribution/setting/basic', 'Distribution\SettingController@basic');
     Route::get('/distribution/commission/cash/setting', 'Distribution\CashController@setting');
     Route::post('/distribution/commission/cash/setting', 'Distribution\CashController@setting');
-    Route::get('distribution/member/list', 'Distribution\MemberController@membersList');
-    Route::get('distribution/cash/list', 'Distribution\CashController@cashList');
+    Route::get('/distribution/member/list', 'Distribution\MemberController@membersList');
+    Route::get('/distribution/cash/list', 'Distribution\CashController@cashList');
+    Route::get('/distribution/level/name/{storeId}', 'Distribution\CommissionController@levels');
 });

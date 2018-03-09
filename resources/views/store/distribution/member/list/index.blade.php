@@ -85,12 +85,11 @@
            data-show-footer="false"
            data-side-pagination="server"
            data-query-params="queryParams"
-           data-url="/ajax/distribution/member/list"
+           data-url="/ajax/distribution/member/list?store_id={{$store_id}}"
            data-response-handler="responseHandler">
     </table>
 </div>
 <!-- /.box-body -->
-{{--<script type="text/javascript" src="{{ asset('js/zclip/jquery.zclip.js') }}" id = "zclip_js"></script>--}}
 <script>
 window.pageInit = function () {
     let total_rows_record = 0;
@@ -111,7 +110,7 @@ window.pageInit = function () {
             columns: [
                 [
                     {
-                        field: 'fans_id',
+                        field: 'id',
                         title: 'ID',
                         align: 'center',
                         valign: 'middle',
@@ -135,19 +134,19 @@ window.pageInit = function () {
                         align: 'center',
                         formatter: informationFormatter
                     }, {
-                        field: 'total_commission_wait',
+                        field: 'total_wait_commission_amount',
                         title: '未结算佣金',
                         align: 'center',
                         valign: 'middle',
                         sortable: true,
                     }, {
-                        field: 'total_commission_amount',
+                        field: 'total_paid_commission_amount',
                         title: '已结算佣金',
                         align: 'center',
                         valign: 'middle',
                         sortable: true,
                     }, {
-                        field: 'sales_amount',
+                        field: 'total_order_amount',
                         valign: 'middle',
                         title: '销售额',
                         editable: true,
@@ -171,13 +170,6 @@ window.pageInit = function () {
                         align: 'center',
                         valign: 'middle',
                         formatter: joinFormatter
-                    }, {
-                        field: 'operate',
-                        title: '操作',
-                        align: 'center',
-                        valign: 'middle',
-                        events: operateEvents,
-                        formatter: operateFormatter
                     }
                 ]
             ],
@@ -215,7 +207,7 @@ window.pageInit = function () {
         });
     }
     function nicknameFormatter(value, row, index) {
-        return '<img src="' + row.headimgurl + '" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
+        return '<img src="' + row.head_image_url + '" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
 
     }
 
@@ -230,7 +222,7 @@ window.pageInit = function () {
     }
     function fatherNicknameFormatter(value, row, index){
         if(value){
-            return '<img src="' + row.father_headimgurl + '" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
+            return '<img src="' + row.father_head_image_url + '" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
         }
         return '无';
     }
@@ -278,47 +270,9 @@ window.pageInit = function () {
         $table.bootstrapTable('selectPage', 1)
 
     });
-
-    // let systemlink = '';
-    // $.getJSON('/ajax/wechat/auth/show',function(json){
-    //     let appid = json.data.appid;
-    //     systemlink = 'http://'+systemlink+appid+'.h5.zuizan100.com.cn/fenxiao';
-    // });
-
-    // 日期控件
-    $('.datetimepicker_list').datetimepicker({
-        // autoclose: true,
-        // language: 'zh-CN',
-        format: 'yyyy-mm-dd'
-    });
-    // $('#downloadToExecl').click(function(e){
-    //     if (total_rows_record > 0) {
-    //         let url = downloadUrl + '&load=1';
-    //         window.open(url);
-    //
-    //     } else {
-    //         bootbox.alert({
-    //             title: '<span class="text-danger">详情</span>',
-    //             message: '没有记录,导出EXCEL失败!'
-    //         });
-    //     }
-    // });
-
-    {{--$('#copylink').zclip({--}}
-        {{--path: "{{asset('js/zclip/ZeroClipboard.swf')}}",--}}
-        {{--copy: function(){--}}
-            {{--return systemlink;--}}
-        {{--},--}}
-        {{--beforeCopy:function(){/* 按住鼠标时的操作 */--}}
-            {{--$(this).css("color","orange");--}}
-        {{--},--}}
-        {{--afterCopy:function(){/* 复制成功后的操作 */--}}
-            {{--$(this).text('复制成功');--}}
-        {{--}--}}
-    {{--});--}}
     $(`.fixed-table-container`).removeAttr('height');
     $(".fixed-table-container").css('min-height', '278px');
-    $.getJSON('/ajax/distribution/level/name',function(json){
+    $.getJSON('/ajax/distribution/level/name/{{$store_id}}',function(json){
         let data = json.data;
         let level_text = '';
         data.forEach(function(item){

@@ -46,13 +46,13 @@
                 if(window.zoukeApp === undefined){
                     window.zoukeApp = {};
                 }
-                window.pageInit = function () {
 
-                };
                 if(window.zoukeApp){
                     console.log('install');
                     window.zoukeApp.siteBootUp = function () {
-                        window.pageInit();
+                        if( window.pageInit ){
+                            window.pageInit();
+                        }
                         {!! \App\Renders\Facades\SectionContent::script() !!}
                     }
                 }

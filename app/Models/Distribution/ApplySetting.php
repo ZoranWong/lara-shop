@@ -3,6 +3,7 @@
 namespace App\Models\Distribution;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\DistributionApplySetting
@@ -30,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\ApplySetting whereMobileStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\ApplySetting whereStoreId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\ApplySetting whereUpdatedAt($value)
+ * @property-read \App\Models\Distribution\CommissionCashSettings $cashSetting
  */
 class ApplySetting extends Model
 {
@@ -85,5 +87,10 @@ class ApplySetting extends Model
         'level',
         'commission_days'
     ];
+
+    public function cashSetting() : HasOne
+    {
+        return $this->hasOne(CommissionCashSettings::class, 'store_id', 'store_id');
+    }
 
 }

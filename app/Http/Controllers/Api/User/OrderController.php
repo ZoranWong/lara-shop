@@ -11,6 +11,7 @@ use function foo\func;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
@@ -184,7 +185,11 @@ class OrderController extends Controller
             'receiver_city'   => 'required',
             'receiver_district' => 'required',
             'receiver_address'  => 'required',
-            'post_code'         => 'required'
+            'post_code'         => 'required',
+            'distribution_user_id' => [
+                'integer',
+                Rule::exists('user', 'id')
+            ]
         ], [
             'merchandise_id.required' => '缺少产品id',
             'merchandise_id.integer' => '产品id必须是整数',
@@ -200,7 +205,9 @@ class OrderController extends Controller
             'receiver_city.required'   => '缺少收货城市',
             'receiver_district.required' => '缺少收货县区',
             'receiver_address.required'  => '缺少收货地址',
-            'post_code.required'         => '缺少邮编'
+            'post_code.required'         => '缺少邮编',
+            'distribution_user_id.integer' => '分销人员ID数据格式错误',
+            'distribution_user_id.exist' => '分销人员不存在',
         ]);
     }
 

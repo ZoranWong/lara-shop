@@ -2,7 +2,9 @@
 
 namespace App\Models\Distribution;
 
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Distribution\CommissionCashSettings
@@ -22,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashSettings whereStoreId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashSettings whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Store $store
  */
 class CommissionCashSettings extends Model
 {
@@ -34,4 +37,9 @@ class CommissionCashSettings extends Model
         'min_cash_num',
         'max_cash_num'
     ];
+
+    public function store() : BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
 }

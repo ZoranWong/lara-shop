@@ -13,6 +13,9 @@ use Illuminate\Http\Response;
 class GroupCouponController extends Controller
 {
     //
+    /**
+     * @throws 
+     * */
     public function open($id, Request $request, OrderController $orderController) : Response
     {
         $groupCoupon = GroupCoupon::find($id);

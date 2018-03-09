@@ -58,6 +58,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ShoppingCart[] $shoppingCarts
  * @property-read \App\Models\MiniProgramUser $miniProgramUser
  * @method static bool|null forceDelete()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\Order[] $distributionOrders
  * @method static bool|null restore()
  */
 class User extends Authenticatable implements EntrustUserInterface
@@ -69,15 +70,20 @@ class User extends Authenticatable implements EntrustUserInterface
 
     use AdminBuilder;
 
-    use EntrustUserTrait { restore as private restoreA; }
+    use EntrustUserTrait {
+        restore as protected restoreEntrust;
+    }
 
-    use SoftDeletes { restore as private restoreB; }
+
+    use SoftDeletes {
+        restore as protected restoreSoftDelete;
+    }
 
     const SUPER_ADMIN_ID = 1;
 
     const SEX = [
-        'UNKNOWN' ,
-        'MALE'    ,
+        'UNKNOWN',
+        'MALE',
         'FEMALE'
     ];
 
@@ -117,8 +123,15 @@ class User extends Authenticatable implements EntrustUserInterface
      */
     public function restore()
     {
-        $this->restoreA();
-        $this->restoreB();
+        $this->restoreEntrust();
+        $this->restoreSoftDelete();
+    }
+
+    protected static function boot()
+    {
+        static::restoring(function (User $user) {
+
+        });
     }
 
     /**
@@ -127,7 +140,7 @@ class User extends Authenticatable implements EntrustUserInterface
      * @param string $key
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSearch(\Illuminate\Database\Eloquent\Builder $query,string  $key) : \Illuminate\Database\Eloquent\Builder
+    public function scopeSearch(\Illuminate\Database\Eloquent\Builder $query, string $key): \Illuminate\Database\Eloquent\Builder
     {
         return $query->where('nickname', 'like', $key . '%');
     }
@@ -137,56 +150,61 @@ class User extends Authenticatable implements EntrustUserInterface
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query) : \Illuminate\Database\Eloquent\Builder
+    public function scopeActive(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
     {
         return $query->where('active', 1);
     }
 
-    public function ownStore() : BelongsToMany
+    public function ownStore(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Store', 'store_owner', 'store_id', 'user_id');
+        return $this->belongsToMany(\App\Models\Store::class, 'store_owner', 'store_id', 'user_id');
     }
 
-    public function managerStore() : BelongsToMany
+    public function managerStore(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Store', 'store_manager', 'store_id', 'user_id');
+        return $this->belongsToMany(\App\Models\Store::class, 'store_manager', 'store_id', 'user_id');
     }
 
-    public function owner() : HasOne
+    public function owner(): HasOne
     {
-        return $this->hasOne('App\Models\StoreOwner', 'user_id', 'id');
+        return $this->hasOne(\App\Models\StoreOwner::class, 'user_id', 'id');
     }
 
-    public function miniProgramUser() :HasOne
+    public function miniProgramUser(): HasOne
     {
-        return $this->hasOne('App\Models\MiniProgramUser', 'user_id', 'id');
+        return $this->hasOne(\App\Models\MiniProgramUser::class, 'user_id', 'id');
     }
 
-    public function tokens() : HasMany
+    public function tokens(): HasMany
     {
-        return $this->hasMany('App\Models\Token', 'user_id', 'id');
+        return $this->hasMany(\App\Models\Token::class, 'user_id', 'id');
     }
 
     public function getToken()
     {
         $token = \Cache::get($this->id);
-        return  $token? $token : (($token = $this->tokens()->where('expire_in',
+        return $token ? $token : (($token = $this->tokens()->where('expire_in',
             '>', time())->first(['token'])) ? $token['token'] : null);
     }
 
     public function setToken($token)
     {
-        $this->tokens->push( $token );
+        $this->tokens->push($token);
         return $this->tokens;
     }
 
-    public function orders() : HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany('App\Models\Order', 'buyer_user_id', 'id');
+        return $this->hasMany(\App\Models\Order::class, 'buyer_user_id', 'id');
     }
 
-    public function shoppingCarts():HasMany
+    public function shoppingCarts(): HasMany
     {
-        return $this->hasMany('App\Models\ShoppingCart', 'buyer_user_id', 'id');
+        return $this->hasMany(\App\Models\ShoppingCart::class, 'buyer_user_id', 'id');
+    }
+
+    public function distributionOrders(): HasMany
+    {
+        return $this->hasMany(\App\Models\Distribution\Order::class, 'buyer_user_id', 'id');
     }
 }

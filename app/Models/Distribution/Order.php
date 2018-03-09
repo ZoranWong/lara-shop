@@ -2,7 +2,10 @@
 
 namespace App\Models\Distribution;
 
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Distribution\Order
@@ -11,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $store_id 店铺id
  * @property int $order_id 订单ID
+ * @property int $order_item_id 订单子项id
  * @property int|null $father_id 分销id
  * @property int|null $grand_father_id 上上级代理id
  * @property int|null $great_grand_father_id grand_father_id父级代理id
@@ -55,9 +59,68 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $total_commission
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereTotalCommission($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereFatherId($value)
+ * @property int|null $buyer_user_id
+ * @property-read \App\Models\User|null $buyer
+ * @property-read \App\Models\User $distributionFather
+ * @property-read \App\Models\User $distributionGrantFather
+ * @property-read \App\Models\User $distributionGreatGrantFather
+ * @property-read \App\Models\Order $order
+ * @property-read \App\Models\Store $store
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereBuyerUserId($value)
+ * @property float|null $refund_fee
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereOrderItemId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereRefundFee($value)
  */
 class Order extends Model
 {
     //
     protected $table = "distribution_order";
+
+    protected $fillable = [
+        'id',
+        'store_id',
+        'buyer_user_id',
+        'order_id',
+        'order_item_id',
+        'father_id',
+        'grant_father_id',
+        'great_grant_father_id',
+        'payment_fee',
+        'total_commission'
+    ];
+
+    public function store() : BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
+
+    public function buyer() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer_user_id', 'id');
+    }
+
+    /**
+     * order relation
+     * @return BelongsTo
+     * */
+    public function order() : BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Order::class, 'order_id', 'id');
+    }
+
+    public function distributionFather() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'father_d', 'id');
+    }
+
+    public function distributionGrantFather() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'grant_father_id', 'id');
+    }
+
+    public function distributionGreatGrantFather() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'great_grant_father_id', 'id');
+    }
+
 }

@@ -66,6 +66,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \App\Models\Distribution\CommissionLevel $level
  * @property-read \App\Models\User $user
  * @property int|null $father_id 上级代理id
+ * @property string active_Label
+ * @property string nickname
+ * @property string head_image_url
+ * @property string father_nickname
+ * @property string father_head_image_url
+ * @property mixed|string apply_status_Label
+ * @property string levelName
+ * @property mixed lower
+ * @property string sales_amount
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Member whereFatherId($value)
  */
 class Member extends Model
@@ -138,7 +147,7 @@ class Member extends Model
         $data->map(function (Member $item) use ($fansList){
             $item->active_Label = $item->showActiveName();
             $item->nickname   = isset($fansList[$item->user_id]) ? $fansList[$item->user_id]->nickname : '';
-            $item->head_image_url = isset($fansList[$item->user_id]) ? $fansList[$item->weapp_user_id]->head_image_url : '';
+            $item->head_image_url = isset($fansList[$item->user_id]) ? $fansList[$item->user_id]->head_image_url : '';
             $item->father_nickname   = isset($fansList[$item->father_id]) ? $fansList[$item->father_id]->nickname : '';
             $item->father_head_image_url   = isset($fansList[$item->father_id]) ? $fansList[$item->father_id]->head_image_url : '';
             // 待结算佣金总计

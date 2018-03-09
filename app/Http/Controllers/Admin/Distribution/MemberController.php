@@ -11,10 +11,12 @@ namespace App\Http\Controllers\Admin\Distribution;
 use App\Http\Controllers\Controller;
 use App\Models\Distribution\Member;
 use App\Models\Order;
+use App\Models\Refund;
 use App\Models\Store;
 use App\Models\User;
 use App\Services\StoreService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -63,7 +65,7 @@ class MemberController extends Controller
         if( $levelId ) {
             $where[] = ['level_id', $levelId];
         }
-        $modelObj = Member::with('commissionLevel')
+        $modelObj = Member::with('level')
             ->where($where)->where('store_id', $storeId);
         if( $nickname ) {   //昵称搜索
             $fansId = User::where([
@@ -101,8 +103,10 @@ class MemberController extends Controller
                     ->orWhere('great_grand_father_id', $item->user_id)
                     ->pluck('user_id');
 
-                $result = Order::whereIn('buy_user_id', $fansIdList)
-                    ->select(\DB::raw('SUM(payment_fee) as totalPrice, SUM(refunded_fee) as refundPrice'))
+                $result = Order::with(['refunds' => function(HasMany $refund){
+                    $refund->select('refund_fee');
+                }])->whereIn('buyer_user_id', $fansIdList)
+                    ->select(\DB::raw('SUM(payment_fee) as totalPrice'))
                     ->first();
 
                 //  下级人数
@@ -115,7 +119,9 @@ class MemberController extends Controller
 
                 //  下级人数 按照层级对应展示
                 $item->lower = $lower->lower;
-                $salesAmount = ($result->totalPrice > $result->refundPrice) ? $result->totalPrice - $result->refundPrice : 0;
+                $salesAmount = ($result->totalPrice > $result->refundPrice) ? $result->totalPrice - $result->refunds->sum(function ($result, Refund $item){
+                    return $result + $item->refund_fee;
+                    }) : 0;
                 $item->sales_amount = "¥ " . number_format($salesAmount, 2);
                 return $item;
             });

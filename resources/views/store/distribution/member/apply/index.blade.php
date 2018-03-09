@@ -262,8 +262,6 @@ window.pageInit = function () {
     });
     // 日期控件
     $('.datetimepicker_apply').datetimepicker({
-        autoclose: true,
-        language: 'zh-CN',
         format: 'yyyy-mm-dd'
     });
 

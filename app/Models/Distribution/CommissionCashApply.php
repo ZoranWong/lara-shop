@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereVerifyTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereWaitAmount($value)
  * @property-read \App\Models\User $user
+ * @property string|null distribution_user_id
+ * @property-read \App\Models\Distribution\Member $member
  */
 class CommissionCashApply extends Model
 {
@@ -54,6 +56,10 @@ class CommissionCashApply extends Model
     const PAYING = 3;
 
     const PAY_FAILED = 4;
+
+    const FRONT_SHOW_SUCCESS = 1;
+
+    const FRONT_SHOW_WAIT = 0;
 
     const APPLY_STATUS = [
         self::WAIT_AUDIT,
@@ -70,11 +76,55 @@ class CommissionCashApply extends Model
     ];
 
     protected $fillable = [
-
+        'id',
+        'store_id',
+        'distribution_member_id',
+        'distribution_user_id'
     ];
 
     public function user() : BelongsTo
     {
-        return $this->belongsTo(User::class,  'distribution_member_id', 'id');
+        return $this->belongsTo(User::class,  'distribution_user_id', 'id');
+    }
+
+    public function member() : BelongsTo
+    {
+        return $this->belongsTo(Member::class,  'distribution_member_id', 'id');
+    }
+
+    /*佣金提现 打款   招商宝*/
+    public static function cashCommission($userId, $cashId, $storeId)
+    {
+        $member = Member::where('user_id',0)
+            ->where('store_id', $storeId)
+            ->where('distribution_user_id', $userId)
+            ->with('user')
+            ->with('cashApply')
+            ->first();
+
+        if (!$member) {
+            return false;
+        } elseif (!$member['full_name']) {
+            return false;
+        } elseif (!$member->user) {
+            return false;
+        } elseif (!$member->user->miniProgramUser || !$member->user->miniProgramUser->open_id) {
+            return false;
+        } elseif (!$userId) {
+            return false;
+        } elseif (!$cashId) {
+            return false;
+        }
+
+        $cashObj = [
+            'openid' => $member->user->miniProgramUser->open_id ,
+            'desc' =>' 企业付款',
+            'reUserName' => $member->full_name,
+            'spbillCreateIp' => '121.41.13.15',
+            'fans_id' => $userId,
+            'cash_id'=>$cashId
+        ];
+
+        return true;
     }
 }

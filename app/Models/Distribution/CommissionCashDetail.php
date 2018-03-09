@@ -45,9 +45,22 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashDetail whereTradeNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashDetail whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashDetail whereWaitAmount($value)
+ * @property int|null $distribution_user_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashDetail whereDistributionUserId($value)
  */
 class CommissionCashDetail extends Model
 {
     //
     protected $table = "commission_cash_detail";
+
+    protected $fillable = [
+        'id',
+        'trade_no',
+        'distribution_member_id',
+        'distribution_user_id',
+        'payment_no',
+        'commission_cash_apply_id',
+        'store_id',
+        ''
+    ];
 }
