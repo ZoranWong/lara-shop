@@ -23,7 +23,8 @@ class CreateDistributionOrder extends Migration
             $table->unsignedInteger('father_id')->nullable()->default(null)->comment('分销id');
             $table->unsignedInteger('grand_father_id')->nullable()->default(null)->comment('上上级代理id');
             $table->unsignedInteger('great_grand_father_id')->nullable()->default(null)->comment('grand_father_id父级代理id');
-            $table->float('payment_fee', 12, 4)->comment('实付金额');
+            $table->float('payment_fee', 12, 4)->nullable()->default(0)->comment('实付金额');
+            $table->float('refund_fee', 12, 4)->nullable()->default(0)->comment('退款');
             $table->float('total_commission', 12, 4)->default(0)->comment('佣金总计');
             $table->float('commission', 12, 4)->default(0)->comment('自购佣金');
             $table->float('father_commission', 12, 4)->default(0)->comment('分销佣金');

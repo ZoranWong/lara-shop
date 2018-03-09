@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Distribution\Member
@@ -76,6 +77,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed lower
  * @property string sales_amount
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Member whereFatherId($value)
+ * @property-read \App\Models\Distribution\ApplySetting $commissionSetting
+ * @property-read \App\Models\Distribution\CommissionLevel $memberLevel
+ * @property int order_quantity
+ * @property int total_price
+ * @property string total_commission_amount
  */
 class Member extends Model
 {
@@ -189,5 +195,14 @@ class Member extends Model
         $map[self::STATUS_REFUSE] = '已拒绝';
 
         return isset($map[$this->apply_status]) ? $map[$this->apply_status] : '';
+    }
+
+    public function memberLevel() : BelongsTo
+    {
+        return $this->belongsTo(CommissionLevel::class, 'level_id', 'id');
+    }
+    public function commissionSetting() : HasOne
+    {
+        return $this->hasOne(ApplySetting::class, 'store_id', 'store_id');
     }
 }

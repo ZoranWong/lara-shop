@@ -13,6 +13,7 @@ use App\Models\Distribution\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use App\Services\StoreService;
 use DB;
@@ -193,14 +194,14 @@ class CashController extends Controller
         $userId = array_get($queryParams, 'user_id');
 
         $info = [];
-        if (!in_array($status,array(0,1,2,3))) {
+        if (!in_array($status, array(0,1,2,3))) {
             return \Response::ajax('请求状态错误!');
         }
         /*用户信息*/
-        $memberDetail = Member::with('user')->where('user_id', $userId)->with('commissionSettings')
-            ->with(['memberLevel'=>function(Builder $item) use($storeId) {
-                $item->where('store_id', $storeId);
-            }])->first();
+        $memberDetail = Member::with('user')->where('user_id', $userId)
+            ->where('store_id', $storeId)
+            ->with(['memberLevel', 'commissionSettings'])
+            ->first();
 
         if (!$memberDetail) {
             return \Response::errorAjax('查不到此用户!');
@@ -215,14 +216,23 @@ class CashController extends Controller
 
         /*打款详情*/
         if ($status == 1) {
-            $cashDetail=CommissionCashApply::with(['cashDetails' => function(Builder $query) use ($cashId, $status){
-                $query->where('cash_apply_id',$cashId);
-            }])->with('commissionSettings')->where('id', $cashId)->where('store_id', $storeId)->whereIn('status', [ CommissionCashApply::WAIT_PAID,
-                CommissionCashApply::PAYING, CommissionCashApply::PAY_FAILED])->first();
+            $cashDetail=CommissionCashApply::with([
+                'cashDetails' => function(HasMany $query) use ($cashId, $status){
+                        $query->where('commission_cash_apply_id', $cashId)->where('status', $status);
+                    }
+                ])->with('commissionSettings')
+                ->where('id', $cashId)
+                ->where('store_id', $storeId)
+                ->whereIn('status', [ CommissionCashApply::WAIT_PAID, CommissionCashApply::PAYING, CommissionCashApply::PAY_FAILED])
+                ->first();
         } else {
-            $cashDetail=CommissionCashApply::with(['cashDetails' => function(Builder $query) use ($cashId, $status){
-                $query->where('cash_apply_id',$cashId);
-            }])->with('commissionSettings')->where('id', $cashId)->where('store_id', $storeId)->where('status', $status)->first();
+            $cashDetail=CommissionCashApply::with(['cashDetails' => function(HasMany $query) use ($cashId, $status){
+                $query->where('cash_apply_id', $cashId)->where('status', $status);
+            }])->with('commissionSettings')
+                ->where('id', $cashId)
+                ->where('store_id', $storeId)
+                ->where('status', $status)
+                ->first();
         }
 
         if ($cashDetail) {

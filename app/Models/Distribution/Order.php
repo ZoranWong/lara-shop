@@ -74,6 +74,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Order extends Model
 {
     //
+    const STATUS_UNSETTLED = 0;
+    const STATUS_SETTLED = 1;
+
     protected $table = "distribution_order";
 
     protected $fillable = [

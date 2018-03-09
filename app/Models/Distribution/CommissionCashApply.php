@@ -5,6 +5,8 @@ namespace App\Models\Distribution;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Distribution\CommissionCashApply
@@ -41,8 +43,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereVerifyTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereWaitAmount($value)
  * @property-read \App\Models\User $user
- * @property string|null distribution_user_id
  * @property-read \App\Models\Distribution\Member $member
+ * @property int|null $distribution_user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\CommissionCashDetail[] $cashDetails
+ * @property-read \App\Models\Distribution\ApplySetting $commissionSettings
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereDistributionUserId($value)
  */
 class CommissionCashApply extends Model
 {
@@ -126,5 +131,15 @@ class CommissionCashApply extends Model
         ];
 
         return true;
+    }
+
+    public function commissionSettings() : HasOne
+    {
+        return $this->hasOne(ApplySetting::class, 'store_id', 'store_id');
+    }
+
+    public function cashDetails() : HasMany
+    {
+        return $this->hasMany(CommissionCashDetail::class, 'commission_cash_apply_id', 'id');
     }
 }

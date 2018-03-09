@@ -61,17 +61,17 @@ class DistributionCashController extends Controller
                 $setting['max_cash_num'] = 20000;
             } else{
                 if (!isset($setting['min_cash_num']) || $setting['min_cash_num'] == null) {
-                    $setting['min_cash_num'] = 1;
+                    $setting->min_cash_num = 1;
                 } elseif (!isset($setting['max_cash_num']) || $setting['max_cash_num'] == null) {
-                    $setting['max_cash_num'] = 20000;
+                    $setting->max_cash_num = 20000;
                 }
             }
 
-            if($money > $member['amount'] || $money < $setting['min_cash_num'] || $money > $setting['max_cash_num']) {
+            if($money > $member->amount || $money < $setting->min_cash_num || $money > $setting->max_cash_num) {
                 throw new \Exception('申请提现佣金小于最低提现额度或大于可提现额度,请重新填写!');
             }
             $date = date('Y-m-d H:i:s', time());
-            $fullName=$member['full_name'];
+            $fullName=$member->full_name;
             $result = new CommissionCashApply();
             $result->store_id = $storeId;
             $result->distribution_member_id = $member->id;
@@ -150,10 +150,10 @@ class DistributionCashController extends Controller
             /*数据总计*/
             $info['total'] = CommissionCashApply::where($user)->count();
             /*成功提现额度*/
-            $info['totalAmount'] = CommissionCashApply::where($user)
+            $info['total_amount'] = CommissionCashApply::where($user)
                 ->where('status', CommissionCashApply::PAY_SUCCESS)
                 ->sum('amount');
-            $info['totalAmount'] = number_format($info['totalAmount'], 2);
+            $info['total_amount'] = number_format($info['total_amount'], 2);
             /*订单列表*/
             $info['data'] = CommissionCashApply::where($user)
                 ->orderBy('apply_time', 'DESC')
@@ -193,7 +193,7 @@ class DistributionCashController extends Controller
         try {
             $queryParams = $request->all();
             $perpage = 10;
-            $page = array_get($queryParams,'page',1);
+            $page = array_get($queryParams,'page', 1);
             $page = intval($page) >= 1 ? intval($page) : 1;
             $offset = ($page - 1) * $perpage;
             if(!$this->user){
@@ -299,12 +299,12 @@ class DistributionCashController extends Controller
                 throw new \Exception('您不是分销商!');
             }
             /*可提现额度*/
-            $info['amount'] = number_format($info['amount'], 2);
+            $info->amount = number_format($info->amount, 2);
             /*待结算*/
-            $info['total_wait_commission_amount'] = number_format($info['total_wait_commission_amount'], 2);
+            $info->total_wait_commission_amount = number_format($info->total_wait_commission_amount, 2);
             /*分销订单金额总计*/
-            $info['total_commission_amount'] = number_format(($info['total_paid_commission_amount'] + $info['total_wait_commission_amount']),2);
-            $info['total_cash_amount'] = number_format($info['total_cash_amount'], 2);
+            $info->total_commission_amount = number_format(($info->total_paid_commission_amount + $info['total_wait_commission_amount']),2);
+            $info->total_cash_amount = number_format($info['total_cash_amount'], 2);
             return \Response::ajax($info);
 
         } catch (\Exception $e) {
@@ -336,9 +336,9 @@ class DistributionCashController extends Controller
                 $cash['commission_days'] = $setting->commission_days;
                 if ($setting['cashSetting'] !== "") {
                     /*最小提现额度*/
-                    $cash['min_cash_num'] = number_format($setting['cashSetting']['min_cash_num'], 2);
+                    $cash['min_cash_num'] = number_format($setting->cashSetting->min_cash_num, 2);
                     /*最大提现额度*/
-                    $cash['max_cash_num'] = number_format($setting['cashSetting']['max_cash_num'], 2);
+                    $cash['max_cash_num'] = number_format($setting->cashSetting->max_cash_num, 2);
                 } else {
                     $cash['min_cash_num'] = 1;
                     $cash['max_cash_num'] = 20000;
