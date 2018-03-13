@@ -16,6 +16,11 @@ class TemplateMessageSender extends Notification
      * @var WechatTemplateMessage
      * */
     protected $templateMessage = null;
+
+    /**
+     * @var string
+     * */
+    protected $templateMessageId = null;
     /**
      * Create a new notification instance.
      *

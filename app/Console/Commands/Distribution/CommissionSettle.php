@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Distribution;
 
+use App\Jobs\Distribution\MemberLevelUpgrade;
 use App\Jobs\Distribution\SettleCommission;
 use App\Models\Distribution\Member;
 use App\Models\Distribution\Order;
@@ -88,6 +89,7 @@ class CommissionSettle extends Command
         $result = $member->save();
         if($result){
             dispatch(new SettleCommission($member->user_id, date('Y-m-d h:m:s'), $storeId, $orderId, $commission));
+            dispatch(new MemberLevelUpgrade($member));
         }
     }
 }

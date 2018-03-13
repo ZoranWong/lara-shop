@@ -2,51 +2,42 @@
 
 namespace App\Notifications\Wechat;
 
-use App\Channels\Messages\WechatTemplateMessage;
-use App\Models\User;
-use Illuminate\Bus\Queueable;
+use App\Channels\WxMessageTemplateChannel;
+use App\Models\Distribution\Member;
 use App\Notifications\Wechat\TemplateMessageSender as Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notifiable;
 
-class CommissionSettlement extends Notification
+class MemberLevelUpgrade extends Notification
 {
-    public $userId;
-    //  结算时间
-    public $date;
-
-    public $storeId;
-    //  订单号
-    public $orderId;
-
-    // 收益金额
-    public $amount;
-
-    protected $isRefund = false;
-
 
     /**
-     * Create a new job instance.
-     * @param int $userId
-     * @param string $date
-     * @param int $storeId
-     * @param int $orderId
-     * @param float $amount
+     * @var Member
+     * */
+    protected $member = null;
+
+    /**
+     * Create a new notification instance.
+     *
      * @return void
      */
-    public function __construct(int $userId, string $date, int $storeId, int $orderId, float $amount)
+    public function __construct(Member $member)
     {
         //
-        $this->userId = $userId;
-        $this->storeId = $storeId;
-        $this->date = $date;
-        $this->orderId = $orderId;
-        $this->amount = $amount;
-        $this->templateMessageId = config('wechat.message_template.commission_settlement');
+        $this->member = $member;
         parent::__construct();
     }
 
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function via($notifiable)
+    {
+        return [WxMessageTemplateChannel::class];
+    }
 
     /**
      * @param Notifiable $notifiable
@@ -66,5 +57,17 @@ class CommissionSettlement extends Notification
         }else{
             throw new \Exception('没有微信open id');
         }
+    }
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
     }
 }

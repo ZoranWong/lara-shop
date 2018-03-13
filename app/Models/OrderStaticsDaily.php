@@ -37,4 +37,9 @@ class OrderStaticsDaily extends Model
 {
     //
     protected $table = "order_statics_daily";
+
+    protected $fillable = [
+        'id', 'store_id', 'today_amount', 'today_sales', 'today_distribution_amount', 'today_distribution_sales',
+        'today_commission_amount', 'today_commission_paid_amount', 'today_commission_apply_amount', 'statics_date'
+    ];
 }

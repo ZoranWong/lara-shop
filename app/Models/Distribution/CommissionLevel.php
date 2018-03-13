@@ -63,6 +63,10 @@ class CommissionLevel extends Model
         self::COMMISSION_OPEN
     ];
 
+    const UPGRADE_AUTO = 1;
+
+    const NOT_UPGRADE_AUTO = 0;
+
     protected $table = "commission_level";
 
     /*

@@ -2,6 +2,8 @@
 
 namespace App\Jobs\Distribution;
 
+use App\Models\User;
+use App\Notifications\Wechat\CommissionSettlement;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,7 +30,11 @@ class SettleCommission implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
+     * @param int $userId
+     * @param string $date
+     * @param int $storeId
+     * @param int $orderId
+     * @param float $amount
      * @return void
      */
     public function __construct(int $userId, string $date, int $storeId, int $orderId, float $amount)
@@ -49,5 +55,10 @@ class SettleCommission implements ShouldQueue
     public function handle()
     {
         //
+        $user = User::find($this->userId);
+
+        if($user){
+            $user->notify(new CommissionSettlement($this->userId, $this->date, $this->storeId, $this->orderId, $this->amount));
+        }
     }
 }
