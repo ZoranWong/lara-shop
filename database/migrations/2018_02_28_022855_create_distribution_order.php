@@ -35,7 +35,7 @@ class CreateDistributionOrder extends Migration
             $table->unsignedInteger('commission_status')->default(0)->comment('自购佣金状态:0正常 1冻结(不计入分销商佣金账户)');
             $table->unsignedInteger('father_commission_status')->default(0)->comment('直接分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)');
             $table->unsignedInteger('grand_father_commission_status')->default(0)->comment('上级分销佣金状态:0正常 1冻结(不计入分销商佣金账户)');
-            $table->unsignedInteger('great_grand_commission_status')->default(0)->comment('上上级分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)');
+            $table->unsignedInteger('great_grand_father_commission_status')->default(0)->comment('上上级分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)');
             $table->unsignedInteger('commission_settle_status')->default(0)->comment('佣金结算状态 0未结算 1已结算2已退单');
             $table->enum('status', ['WAIT', 'CANCEL', 'PAID', 'SEND', 'COMPLETED'])
                 ->nullable()->default('WAIT')

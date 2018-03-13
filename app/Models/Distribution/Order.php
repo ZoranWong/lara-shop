@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $commission_status 自购佣金状态:0正常 1冻结(不计入分销商佣金账户)
  * @property int $father_commission_status 直接分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)
  * @property int $grand_father_commission_status 上级分销佣金状态:0正常 1冻结(不计入分销商佣金账户)
- * @property int $great_grand_commission_status 上上级分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)
+ * @property int $great_grand_father_commission_status 上上级分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)
  * @property int $commission_settle_status 佣金结算状态 0未结算 1已结算2已退单
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -76,6 +76,11 @@ class Order extends Model
     //
     const STATUS_UNSETTLED = 0;
     const STATUS_SETTLED = 1;
+    const STATUS_REFUND = 2;
+
+    const COMMISSION_STATUS_NORMAL = 0;
+
+    const COMMISSION_STATUS_FORBIDDEN = 1;
 
     protected $table = "distribution_order";
 
@@ -89,7 +94,19 @@ class Order extends Model
         'grant_father_id',
         'great_grant_father_id',
         'payment_fee',
-        'total_commission'
+        'total_commission',
+        'commission',
+        'father_commission',
+        'grant_father_commission',
+        'great_grant_father_commission',
+        'should_settled_at',
+        'real_settled_at',
+        'commission_status',
+        'father_commission_status',
+        'grant_father_commission_status',
+        'great_grant_father_commission_status',
+        'commission_settle_status',
+        'status'
     ];
 
     public function store() : BelongsTo

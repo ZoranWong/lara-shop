@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $id
  * @property int $store_id 店铺id
  * @property int $distribution_member_id 分销商id
+ * @property int|null $distribution_user_id
  * @property string $mobile 电话
  * @property string $name 姓名
  * @property int $apply_time 申请时间
@@ -44,7 +45,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereWaitAmount($value)
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Distribution\Member $member
- * @property int|null $distribution_user_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\CommissionCashDetail[] $cashDetails
  * @property-read \App\Models\Distribution\ApplySetting $commissionSettings
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionCashApply whereDistributionUserId($value)
@@ -77,14 +77,24 @@ class CommissionCashApply extends Model
     protected $table = "commission_cash_apply";
 
     protected $casts = [
-
+        'apply_time' => 'datetime',
+        'verify_time' => 'datetime'
     ];
 
     protected $fillable = [
         'id',
         'store_id',
         'distribution_member_id',
-        'distribution_user_id'
+        'distribution_user_id',
+        'mobile',
+        'name',
+        'apply_time',
+        'verify_time',
+        'amount',
+        'pay_amount',
+        'wait_amount',
+        'remark',
+        'status'
     ];
 
     public function user() : BelongsTo

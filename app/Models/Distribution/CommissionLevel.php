@@ -2,7 +2,9 @@
 
 namespace App\Models\Distribution;
 
+use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Distribution\CommissionLevel
@@ -40,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionLevel whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\CommissionLevel whereUpgradeType($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Store $store
  */
 class CommissionLevel extends Model
 {
@@ -54,12 +57,29 @@ class CommissionLevel extends Model
 
     const COMMISSION_FORBIDDEN = 0;
     const COMMISSION_OPEN = 1;
+
     const COMMISSION_STATUS = [
         self::COMMISSION_FORBIDDEN,
         self::COMMISSION_OPEN
     ];
 
     protected $table = "commission_level";
+
+    /*
+      * @property int $id
+     * @property int $store_id 店铺id
+     * @property string $name 分销等级名称
+     * @property int|null $upgrade_type 0 不自动升级 1满额自动升级
+     * @property float|null $reach_amount 升级规则为1时，指定额度，单位：元
+     * @property int|null $allocation 1-佣金比例 2-固定额度
+     * @property int $commission_days 佣金到账天数
+     * @property int|null $level 分销层级
+     * @property int $commission_status 自购佣金状态1开启0关闭
+     * @property float $commission 自购佣金,小于1
+     * @property float $father_commission 一级佣金,小于1
+     * @property float $grand_father_commission 二级佣金,小于1
+     * @property float $great_grand_father_commission 三级佣金,小于1
+     * */
 
     protected $fillable = [
         'id',
@@ -75,4 +95,9 @@ class CommissionLevel extends Model
         'grant_father_commission',
         'great_grant_father_commission'
     ];
+
+    public function store() : BelongsTo
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
 }

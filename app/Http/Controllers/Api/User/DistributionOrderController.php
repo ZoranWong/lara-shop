@@ -17,24 +17,6 @@ class DistributionOrderController extends Controller
       * @throws
       * @optional  int  status
       * 佣金状态(1.筛选出所有已结算订单, 2未结算, 空值时 输出全部)
-      * return  string
-      * status_commission         佣金状态: 0未结算 1已结算 2已退单
-      * order_number              订单编号
-      * order_time                订单时间
-      * nick_name                 用户昵称(购买人)
-      * total_price               订单总价
-      * total_commission          收益总计
-      * total_refund_commission   退款总佣金
-      * total_refund_payment      退款金额总计
-      * items['product_num']      商品数量
-      * items['product_name']     商品名称
-      * items['product_price']    商品单价
-      * items['product_img']      商品图片
-      * items['commission_type']  佣金类型(佣金比例)
-      * items['commission_proportion']  佣金收益(单件收益)
-      * items['product_status']         商品状态:0 正常 1作废(退单)
-      * items['refund_commission']      退款佣金
-      * items['refund_payment']         退款金额
       */
     public function orderListDetail(Request $request)
     {

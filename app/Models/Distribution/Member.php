@@ -80,8 +80,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\Distribution\ApplySetting $commissionSetting
  * @property-read \App\Models\Distribution\CommissionLevel $memberLevel
  * @property int order_quantity
- * @property int total_price
  * @property string total_commission_amount
+ * @property-read \App\Models\User|null $father
+ * @property-read \App\Models\User $grantFather
+ * @property-read \App\Models\User $greatGrantFather
+ * @property int total_payment_fee
  */
 class Member extends Model
 {
@@ -130,7 +133,37 @@ class Member extends Model
 
     protected $table = "distribution_member";
 
-    protected $fillable = ['*'];
+    protected $casts = [
+        'is_active' => 'boolean',
+        'apply_time' => 'datetime',
+        'join_time'  => 'datetime'
+    ];
+
+    protected $fillable = [
+        'id',
+        'store_id',
+        'user_id',
+        'level_id',
+        'father_id',
+        'grand_father_id',
+        'great_grand_father_id',
+        'depth',
+        'path',
+        'amount',
+        'total_order_amount',
+        'total_paid_commission_amount',
+        'total_wait_commission_amount',
+        'total_subordinate_num',
+        'total_cash_amount',
+        'apply_time',
+        'join_time',
+        'apply_status',
+        'is_active',
+        'referrals',
+        'full_name',
+        'mobile',
+        'wechat',
+    ];
 
     public function user():BelongsTo
     {
@@ -165,17 +198,6 @@ class Member extends Model
             // 分销订单金额总计
             $item->total_order_amount = "¥ " . number_format($item->total_order_amount, 2);
 
-
-            if($item->apply_time) {
-                $item->apply_time = date('Y-m-d H:i:s', $item->apply_time);
-            }else {
-                $item->apply_time = '';
-            }
-            if($item->join_time){
-                $item->join_time = date('Y-m-d H:i:s', $item->join_time);
-            } else {
-                $item->join_time = '';
-            }
             $item->apply_status_Label = $item->showApplyStatus();
         });
         return $data;
@@ -204,5 +226,20 @@ class Member extends Model
     public function commissionSetting() : HasOne
     {
         return $this->hasOne(ApplySetting::class, 'store_id', 'store_id');
+    }
+
+    public function father() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'father_id', 'id');
+    }
+
+    public function grantFather() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'grant_father_id', 'id');
+    }
+
+    public function greatGrantFather() : BelongsTo
+    {
+        return $this->belongsTo(User::class, 'great_grant_father_id', 'id');
     }
 }

@@ -60,6 +60,7 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @method static bool|null forceDelete()
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\Order[] $distributionOrders
  * @method static bool|null restore()
+ * @property-read \App\Models\Distribution\Member $distributionMember
  */
 class User extends Authenticatable implements EntrustUserInterface
 {
@@ -206,5 +207,10 @@ class User extends Authenticatable implements EntrustUserInterface
     public function distributionOrders(): HasMany
     {
         return $this->hasMany(\App\Models\Distribution\Order::class, 'buyer_user_id', 'id');
+    }
+
+    public function distributionMember() : HasOne
+    {
+        return $this->hasOne(Member::class, 'user_id', 'id');
     }
 }

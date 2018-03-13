@@ -109,4 +109,7 @@ return [
         'country' => '中国',
         'headimgurl' => 'http://wx.qlogo.cn/mmopen/C2rEUskXQiblFYMUl9O0G05Q6pKibg7V1WpHX6CIQaic824apriabJw4r6EWxziaSt5BATrlbx1GVzwW2qjUCqtYpDvIJLjKgP1ug/0',
     ],
+    'message_template' => [
+        'commission_settlement' => '' ,//结算消息模版ID
+    ]
 ];
