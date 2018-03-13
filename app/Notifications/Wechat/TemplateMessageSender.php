@@ -7,8 +7,6 @@ use App\Channels\WxMessageTemplateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class TemplateMessageSender extends Notification
 {
