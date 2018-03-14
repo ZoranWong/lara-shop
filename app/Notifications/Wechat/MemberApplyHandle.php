@@ -5,18 +5,19 @@ namespace App\Notifications\Wechat;
 use App\Channels\Messages\WechatTemplateMessage;
 use App\Channels\WxMessageTemplateChannel;
 use App\Models\Distribution\Member;
-use App\Notifications\Wechat\TemplateMessageSender as Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\Wechat\TemplateMessageSender as Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
-class MemberLevelUpgrade extends Notification
+class MemberApplyHandle extends Notification
 {
 
     /**
      * @var Member
      * */
     protected $member = null;
-
     /**
      * Create a new notification instance.
      * @param Member $member
@@ -26,7 +27,7 @@ class MemberLevelUpgrade extends Notification
     {
         //
         $this->member = $member;
-        $this->templateMessageId = config('wechat.message_template.member_level_upgrade');
+        $this->templateMessageId = config('wechat.message_template.member_apply_handle');
         parent::__construct();
     }
 

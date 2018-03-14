@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Admin\Distribution;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\Distribution\ApplyHandle;
 use App\Models\Distribution\Member;
 use App\Models\Order;
 use App\Models\Refund;
@@ -178,23 +179,23 @@ class MemberController extends Controller
                     }
                 }
                 if($result->grand_father_id) {
-                    $gfather = Member::where('user_id', $result->grand_father_id)->first();
-                    if($gfather && $gfather->user_id){
-                        $gfather->total_subordinate_num = $gfather->total_subordinate_num - 1;
-                        $gfather->referrals = $gfather->referrals - 1;
-                        $gfather->save();
+                    $grantFather = Member::where('user_id', $result->grand_father_id)->first();
+                    if($grantFather && $grantFather->user_id){
+                        $grantFather->total_subordinate_num = $grantFather->total_subordinate_num - 1;
+                        $grantFather->referrals = $grantFather->referrals - 1;
+                        $grantFather->save();
                     }
                 }
                 if($result->great_grand_father_id){
-                    $ggfather = Member::where('user_id', $result->great_grand_father_id)->first();
-                    if($ggfather && $ggfather->user_id){
-                        $ggfather->total_subordinate_num = $ggfather->total_subordinate_num - 1;
-                        $ggfather->referrals = $ggfather->referrals - 1;
-                        $ggfather->save();
+                    $greatGrandFather = Member::where('user_id', $result->great_grand_father_id)->first();
+                    if($greatGrandFather && $greatGrandFather->user_id){
+                        $greatGrandFather->total_subordinate_num = $greatGrandFather->total_subordinate_num - 1;
+                        $greatGrandFather->referrals = $greatGrandFather->referrals - 1;
+                        $greatGrandFather->save();
                     }
                 }
-                $isHasChilds = Member::where('father_id', $id)->first();
-                if($isHasChilds) {  // 存在下级,抛出异常错误信息
+                $hasChildren = Member::where('father_id', $id)->first();
+                if($hasChildren) {  // 存在下级,抛出异常错误信息
                     return \Response::errorAjax("存在下级分销商，不能进行分销商等级变更",406);
                 }
                 //不存在,正常执行
@@ -235,7 +236,6 @@ class MemberController extends Controller
                     $result->great_grand_father_id = 0;
                     $result->depth = 1;
                     $result->path = $id;
-
                 }
             }
             $result->save();
@@ -277,5 +277,31 @@ class MemberController extends Controller
         $returnValue = Member::whereIn('user_id', $fansIdList)->update($data);
 
         return \Response::ajax($returnValue);
+    }
+
+    public function agree($id)
+    {
+        $member = Member::whereApplyStatus(Member::STATUS_WAIT_CHECK)->whereId($id)->first();
+        if($member) {
+            $member->apply_status = Member::STATUS_PASS;
+            $member->save();
+            $this->dispatch(new ApplyHandle($member));
+            return \Response::ajax('申请审核通过');
+        }else{
+            return \Response::errorAjax('id错误');
+        }
+    }
+
+    public function refuse($id)
+    {
+        $member = Member::whereApplyStatus(Member::STATUS_WAIT_CHECK)->whereId($id)->first();
+        if($member) {
+            $member->apply_status = Member::STATUS_REFUSE;
+            $member->save();
+            $this->dispatch(new ApplyHandle($member));
+            return \Response::ajax('申请审核已拒绝');
+        }else{
+            return \Response::errorAjax('id错误');
+        }
     }
 }

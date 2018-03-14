@@ -70,6 +70,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property float|null $refund_fee
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereOrderItemId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Distribution\Order whereRefundFee($value)
+ * @property int $great_grand_commission_status 上上级分销商佣金状态:0正常 1冻结(不计入分销商佣金账户)
  */
 class Order extends Model
 {

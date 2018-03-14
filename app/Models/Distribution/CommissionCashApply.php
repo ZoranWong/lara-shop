@@ -3,6 +3,7 @@
 namespace App\Models\Distribution;
 
 use App\Models\User;
+use App\Wechat\MerchantPayment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -110,11 +111,14 @@ class CommissionCashApply extends Model
     /*佣金提现 打款   招商宝*/
     public static function cashCommission($userId, $cashId, $storeId)
     {
-        $member = Member::where('user_id',0)
-            ->where('store_id', $storeId)
+        $member = Member::where('store_id', $storeId)
             ->where('distribution_user_id', $userId)
             ->with('user')
             ->with('cashApply')
+            ->with(['cashDetails' => function(HasMany $query) use( $cashId ){
+                $query->where('commission_cash_apply_id', $cashId)
+                    ->where('status', CommissionCashDetail::WAIT_STORE_PAY);
+            }])
             ->first();
 
         if (!$member) {
@@ -130,15 +134,12 @@ class CommissionCashApply extends Model
         } elseif (!$cashId) {
             return false;
         }
-
-        $cashObj = [
-            'openid' => $member->user->miniProgramUser->open_id ,
-            'desc' =>' 企业付款',
-            'reUserName' => $member->full_name,
-            'spbillCreateIp' => '121.41.13.15',
-            'fans_id' => $userId,
-            'cash_id'=>$cashId
-        ];
+        $merchantPayment = new MerchantPayment([
+            'openid' => $member->user->miniProgramUser->open_id,
+            'check_name' => 'NO_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
+            're_user_name' => $member->full_name, // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
+            'desc' => '企业支付-分销提现', // 企业付款操作说明信息。必填
+        ]);
 
         return true;
     }

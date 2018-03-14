@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -85,6 +86,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\User $grantFather
  * @property-read \App\Models\User $greatGrantFather
  * @property int total_payment_fee
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\CommissionCashApply[] $cashApply
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\CommissionCashDetail[] $cashDetails
  */
 class Member extends Model
 {
@@ -241,5 +244,15 @@ class Member extends Model
     public function greatGrantFather() : BelongsTo
     {
         return $this->belongsTo(User::class, 'great_grant_father_id', 'id');
+    }
+
+    public function cashApply() : HasMany
+    {
+        return $this->hasMany(CommissionCashApply::class, 'distribution_member_id', 'id');
+    }
+
+    public function cashDetails() : HasMany
+    {
+        return $this->hasMany(CommissionCashDetail::class, 'distribution_member_id', 'id');
     }
 }

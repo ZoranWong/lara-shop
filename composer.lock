@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "244a0952f605eba5de8e4f0c6f38cc12",
+    "content-hash": "5e5e5589e39e45946f9105086cdbdb40",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -858,6 +858,48 @@
             ],
             "description": "The composer plugin for EasyWeChat",
             "time": "2017-12-12T12:19:39+00:00"
+        },
+        {
+            "name": "easywechat/console",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EasyWeChat/console.git",
+                "reference": "cba420a6fdf3cd5ec968a1d039a84dabb035dbad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/EasyWeChat/console/cba420a6fdf3cd5ec968a1d039a84dabb035dbad.zip",
+                "reference": "cba420a6fdf3cd5ec968a1d039a84dabb035dbad",
+                "shasum": ""
+            },
+            "require": {
+                "overtrue/wechat": "^4.0",
+                "php": ">=7.0",
+                "symfony/console": "^3.0|^4.0",
+                "symfony/process": "^3.0|^4.0"
+            },
+            "bin": [
+                "bin/easywechat"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "EasyWeChat\\Console\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "A command line for EasyWeChat Application.",
+            "time": "2018-01-08T13:17:20+00:00"
         },
         {
             "name": "egulias/email-validator",

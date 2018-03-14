@@ -4,29 +4,22 @@ namespace App\Notifications\Wechat;
 
 use App\Channels\Messages\WechatTemplateMessage;
 use App\Channels\WxMessageTemplateChannel;
-use App\Models\Distribution\Member;
-use App\Notifications\Wechat\TemplateMessageSender as Notification;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\Wechat\TemplateMessageSender as Notification;
 
-class MemberLevelUpgrade extends Notification
+
+class CommissionExtractApply extends Notification
 {
 
     /**
-     * @var Member
-     * */
-    protected $member = null;
-
-    /**
      * Create a new notification instance.
-     * @param Member $member
+     *
      * @return void
      */
-    public function __construct(Member $member)
+    public function __construct()
     {
         //
-        $this->member = $member;
-        $this->templateMessageId = config('wechat.message_template.member_level_upgrade');
         parent::__construct();
     }
 
@@ -59,17 +52,5 @@ class MemberLevelUpgrade extends Notification
         }else{
             throw new \Exception('没有微信open id');
         }
-    }
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
     }
 }

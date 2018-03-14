@@ -23,6 +23,7 @@ class WxMessageTemplateChannel
     public function __construct(Client $client)
     {
         $this->templateMessageClient = $client;
+
     }
 
     /**

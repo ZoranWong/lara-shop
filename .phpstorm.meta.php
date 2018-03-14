@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-02-08.
+    * Generated on 2018-03-14.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -51,7 +51,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -201,7 +201,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -351,7 +351,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -501,7 +501,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -651,7 +651,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -801,7 +801,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -951,7 +951,7 @@ namespace PHPSTORM_META {
         'excel.writer' => \Maatwebsite\Excel\Writers\LaravelExcelWriter::class,
         'excel' => \Maatwebsite\Excel\Excel::class,
         'wechat.official_account.default' => \EasyWeChat\OfficialAccount\Application::class,
-        'wechat.mini_program.default' => \EasyWeChat\MiniProgram\Application::class,
+        'wechat.payment.default' => \EasyWeChat\Payment\Application::class,
         'Laravel\Scout\EngineManager' => \Laravel\Scout\EngineManager::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,

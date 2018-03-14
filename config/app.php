@@ -55,6 +55,10 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     /*
+     *server ip set
+     * */
+    'server_ip' => env('APP_SERVER_IP', '127.0.0.1'),
+    /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
@@ -202,6 +206,7 @@ return [
         \Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
         \Stevenyangecho\UEditor\UEditorServiceProvider::class,
         \Laravel\Scout\ScoutServiceProvider::class,
+        \Overtrue\LaravelWeChat\ServiceProvider::class,
     ],
 
     /*
