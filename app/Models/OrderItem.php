@@ -196,8 +196,7 @@ class OrderItem extends Model
                 $distributionOrder->father_commission = $member->level->father_commission * $orderItem->total_fee;
                 $distributionOrder->grand_father_commission = $member->level->grand_father_commission * $orderItem->total_fee;
                 $distributionOrder->great_grand_father_commission = $member->level->great_grand_father_commission * $orderItem->total_fee;
-                $distributionOrder->total_commission = ($distributionOrder->commission + $distributionOrder->father_commission +
-                    $distributionOrder->grand_father_commission + $distributionOrder->great_grand_father_commission);
+                $distributionOrder->total_commission = ($distributionOrder->commission + $distributionOrder->father_commission + $distributionOrder->grand_father_commission + $distributionOrder->great_grand_father_commission);
                 $distributionOrder->status = $orderItem->status;
                 $distributionOrder->save();
             }

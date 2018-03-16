@@ -43,6 +43,9 @@ class OrderController extends Controller
         return \Response::api($data);
     }
 
+    /*
+     *
+     * */
     public function createOrderFromRequest(array  $orderData) : Order
     {
         $this->validateOrder($orderData);
@@ -99,6 +102,8 @@ class OrderController extends Controller
         return $order;
     }
     /**
+     * @param Request $request 分销时添加（distribution_user_id指定分销人员）
+     * @return \Response
      * @throws
      * */
     public function create(Request $request)
