@@ -26,6 +26,7 @@ class DistributionOrderController extends Controller
             $statusCommission = array_get($queryParams,'status');
 
             $storeId = array_get($queryParams, 'store_id', null);
+            $this->user = $request->user();
             $userId = $this->user->id;
             $limit = 10;
             $offset = $offset <= 1 ? 0 : intval($offset-1) * $limit;

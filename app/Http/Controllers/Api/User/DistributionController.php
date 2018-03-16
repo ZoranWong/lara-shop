@@ -6,6 +6,7 @@ use App\Models\Distribution\ApplySetting;
 use App\Models\Distribution\Member;
 use App\Models\Distribution\Order;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,7 @@ class DistributionController extends Controller
     public function apply(Request $request)
     {
         try {
+            $this->user = $request->user();
             $input['store_id']  = $request->input('store_id', null);
             if($input['store_id'] && $this->user){
                 $input['user_id']  = $this->user->id;
@@ -102,11 +104,11 @@ class DistributionController extends Controller
     {
         try {
             $storeId = $request->input('store_id', null);
-            $user = $this->user;
+            $user = $this->user = $request->user();
             $userId = $user->id;
             $memberInfo = [];
             $data = Member::with('user')
-                ->with(['level' => function(HasOne $query) use ($storeId)
+                ->with(['level' => function(BelongsTo $query) use ($storeId)
                     {
                         $query->where('store_id', $storeId);
                     }])->where('store_id', $storeId)
@@ -144,7 +146,7 @@ class DistributionController extends Controller
                         ->orWhere('great_grand_father_id', $userId);
                 })->pluck('user_id');
 
-                $totalAmount = Order::whereIn('user_id', $userIdList)
+                $totalAmount = Order::whereIn('buyer_user_id', $userIdList)
                     ->whereIn('commission_settle_status', [Order::STATUS_UNSETTLED, Order::STATUS_SETTLED])
                     ->select([\DB::raw('SUM(payment_fee) as total_payment'), \DB::raw('SUM(refund_fee) as total_refund')])
                     ->first();
@@ -158,7 +160,7 @@ class DistributionController extends Controller
                 //统计分销团队人数 (不包括自己)
                 $memberInfo['team_num'] = count($fansIdList) >= 1 ? count($fansIdList) - 1 : 0 ;
                 //统计团队中订单数目 (包括自己的订单)
-                $memberInfo['order_num'] = Order::whereIn('user_id', $fansIdList)->count();
+                $memberInfo['order_num'] = Order::whereIn('buyer_user_id', $fansIdList)->count();
             }
             unset($data);
             return \Response::ajax($memberInfo);
@@ -176,7 +178,11 @@ class DistributionController extends Controller
     public function subordinate(Request $request)
     {
         try {
+            $this->user = $request->user();
             $storeId = $request->input('store_id', null);
+            if(!$storeId){
+                return \Response::errorAjax('缺少店铺id');
+            }
             $userId = $this->user->id;
             // 获取传递的参数
             $queryParams =  $request->all();
@@ -204,7 +210,7 @@ class DistributionController extends Controller
                     $userId = $item->user->id;
                     $order = Order::select(\DB::raw('count(*) as order_count, sum(payment_fee) as total_payment_fee'))
                         ->where(function (Builder $query) use($userId) {
-                        $query->orWhere('user_id', $userId);
+                            $query->orWhere('buyer_user_id', $userId);
                             $query->orWhere('father_id', $userId);
                             $query->orWhere('grand_father_id', $userId);
                             $query->orWhere('great_grand_father_id', $userId);
@@ -249,8 +255,12 @@ class DistributionController extends Controller
     public function subordinateSetting(Request $request)
     {
         try {
+            $this->user = $request->user();
             $userId = $this->user->id;
             $storeId = $request->input('store_id', null);
+            if(!$storeId){
+                return \Response::errorAjax('缺少店铺id');
+            }
             $memberNum[0] = Member::where('store_id', $storeId)->where('father_id', $userId)->count();
             $memberNum[1] = Member::where('store_id', $storeId)->where('grand_father_id', $userId)->count();
             $memberNum[2] = Member::where('store_id', $storeId)->where('great_grand_father_id', $userId)->count();

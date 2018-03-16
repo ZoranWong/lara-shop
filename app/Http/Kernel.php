@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\AdminBootstrap;
 use App\Http\Middleware\Api\User\Authenticate;
 use App\Http\Middleware\MiniProgram\Bootstrap;
+use App\Http\Middleware\MiniProgramBootstrap;
 use App\Http\Middleware\ValidateErrorMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -46,9 +47,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:60,1',
+            MiniProgramBootstrap::class,
+//            'throttle:60,1',
             'bindings',
-            Bootstrap::class,
 //            \App\Http\Middleware\EncryptCookies::class,
 //            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 //            \App\Http\Middleware\ValidateErrorMiddleware::class,

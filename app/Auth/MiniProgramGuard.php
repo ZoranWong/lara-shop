@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Auth\SupportsBasicAuth;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -75,11 +76,12 @@ class MiniProgramGuard implements Guard
 
         $token = $this->getTokenForRequest();
         $time = time();
-
         $token = Token::token($token, $time);
+
         if (!!$token && ! empty($token)) {
-            $user = User::find($token['user_id']);
+          $user = User::find($token['user_id']);
         }
+
 
         return $this->user = $user;
     }

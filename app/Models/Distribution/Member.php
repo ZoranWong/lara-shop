@@ -134,39 +134,43 @@ class Member extends Model
      */
     const ACTIVE_CLOSE = 0;
 
-    protected $table = "distribution_member";
-
-    protected $casts = [
-        'is_active' => 'boolean',
-        'apply_time' => 'datetime',
-        'join_time'  => 'datetime'
-    ];
+    protected $table  = "distribution_member";
 
     protected $fillable = [
-        'id',
-        'store_id',
-        'user_id',
-        'level_id',
-        'father_id',
-        'grand_father_id',
-        'great_grand_father_id',
-        'depth',
-        'path',
-        'amount',
-        'total_order_amount',
-        'total_paid_commission_amount',
-        'total_wait_commission_amount',
-        'total_subordinate_num',
-        'total_cash_amount',
-        'apply_time',
-        'join_time',
-        'apply_status',
-        'is_active',
-        'referrals',
-        'full_name',
-        'mobile',
-        'wechat',
+        'id', 'store_id', 'user_id', 'level_id', 'father_id', 'grand_father_id', 'great_grand_father_id', 'depth', 'path',
+        'amount', 'total_order_amount', 'total_paid_commission_amount', 'total_wait_commission_amount', 'total_subordinate_num',
+        'total_cash_amount', 'apply_time', 'join_time', 'apply_status', 'is_active', 'referrals', 'full_name', 'mobile', 'wechat',
     ];
+
+    public function setIsActiveAttribute($value)
+    {
+        $this->attributes['is_active'] = is_bool($value) ? $value : !!$value;
+    }
+
+    public function getIsActiveAttribute()
+    {
+        return (boolean)$this->attributes['is_active'];
+    }
+
+    public function setApplyTimeAttribute($value)
+    {
+        $this->attributes['apply_time'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function getApplyTimeAttribute()
+    {
+        return $this->attributes['apply_time'] ? date('Y-m-d h:m:s', $this->attributes['apply_time']) : null;
+    }
+
+    public function setJoinTimeAttribute($value)
+    {
+        $this->attributes['join_time'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function getJoinTimeAttribute()
+    {
+        return $this->attributes['join_time'] ? date('Y-m-d h:m:s', $this->attributes['join_time']) : null;
+    }
 
     public function user():BelongsTo
     {

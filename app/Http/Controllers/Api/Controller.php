@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as ApiController;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Str;
@@ -28,11 +29,12 @@ class Controller extends ApiController
     public function __construct()
     {
         $this->auth = app('auth');
+        //$this->user();
     }
 
     protected function user() : User
     {
-        return $this->user ? $this->user : ($this->user = $this->auth->guard()->user());
+        return $this->user ? $this->user : ($this->user = \Request::user());
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class  MiniProgramBootstrap
 {
@@ -12,14 +14,13 @@ class  MiniProgramBootstrap
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @return mixed
+     * @return Response | JsonResponse
      */
-    public function handle($request, Closure $next) : mixed
+    public function handle($request, Closure $next)
     {
-        config(['auth.defaults' => [
-            'guard' => 'miniProgram',
-            'password' => 'users'
-        ]]);
+        $request->setUserResolver(function (){
+            return \Auth::guard('miniProgram')->user();
+        });
         return $next($request);
     }
 }

@@ -119,6 +119,7 @@ class AppServiceProvider extends ServiceProvider
         });
         \DB::listen(function (QueryExecuted $executed){
             \Log::debug($executed->sql, $executed->bindings);
+
         });
     }
 

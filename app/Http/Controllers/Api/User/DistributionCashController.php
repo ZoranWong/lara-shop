@@ -35,6 +35,7 @@ class DistributionCashController extends Controller
             if ($money < 1) {
                 throw new \Exception('提现金额不能低于1元!');
             }
+            $this->user = $request->user();
             if(!$this->user){
                 return \Response::errorApi('获取不到用户信息');
             }
@@ -70,7 +71,7 @@ class DistributionCashController extends Controller
             if($money > $member->amount || $money < $setting->min_cash_num || $money > $setting->max_cash_num) {
                 throw new \Exception('申请提现佣金小于最低提现额度或大于可提现额度,请重新填写!');
             }
-            $date = date('Y-m-d H:i:s', time());
+
             $fullName=$member->full_name;
             $result = new CommissionCashApply();
             $result->store_id = $storeId;
@@ -78,7 +79,7 @@ class DistributionCashController extends Controller
             $result->distribution_user_id = $userId;
             $result->mobile = $member->user->mobile;
             $result->name = "$fullName";
-            $result->apply_time = $date;
+            $result->apply_time = time();
             $result->amount = $money;
             $result->wait_amount = $money;
             $result->status = 0;
@@ -90,8 +91,7 @@ class DistributionCashController extends Controller
 
             $remaining['amount'] = $member->amount - $money;
             /*更新分销商Member表 可提现佣金*/
-            $upMember = Member::where('user_id', $userId)
-                ->update($remaining);
+            $upMember = $member->update($remaining);
 
             /*默认失败状态*/
             $data['status'] = false;
@@ -114,7 +114,6 @@ class DistributionCashController extends Controller
      * return
      * 数据总计         $total
      * 成功提现金额     $totalAmount
-     * 提现渠道 0微信,1支付宝      type
      * 时间             $apply_time
      * 金额             $amount
      * 状态             $status(0待处理 1已打款 2已取消)
@@ -125,6 +124,7 @@ class DistributionCashController extends Controller
     public function extractHistory(Request $request)
     {
         try {
+            $this->user = $request->user();
             if(!$this->user){
                 return \Response::errorApi('获取不到用户信息');
             }
@@ -145,7 +145,7 @@ class DistributionCashController extends Controller
                 throw new \Exception('您不是分销商!');
             }
             $user = [];
-            $user['user_id'] = $userId;
+            $user['distribution_user_id'] = $userId;
             $user['store_id'] = $storeId;
             /*数据总计*/
             $info['total'] = CommissionCashApply::where($user)->count();
@@ -196,6 +196,7 @@ class DistributionCashController extends Controller
             $page = array_get($queryParams,'page', 1);
             $page = intval($page) >= 1 ? intval($page) : 1;
             $offset = ($page - 1) * $perpage;
+            $this->user = $request->user();
             if(!$this->user){
                 return \Response::errorApi('获取不到用户信息');
             }
@@ -281,6 +282,7 @@ class DistributionCashController extends Controller
     public function detail(Request $request)
     {
         try {
+            $this->user = $request->user();
             if(!$this->user){
                 return \Response::errorApi('获取不到用户信息');
             }
@@ -292,7 +294,7 @@ class DistributionCashController extends Controller
             $user['user_id'] = $userId;
             $user['store_id'] = $storeId;
 
-            $info = Member::select(['amount', 'total_paid_commission_amount',' total_wait_commission_amount', 'total_cash_amount'])
+            $info = Member::select(['amount', 'total_paid_commission_amount', 'total_wait_commission_amount', 'total_cash_amount'])
                 ->where($user)
                 ->first();
             if (!$info) {
@@ -300,6 +302,7 @@ class DistributionCashController extends Controller
             }
             /*可提现额度*/
             $info->amount = number_format($info->amount, 2);
+            $info->total_paid_commission_amount = number_format($info->total_paid_commission_amount, 2);
             /*待结算*/
             $info->total_wait_commission_amount = number_format($info->total_wait_commission_amount, 2);
             /*分销订单金额总计*/

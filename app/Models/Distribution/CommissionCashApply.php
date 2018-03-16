@@ -98,6 +98,26 @@ class CommissionCashApply extends Model
         'status'
     ];
 
+    public function setApplyTimeAttribute($value)
+    {
+        $this->attributes['apply_time'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function setVerifyTimeAttribute($value)
+    {
+        $this->attributes['verify_time'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function getApplyTimeAttribute()
+    {
+        return $this->attributes['apply_time'] ? date('Y-m-d h:m:s', $this->attributes['apply_time']) : null;
+    }
+
+    public function getVerifyTimeAttribute()
+    {
+        return $this->attributes['verify_time'] ? date('Y-m-d h:m:s', $this->attributes['verify_time']) : null;
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class,  'distribution_user_id', 'id');

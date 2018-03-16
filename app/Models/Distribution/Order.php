@@ -110,6 +110,26 @@ class Order extends Model
         'status'
     ];
 
+    public function setShouldSettledAtAttribute($value)
+    {
+        $this->attributes['should_settled_at'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function getShouldSettledAtAttribute()
+    {
+        return date('Y-m-d h:m:s', $this->attributes['should_settled_at']);
+    }
+
+    public function setRealSettledAtAttribute($value)
+    {
+        $this->attributes['real_settled_at'] = is_numeric($value) ? $value : strtotime($value);
+    }
+
+    public function getRealSettledAtAttribute()
+    {
+        return date('Y-m-d h:m:s', $this->attributes['real_settled_at']);
+    }
+
     public function store() : BelongsTo
     {
         return $this->belongsTo(Store::class, 'store_id', 'id');

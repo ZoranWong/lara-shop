@@ -59,7 +59,6 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
  * @property-read \App\Models\MiniProgramUser $miniProgramUser
  * @method static bool|null forceDelete()
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Distribution\Order[] $distributionOrders
- * @method static bool|null restore()
  * @property-read \App\Models\Distribution\Member $distributionMember
  */
 class User extends Authenticatable implements EntrustUserInterface

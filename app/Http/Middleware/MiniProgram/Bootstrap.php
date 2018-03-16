@@ -16,10 +16,9 @@ class Bootstrap
      */
     public function handle($request, Closure $next)
     {
-        config(['auth.defaults' => [
-            'guard' => 'miniProgram',
-            'password' => 'users'
-        ]]);
+        $request->setUserResolver(function (){
+            return \Auth::guard('miniProgram')->user();
+        });
         return $next($request);
     }
 }

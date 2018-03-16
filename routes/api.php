@@ -17,9 +17,9 @@ Route::get('/', function (){
 });
 Route::post('/user/login', 'WechatAuthController@userLogin');
 Route::post('/store/login', 'WechatAuthController@storeOwnerLogin');
-Route::group(['prefix' =>'user', 'middleware' => ['user.auth:miniProgram'] ], function (\Illuminate\Routing\Router $router){
+Route::group(['prefix' =>'user'], function (\Illuminate\Routing\Router $router){
     $router->get('/', function (Request $request){
-        $request->user();
+        return Response::ajax('request');
     });
 
     $router->get('/orders','User\OrderController@list');
@@ -47,19 +47,22 @@ Route::group(['prefix' =>'user', 'middleware' => ['user.auth:miniProgram'] ], fu
     $router->put('/shopping/cart/{id}/add/{num}', 'User\ShoppingCartController@setNum');
     $router->delete('/shopping/carts/{ids}', 'User\ShoppingCartController@remove');
 
-//
-//    $router->get('/group/coupons', '');
-//
-//    $router->get('/group/coupon/{id}', '');
-//
-//    $router->get('/group/coupons/orders', '');
-//
-//    $router->get('/group/coupons/order/{id}', '');
+    $router->post('/distribution/apply', 'User\DistributionController@apply');
+    $router->get('/distribution/subordinate', 'User\DistributionController@subordinate');
+    $router->get('/distribution/subordinate/num', 'User\DistributionController@subordinateSetting');
+    $router->get('/distribution/info', 'User\DistributionController@info');
+    $router->post('/distribution/cash/extract', 'User\DistributionCashController@extract');
+    $router->get('/distribution/cash/extract/history', 'User\DistributionCashController@extractHistory');
+    $router->get('/distribution/orders/commission/list', 'User\DistributionCashController@detailListMe');
+    $router->get('/distribution/cash/detail', 'User\DistributionCashController@detail');
+    $router->get('/distribution/extract/setting/show', 'User\DistributionCashController@extractSettingShow');
+    $router->get('/distribution/order/list', 'User\DistributionOrderController@orderListDetail');
 });
 
 Route::group(['prefix' => 'store'], function (\Illuminate\Routing\Router $router){
     $router->get('/', function (Request $request){
         $request->user();
+        return Response::ajax('store');
     });
 
 //    $router->get('/store/orders', '');
