@@ -77,9 +77,9 @@ class CashCommission implements ShouldQueue
             $this->cashDetailList->where('status', CommissionCashDetail::WAIT_STORE_PAY)
                 ->map(function (CommissionCashDetail $cashDetail) use(&$error, &$amount, &$payAmount, &$waitAmount, &$transferAmount){
                     $error = "店铺没有配置证书";
-                    $result = $this->transfer->toBalance([
-
-                    ]);
+                    $this->merchantPayment->amount = $cashDetail->amount;
+                    $this->merchantPayment->partner_trade_no = $cashDetail->trade_no;
+                    $result = $this->transfer->toBalance($this->merchantPayment->toArray());
                     $error = "微信打款失败(原因:本店铺金额不足,单人打款次数过多)";
                     if ($result['return_code'] == 'SUCCESS') {
                         $error = "{$result['return_msg']}详情请查看:https://pay.weixin.qq.com/wiki/doc/api/tools/mch_pay.php?chapter=14_2";

@@ -279,18 +279,19 @@ class CashController extends Controller
         $info = [];
         /*排除打款成功订单*/
         $cashInfo = CommissionCashApply::where('store_id', $storeId)
-            ->where('id', $cashId)->where('status', '<>', CommissionCashApply::PAY_SUCCESS)
+            ->where('id', $cashId)
+            ->where('status', '<>', CommissionCashApply::PAY_SUCCESS)
             ->first();
         if (!$cashInfo) {
             return \Response::errorAjax('该订单不存在或已经完成打款', 400);
         }
         $userId = $cashInfo->distribution_user_id;
         /*status  1:微信,2:支付宝*/
-        if ($status === 1) {
+        if ((int)$status === 1) {
             /*更新提现申请表  订单状态为打款中*/
             CommissionCashApply::where('id', $cashId)->update([
-                'status'=>'3',
-                'verify_time'=>date('Y-m-d H:i:s',time())
+                'status'=> CommissionCashApply::PAYING,
+                'verify_time'=> time()
             ]);
 
             CommissionCashApply::cashCommission($userId, $cashId, $storeId);

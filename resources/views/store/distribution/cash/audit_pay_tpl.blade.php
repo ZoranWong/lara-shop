@@ -1,6 +1,6 @@
 <div>打款进度:</div>
 <div id="audit_pay_cash_id" hidden></div>
-<div id="audit_pay_fans_id" hidden></div>
+<div id="audit_pay_user_id" hidden></div>
 <div class="audit_pay_info">
     <div>提现金额</div>
     <div>已打款</div>
@@ -9,13 +9,13 @@
     <div class="audit_amount_push">0.00</div>
     <div class="audit_amount_wait"></div>
 </div>
-<div class="audit_pay_type_info">
-    <div class="audit_extract_no">提现账号 :</div>
-    <div class="audit_pay_mobile_set">
-        <span>支付宝 :</span>
-        <span><input type="text" name="mobile" id="autit_alipay_account"></span>
-    </div>
-</div>
+{{--<div class="audit_pay_type_info">--}}
+    {{--<div class="audit_extract_no">提现账号 :</div>--}}
+    {{--<div class="audit_pay_mobile_set">--}}
+        {{--<span>支付宝 :</span>--}}
+        {{--<span><input type="text" name="mobile" id="autit_alipay_account"></span>--}}
+    {{--</div>--}}
+{{--</div>--}}
 <div class="audit_operation">
     <div class="audit_pay_false bootbox-close-button">取消</div>
     <div class="audit_pay_true">打款</div>
@@ -94,48 +94,12 @@
     });
     /*提交打款申请*/
     $('.audit_pay_true').click(function() {
-        var audit_pay_fans_id = $("#audit_pay_fans_id").text();
+        var audit_pay_user_id = $("#audit_pay_user_id").text();
         //  小程序默认商家自行转账给分销商 转账成功后商家更改打款状态
 //            var audit_pay_type = $('input[name=audit_pay_type]:checked').val();
         var audit_pay_cash_id = $('#audit_pay_cash_id').text();
-        var audit_alipay = $('#autit_alipay_account').val();
-        if(audit_alipay == ""){
-            bootbox.alert({
-                title: '<span class="text-danger">打款进度</span>',
-                message: "<div style='margin: 0 auto;text-align: center;font-size: 20px;margin-top: 10%;'>提现账号不能为空!</div>"
-            });
-            return false;
-        }
-        var audit_is_account = audit_alipay.match(/[.-_|a-zA-Z0-9]{1,}/);
-        var audit_is_mail = audit_alipay.match(/^([a-zA-Z0-9|_.-])+@(([a-zA-Z0-9|-])+.)+([a-zA-Z0-9]{2,4})/);
-        if (audit_is_account == null && audit_is_mail == null) {
-            bootbox.alert({
-                title: '<span class="text-danger">打款进度</span>',
-                message: "<div style='margin: 0 auto;text-align: center;font-size: 20px;margin-top: 10%;'>账号格式不正确!</div>"
-            });
-            return false;
-        } else if (audit_is_account == null && audit_alipay != audit_is_mail[0]) {
-            bootbox.alert({
-                title: '<span class="text-danger">打款进度</span>',
-                message: "<div style='margin: 0 auto;text-align: center;font-size: 20px;margin-top: 10%;'>账号格式不正确!</div>"
-            });
-            return false;
-        } else if (audit_alipay != audit_is_account[0] && audit_is_mail == null) {
-            bootbox.alert({
-                title: '<span class="text-danger">打款进度</span>',
-                message: "<div style='margin: 0 auto;text-align: center;font-size: 20px;margin-top: 10%;'>账号格式不正确!</div>"
-            });
-            return false;
-        }
-        /*如果10秒内未响应 则返回超时*/
-        audit_pay_timeout = setTimeout(function() {
-            bootbox.alert({
-                title: '<span class="text-danger">打款进度</span>',
-                message: "<div style='margin: 0 auto;text-align: center;font-size: 20px;margin-top: 10%;'>超时!</div>"
-            });
-        }, 10000);
 
-        $.post('/ajax/shop/fenxiao/cash/pay/member', {'cash_id': audit_pay_cash_id,'fans_id': audit_pay_fans_id,'alipay_account':audit_alipay,'status': 2},function(json) {
+        $.post('/ajax/distribution/cash/pay/member', {'cash_id': audit_pay_cash_id,'user_id': audit_pay_user_id,'status': 1, 'store_id': '{{$store_id}}'},function(json) {
             if (json.code == 200) {
                 if (audit_pay_timeout) {
                     clearTimeout(audit_pay_timeout);

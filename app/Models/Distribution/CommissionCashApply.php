@@ -2,6 +2,7 @@
 
 namespace App\Models\Distribution;
 
+use App\Jobs\Distribution\CashCommission;
 use App\Models\User;
 use App\Wechat\MerchantPayment;
 use Illuminate\Database\Eloquent\Model;
@@ -132,9 +133,11 @@ class CommissionCashApply extends Model
     public static function cashCommission($userId, $cashId, $storeId)
     {
         $member = Member::where('store_id', $storeId)
-            ->where('distribution_user_id', $userId)
+            ->where('user_id', $userId)
             ->with('user')
-            ->with('cashApply')
+            ->with(['cashApply' => function(HasMany $query) use($cashId){
+                $query->where('id', $cashId);
+            }])
             ->with(['cashDetails' => function(HasMany $query) use( $cashId ){
                 $query->where('commission_cash_apply_id', $cashId)
                     ->where('status', CommissionCashDetail::WAIT_STORE_PAY);
@@ -160,7 +163,7 @@ class CommissionCashApply extends Model
             're_user_name' => $member->full_name, // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
             'desc' => '企业支付-分销提现', // 企业付款操作说明信息。必填
         ]);
-
+        dispatch(new CashCommission($storeId, $merchantPayment, $member->cashApply[0], $member->cashDetails));
         return true;
     }
 

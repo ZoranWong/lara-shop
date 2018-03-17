@@ -2,12 +2,6 @@
 @section('member_content')
 <div id="toolbar">
     <form class="form-horizontal" id="form">
-        <div class="col-md-3">
-            <div class="input-group col-md-12">
-                <div class="input-group-addon">ID</div>
-                <input type="text" class="form-control input" name="fans_id" placeholder="ID" maxlength="60">
-            </div>
-        </div>
           <div class="col-md-3">
             <div class="input-group col-md-12">
                 <div class="input-group-addon">姓名</div>

@@ -92,7 +92,7 @@ class MemberController extends Controller
         $data['total'] = $modelObj ->count();
         $data['rows'] = $modelObj->orderBy($sort, $order)->offset($offset)
             ->limit($limit)->get()->map(function (Member $item) use ( $storeId, $fatherId, $grandFatherId, $greatGrandFatherId) {
-                $item->levelName = $item->level->name;
+                $item->levelName = $item->level ? $item->level->name : null;
                 $fans = $item->user_id;
                 unset($item->level);
                 //销售额：自购及下级的佣金状态为已结算+未结算的订单的不含邮费的金额
@@ -248,15 +248,19 @@ class MemberController extends Controller
     // 分销商批量操作
     public function batch(Request $request)
     {
-        $fansIdList = $request->input('user_id');
+        $userList = $request->input('user_id', null);
 
         $storeId = $request->input('store_id', null);
 
-        $apply_status = $request->input('status');
+        $apply_status = $request->input('status', null);
+
+        if(!$userList || !$storeId || !$apply_status){
+            return \Response::errorAjax('缺少参数');
+        }
 
         $result = Member::where('store_id', $storeId)
-            ->whereIn('user_id', $fansIdList)
-            ->select(['father_id','grand_father_id','great_grand_father_id'])
+            ->whereIn('user_id', $userList)
+            ->select(['father_id', 'grand_father_id', 'great_grand_father_id'])
             ->get();
         $idList = [];
         $res = $result->flatMap(function ($item) use ($idList) {
@@ -272,9 +276,14 @@ class MemberController extends Controller
             }
         }
         $currentTime = time();
-        $data = ['apply_status' => $apply_status,'join_time' => $currentTime];
+        $data = [
+            'apply_status' => $apply_status,
+            'join_time' => $currentTime
+        ];
 
-        $returnValue = Member::whereIn('user_id', $fansIdList)->update($data);
+        $returnValue = Member::whereIn('user_id', $userList)
+            ->where('store_id', $storeId)
+            ->update($data);
 
         return \Response::ajax($returnValue);
     }

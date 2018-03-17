@@ -60,7 +60,7 @@
            data-show-footer="false"
            data-side-pagination="server"
            data-query-params="queryParams"
-           data-url="/ajax/fenxiao/member/list/{{ $id or '' }}"
+           data-url="/ajax/distribution/member/list?store_id={{$store_id}}"
            data-response-handler="responseHandler">
     </table>
 </div>
@@ -164,7 +164,7 @@ window.pageInit = function () {
         });
 
         function nicknameFormatter(value, row, index) {
-            var html = '<img src="'+row.headimgurl+'" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
+            var html = '<img src="'+row.head_image_url+'" style="width:30px;height:30px;border-radius: 50%;padding:1px;" onerror=""><br/>' + value;
             return html;
         }
 
@@ -179,7 +179,7 @@ window.pageInit = function () {
             var ids = getIdSelections();
             var names = getNameSelections().join('、');
             if(confirm('确定批量通过分销商状态：' + names)) {
-                $.post('/ajax/fenxiao/member/batch', {'fans_id': ids,'status' : 2}, function (json) {
+                $.post('/ajax/distribution/member/batch', {'user_id': ids,'status' : 2, 'store_id': '{{$store_id}}'}, function (json) {
                     if (json.code == 200) {
                         bootbox.alert({
                             title: '<span class="text-success">成功</span>',
@@ -205,7 +205,7 @@ window.pageInit = function () {
             var names = getNameSelections().join('、');
             if(confirm('确定批量拒绝分销商申请状态：' + names)) {
 
-                $.post('/ajax/fenxiao/member/batch', {'fans_id' : ids,'status' : 3}, function (json) {
+                $.post('/ajax/distribution/member/batch', {'user_id' : ids,'status' : 3}, function (json) {
                     if (json.code == 200) {
                          bootbox.alert({
                           title: '<span class="text-success">成功</span>',
@@ -227,7 +227,7 @@ window.pageInit = function () {
         });
         function getIdSelections() {
             return $.map($table.bootstrapTable('getSelections'), function (row) {
-                  return row.fans_id;
+                  return row.user_id;
             });
         }
 
@@ -278,7 +278,7 @@ window.pageInit = function () {
         }
     });
 
-    $.getJSON('/ajax/fenxiao/level/name',function(json){
+    $.getJSON('/ajax/distribution/level/name/{{$store_id}}',function(json){
         var data = json.data;
         var level_text = '';
         data.forEach(function(item){
