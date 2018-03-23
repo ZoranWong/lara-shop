@@ -81,13 +81,13 @@ STATUS;
                 }
                 case Store::STATUS['PASS']:{
                     return <<<STATUS
-<span class='btn label label-success'>{$statusZh}</span>
+                            <span class='btn label label-success'>{$statusZh}</span>
 STATUS;
                     break;
                 }
                 case Store::STATUS['REFUSE']:{
                     return <<<STATUS
-<span class='btn label label-default'>{$statusZh}</span>
+                            <span class='btn label label-default'>{$statusZh}</span>
 STATUS;
                     break;
                 }
