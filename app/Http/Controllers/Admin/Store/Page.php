@@ -66,7 +66,7 @@ HTML;
 OWNER;
             });
 
-            return !$str ? "<a href=\"#\" >--</a>" : $str->implode('') ;
+            return !$str ? "<a href='#' >--</a>" : $str->implode('') ;
         });
         $grid->column('status', '状态')->display(function ($status, $data) use(&$id){
             $statusZh = Store::STATUS_ZH_CN[$status];
