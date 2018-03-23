@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Merchandise;
 use App\Renders\Facades\SectionContent;
 use App\Renders\Grid;
+use App\Services\StoreService;
 
 class Page extends BasePage
 {
@@ -54,6 +55,8 @@ class Page extends BasePage
 }
 CSS;
         SectionContent::css($css);
+        if (!\Request::input('store_id', null))
+            $grid->disableCreation();
         $grid->tools(function (Grid\Tools $tools){
             $tools->batch(function (Grid\Tools\BatchActions $actions){
                 $actions->add('批量上架', new OnShelvesBatch());

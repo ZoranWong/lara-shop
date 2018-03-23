@@ -53,7 +53,7 @@ IMAGE;
 OWNER;
             }else{
                 return <<<HTML
-<a href="/store/{$data['id']}/owner">添加店主</a>
+<a href="#" >--</a>
 HTML;
             }
         });
@@ -66,7 +66,7 @@ HTML;
 OWNER;
             });
 
-            return !$str ? "<a href='/store/{$data['id']}/manager'>添加管理员</a>" : $str->implode('') ;
+            return !$str ? "<a href=\"#\" >--</a>" : $str->implode('') ;
         });
         $grid->column('status', '状态')->display(function ($status, $data) use(&$id){
             $statusZh = Store::STATUS_ZH_CN[$status];
@@ -131,8 +131,10 @@ $('.store-agree-btn, .store-refuse-btn').unbind('click').click(function() {
 });
 SCRIPT;
 
-        $grid->column('', '分销管理')->display(function  ($managers, $data){
-            return "<a href='/distribution?store_id={$data['id']}'>查看分销数据</a>";
+        $grid->column('', '店铺管理')->display(function  ($managers, $data){
+            return "
+                <a class='btn btn-default btn-xs' href='/distribution?store_id={$data['id']}'>分销管理</a> 
+                <a class='btn btn-default btn-xs' href='/merchandises?store_id={$data['id']}'>商品管理</a>";
         });
 
         SectionContent::script($script);

@@ -28,11 +28,12 @@ class CreateButton extends AbstractTool
         }
 
         $new = trans('admin.new');
-
+        $storeId = \Request::input('store_id', null);
+        $storeStr = $storeId ? "store_id={$storeId}" : '';
         return <<<EOT
 
 <div class="btn-group pull-right" style="margin-right: 10px">
-    <a href="{$this->grid->resource()}/create" class="btn btn-sm btn-success">
+    <a href="{$this->grid->resource()}/create?{$storeStr}" class="btn btn-sm btn-success">
         <i class="fa fa-save"></i>&nbsp;&nbsp;{$new}
     </a>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Store;
 
+use App\Http\Controllers\Admin\Common\BasePage;
 use App\Models\Store;
 use App\Models\StoreOwner;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class StoreController extends Controller
             ];
         });
     }
+
     /**
      * 同意申请
      * @param int $id
